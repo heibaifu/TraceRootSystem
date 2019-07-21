@@ -28,4 +28,9 @@ public class PipelineServiceImpl implements PipelineService {
     public Pipeline save(Pipeline pipeline) {
         return repository.save(pipeline);
     }
+
+    @Override
+    public void delete(Pipeline pipeline) {
+        repository.delete(pipeline);
+    }
 }

@@ -2,8 +2,13 @@ package com.traceroot.dataobject;
 
 import lombok.Data;
 import org.hibernate.annotations.DynamicUpdate;
+import org.springframework.data.annotation.CreatedDate;
+import org.springframework.data.annotation.LastModifiedDate;
+import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
+import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.EntityListeners;
 import javax.persistence.Id;
 import java.util.Date;
 
@@ -13,7 +18,7 @@ import java.util.Date;
 
 @Entity
 @Data
-@DynamicUpdate
+@EntityListeners(AuditingEntityListener.class)
 public class PipelineSensor {
 
     @Id
@@ -35,8 +40,12 @@ public class PipelineSensor {
     private String presentStatus;
 
     /*创建时间*/
+    @CreatedDate
+    @Column(name = "create_time", nullable = false,updatable = false)
     private Date createTime;
 
     /*更新时间*/
+    @LastModifiedDate
+    @Column(name = "update_time")
     private Date updateTime;
 }

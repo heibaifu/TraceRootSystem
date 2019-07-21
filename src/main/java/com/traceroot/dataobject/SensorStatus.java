@@ -2,8 +2,12 @@ package com.traceroot.dataobject;
 
 import lombok.Data;
 import org.hibernate.annotations.DynamicUpdate;
+import org.springframework.data.annotation.LastModifiedDate;
+import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
+import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.EntityListeners;
 import javax.persistence.Id;
 
 /**
@@ -12,7 +16,7 @@ import javax.persistence.Id;
 
 @Entity
 @Data
-@DynamicUpdate
+@EntityListeners(AuditingEntityListener.class)
 public class SensorStatus {
 
     @Id
@@ -22,6 +26,8 @@ public class SensorStatus {
 
     private String status;
 
+    @LastModifiedDate
+    @Column(name = "record_time")
     private String recordTime;
 
 }
