@@ -1,5 +1,6 @@
 package com.traceroot.service.impl;
 
+import com.sun.xml.internal.bind.v2.model.core.ID;
 import com.traceroot.dataobject.PipelineSegment;
 import com.traceroot.dataobject.exception.PipeException;
 import com.traceroot.dataobject.multikeysclass.PipelineSegmentMultiKeys;
@@ -30,19 +31,29 @@ public class PipelineSegmentServiceImpl implements PipelineSegmentService {
     }
 
     @Override
-    public PipelineSegment save(PipelineSegment segment) {
+    public PipelineSegment insert(PipelineSegment segment) {
+        Integer amount = repository.countPipelineSegmentByPipeId(segment.getPipeId());
+        segment.setSegmentSerialNumber(amount+1);
+        return repository.save(segment);
+    }
+
+    @Override
+    public PipelineSegment update(PipelineSegment segment) {
+        PipelineSegment pipelineSegment = repository.findBySegmentId(segment.getSegmentId());
+        if (pipelineSegment==null){
+            throw new PipeException(ResultEnum.PIPE_SEGMENT_NOT_EXIST);
+        }
         return repository.save(segment);
     }
 
     //删除管道段，先查询有没有再删除
     @Override
-    public void deleteById(PipelineSegmentMultiKeys keys){
-        String segmentId=keys.getSegmentId();
+    public void deleteById(String segmentId){
         PipelineSegment pipelineSegment = repository.findBySegmentId(segmentId);
         if (pipelineSegment==null){
             throw new PipeException(ResultEnum.PIPE_SEGMENT_NOT_EXIST);
         }
-        repository.deleteById(keys);
+        repository.delete(pipelineSegment);
         log.info(ResultEnum.DELETE_SUCCESS.getMessage());
     }
 }

@@ -24,10 +24,12 @@ public class PipelineSegmentServiceImplTest {
     @Autowired
     PipelineSegmentServiceImpl segmentService;
 
+    static String PipeID = "1904289";
+
     @Test
     public void selectBySegmentId() {
         PipelineSegment pipelineSegment=new PipelineSegment();
-        pipelineSegment=segmentService.selectBySegmentId("1944616");
+        pipelineSegment=segmentService.selectBySegmentId(PipeID);
         Assert.assertNotNull(pipelineSegment);
 
     }
@@ -35,22 +37,20 @@ public class PipelineSegmentServiceImplTest {
     @Test
     public void selectByPipeId() {
         List<PipelineSegment> pipelineSegmentList=new ArrayList<>();
-        pipelineSegmentList=segmentService.selectByPipeId("1904289");
+        pipelineSegmentList=segmentService.selectByPipeId(PipeID);
         Assert.assertNotNull(pipelineSegmentList);
 
     }
 
     @Test
-    public void save() {
-        String PipeID = "1904289";
+    public void insert() {
         PipelineSegment segment = new PipelineSegment(RandomUtil.genUniqueId(),PipeID,RandomUtil.genUniqueLocation(),RandomUtil.genUniqueLocation());
-        PipelineSegment result = segmentService.save(segment);
+        PipelineSegment result = segmentService.insert(segment);
         Assert.assertNotNull(result);
     }
 
     @Test
     public void deleteById() {
-        PipelineSegmentMultiKeys keys = new PipelineSegmentMultiKeys("1513478",5);
-        segmentService.deleteById(keys);
+        segmentService.deleteById(PipeID);
     }
 }

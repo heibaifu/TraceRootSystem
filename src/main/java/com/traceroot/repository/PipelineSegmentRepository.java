@@ -6,10 +6,12 @@ import org.springframework.data.jpa.repository.JpaRepository;
 
 import java.util.List;
 
-public interface PipelineSegmentRepository extends JpaRepository<PipelineSegment, PipelineSegmentMultiKeys> {
+public interface PipelineSegmentRepository extends JpaRepository<PipelineSegment, PipelineSegment> {
 
     PipelineSegment findBySegmentId(String segmentId);
 
     List<PipelineSegment> findByPipeIdOrderBySegmentSerialNumber(String pipeId);
+
+    Integer countPipelineSegmentByPipeId(String pipeId);
 
 }

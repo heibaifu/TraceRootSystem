@@ -1,6 +1,7 @@
 package com.traceroot.service.impl;
 
 import com.traceroot.dataobject.Pipeline;
+import com.traceroot.dataobject.exception.PipeException;
 import com.traceroot.utils.RandomUtil;
 import lombok.extern.slf4j.Slf4j;
 import org.junit.Assert;
@@ -23,9 +24,11 @@ public class PipelineServiceImplTest {
     @Autowired
     PipelineServiceImpl pipelineService ;
 
+    static String PIPEID = "4911708";
+
     @Test
     public void selectByPipeId() throws Exception{
-        Pipeline result = pipelineService.selectByPipeId("3691622");
+        Pipeline result = pipelineService.selectByPipeId(PIPEID);
         log.info(result.toString());
     }
 
@@ -46,9 +49,19 @@ public class PipelineServiceImplTest {
 
     @Test
     public void update() throws Exception{
-        Pipeline pipeline = pipelineService.selectByPipeId("1904289");
+        Pipeline pipeline = pipelineService.selectByPipeId(PIPEID);
         pipeline.setDestination(RandomUtil.genUniqueLocation());
         Pipeline result = pipelineService.save(pipeline);
         Assert.assertNotNull(result);
     }
+
+    @Test
+    public void deleteById() throws Exception{
+        try {
+            pipelineService.deleteById(PIPEID);
+        } catch (PipeException e) {
+            log.error(e.getMessage());
+        }
+    }
+
 }

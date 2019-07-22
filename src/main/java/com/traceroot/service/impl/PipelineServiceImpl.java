@@ -1,14 +1,19 @@
 package com.traceroot.service.impl;
 
 import com.traceroot.dataobject.Pipeline;
+import com.traceroot.dataobject.PipelineSegment;
+import com.traceroot.dataobject.exception.PipeException;
+import com.traceroot.enums.ResultEnum;
 import com.traceroot.repository.PipelineRepository;
 import com.traceroot.service.PipelineService;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
 
 @Service
+@Slf4j
 public class PipelineServiceImpl implements PipelineService {
 
     @Autowired
@@ -30,7 +35,12 @@ public class PipelineServiceImpl implements PipelineService {
     }
 
     @Override
-    public void delete(Pipeline pipeline) {
+    public void deleteById(String pipeId) {
+        Pipeline pipeline = repository.findByPipeId(pipeId);
+        if (pipeline==null){
+            throw new PipeException(ResultEnum.PIPE_NOT_EXIST);
+        }
         repository.delete(pipeline);
+        log.info(ResultEnum.DELETE_SUCCESS.getMessage());
     }
 }

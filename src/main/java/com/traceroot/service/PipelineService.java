@@ -12,5 +12,5 @@ public interface PipelineService {
 
     Pipeline save(Pipeline pipeline);
 
-    void delete(Pipeline pipeline);
+    void deleteById(String pipeId);
 }

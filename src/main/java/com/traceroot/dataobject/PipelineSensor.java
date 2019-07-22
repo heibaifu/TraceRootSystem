@@ -1,5 +1,6 @@
 package com.traceroot.dataobject;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.Data;
 import org.hibernate.annotations.DynamicUpdate;
 import org.springframework.data.annotation.CreatedDate;
@@ -48,4 +49,17 @@ public class PipelineSensor {
     @LastModifiedDate
     @Column(name = "update_time")
     private Date updateTime;
+
+    public PipelineSensor() {
+    }
+
+    @JsonIgnore
+    public PipelineSensor(String sensorId, String segmentId, String pipeId, String type, String location, String presentStatus) {
+        this.sensorId = sensorId;
+        this.segmentId = segmentId;
+        this.pipeId = pipeId;
+        this.type = type;
+        this.location = location;
+        this.presentStatus = presentStatus;
+    }
 }

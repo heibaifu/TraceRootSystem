@@ -19,7 +19,7 @@ import java.util.Date;
 @Entity
 @Data
 @EntityListeners(AuditingEntityListener.class)
-@IdClass(PipelineSegmentMultiKeys.class)
+//@IdClass(PipelineSegmentMultiKeys.class)
 public class PipelineSegment implements Serializable {
 
     @Id
@@ -28,7 +28,6 @@ public class PipelineSegment implements Serializable {
     /*对应管道ID*/
     private String pipeId;
 
-    @Id
     /*管道段的序列号*/
     private Integer segmentSerialNumber;
 

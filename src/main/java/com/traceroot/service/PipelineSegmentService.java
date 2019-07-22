@@ -11,7 +11,9 @@ public interface PipelineSegmentService {
 
     List<PipelineSegment> selectByPipeId(String pipeId);
 
-    PipelineSegment save(PipelineSegment segment);
+    PipelineSegment insert(PipelineSegment segment);
 
-    void deleteById(PipelineSegmentMultiKeys keys);
+    PipelineSegment update(PipelineSegment segment);
+
+    void deleteById(String segmentId);
 }
