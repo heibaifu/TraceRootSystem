@@ -13,7 +13,7 @@ import java.io.Serializable;
 import java.util.Date;
 
 /**
- * 每一段管道
+ * 每一条管道对应的管道段
  */
 
 @Entity
