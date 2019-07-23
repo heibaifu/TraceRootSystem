@@ -1,11 +1,14 @@
 package com.traceroot.service.impl;
 
 import com.traceroot.dataobject.PipelineSensor;
+import com.traceroot.dataobject.SensorStatus;
 import com.traceroot.dataobject.exception.PipeException;
 import com.traceroot.enums.ResultEnum;
 import com.traceroot.repository.PipelineRepository;
 import com.traceroot.repository.PipelineSensorRepository;
+import com.traceroot.repository.SensorStatusRepository;
 import com.traceroot.service.PipelineSensorService;
+import com.traceroot.utils.RandomUtil;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -18,6 +21,9 @@ public class PipelineSensorServiceImpl implements PipelineSensorService {
 
     @Autowired
     private PipelineSensorRepository repository;
+
+    @Autowired
+    private SensorStatusRepository statusRepository;
 
     @Override
     public List<PipelineSensor> selectBySegmentId(String segmentId) {
@@ -37,6 +43,19 @@ public class PipelineSensorServiceImpl implements PipelineSensorService {
     @Override
     public PipelineSensor save(PipelineSensor sensor) {
         return repository.save(sensor);
+    }
+
+    @Override
+    public PipelineSensor updateByStatus(String sensorId, String updateStatus) {
+        PipelineSensor pipelineSensor=repository.findBySensorId(sensorId);
+        pipelineSensor.setPresentStatus(updateStatus);
+        PipelineSensor result=repository.save(pipelineSensor);
+
+        //增加一条传感器状态记录
+        //todo 要保证id唯一
+        SensorStatus sensorStatus = new SensorStatus(RandomUtil.genUniqueId(),sensorId,updateStatus);
+        statusRepository.save(sensorStatus);
+        return result;
     }
 
     @Override
