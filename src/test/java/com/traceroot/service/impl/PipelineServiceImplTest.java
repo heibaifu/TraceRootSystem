@@ -24,7 +24,7 @@ public class PipelineServiceImplTest {
     @Autowired
     PipelineServiceImpl pipelineService ;
 
-    static String PIPEID = "4911708";
+    static String PIPEID = "4342832";
 
     @Test
     public void selectByPipeId() throws Exception{
