@@ -2,9 +2,9 @@ CREATE DATABASE  IF NOT EXISTS `traceroot` /*!40100 DEFAULT CHARACTER SET utf8mb
 USE `traceroot`;
 -- MySQL dump 10.13  Distrib 8.0.15, for Win64 (x86_64)
 --
--- Host: localhost    Database: traceroot
+-- Host: 127.0.0.1    Database: traceroot
 -- ------------------------------------------------------
--- Server version	8.0.15
+-- Server version	8.0.12
 
 /*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
 /*!40101 SET @OLD_CHARACTER_SET_RESULTS=@@CHARACTER_SET_RESULTS */;
@@ -34,7 +34,9 @@ CREATE TABLE `boat` (
   `update_time` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT '修改时间',
   PRIMARY KEY (`boat_id`),
   KEY `BOAT` (`route_id`),
-  CONSTRAINT `BOAT` FOREIGN KEY (`route_id`) REFERENCES `sea_route` (`route_id`)
+  KEY `BOAT_TYPE_idx` (`type`),
+  CONSTRAINT `BOAT` FOREIGN KEY (`route_id`) REFERENCES `sea_route` (`route_id`),
+  CONSTRAINT `BOAT_TYPE` FOREIGN KEY (`type`) REFERENCES `boat_type` (`type_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci COMMENT='船只信息表';
 /*!40101 SET character_set_client = @saved_cs_client */;
 
@@ -44,6 +46,7 @@ CREATE TABLE `boat` (
 
 LOCK TABLES `boat` WRITE;
 /*!40000 ALTER TABLE `boat` DISABLE KEYS */;
+INSERT INTO `boat` VALUES ('0995923','001','(-17.15638,+72.15638)','150',NULL,'2019-07-23 14:15:11','2019-07-23 14:15:11'),('1198795','001','(+38.15638,-0.156389)','150',NULL,'2019-07-23 14:15:11','2019-07-23 14:15:11'),('1264295','001','(-111.1563,+62.15638)','151',NULL,'2019-07-23 14:14:40','2019-07-23 14:14:40'),('1404534','001','(+82.15638,+73.15638)','151',NULL,'2019-07-23 14:14:40','2019-07-23 14:14:40'),('1509485','001','(-144.1563,-39.15638)','151',NULL,'2019-07-23 14:14:40','2019-07-23 14:14:40'),('1599910','001','(+124.1563,-27.15638)','151',NULL,'2019-07-23 14:14:40','2019-07-23 14:14:40'),('2134184','001','(+134.1563,-74.15638)','150',NULL,'2019-07-23 14:14:56','2019-07-23 14:14:56'),('2241927','002','(+29.15638,-57.15638)','151',NULL,'2019-07-23 14:14:04','2019-07-23 14:14:04'),('2296777','003','(-167.1563,+33.15638)','150',NULL,'2019-07-23 14:16:39','2019-07-23 14:16:39'),('4665523','002','(+94.15638,-29.15638)','151',NULL,'2019-07-23 14:14:04','2019-07-23 14:14:04'),('4772172','002','(+23.15638,+0.156389)','151',NULL,'2019-07-23 14:14:04','2019-07-23 14:14:04'),('5228779','001','(-50.15638,+17.15638)','150',NULL,'2019-07-23 14:14:57','2019-07-23 14:14:57'),('5329132','001','(+74.15638,+34.15638)','150',NULL,'2019-07-23 14:14:57','2019-07-23 14:14:57'),('5444868','001','(-76.15638,-6.156389)','150',NULL,'2019-07-23 14:14:57','2019-07-23 14:14:57'),('5548695','001','(+17.15638,-66.15638)','150',NULL,'2019-07-23 14:14:57','2019-07-23 14:14:57'),('5631933','001','(+94.15638,-37.15638)','150',NULL,'2019-07-23 14:14:57','2019-07-23 14:14:57'),('5723403','001','(-33.15638,+55.15638)','150',NULL,'2019-07-23 14:14:57','2019-07-23 14:14:57'),('8074366','001','(-109.1563,-56.15638)','151',NULL,'2019-07-23 14:14:40','2019-07-23 14:14:40'),('8124149','001','(-72.15638,+19.15638)','150',NULL,'2019-07-23 14:15:11','2019-07-23 14:15:11');
 /*!40000 ALTER TABLE `boat` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -56,12 +59,12 @@ DROP TABLE IF EXISTS `boat_trace`;
  SET character_set_client = utf8mb4 ;
 CREATE TABLE `boat_trace` (
   `trace_id` varchar(30) NOT NULL,
-  `trace_serial_number` int(11) NOT NULL AUTO_INCREMENT,
+  `trace_serial_number` int(11) NOT NULL,
   `boat_id` varchar(10) NOT NULL,
   `record_location` varchar(30) DEFAULT NULL COMMENT '船只当前位置',
   `status` varchar(10) DEFAULT '未出航' COMMENT '船只状态',
   `record_time` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '记录时间',
-  PRIMARY KEY (`trace_serial_number`,`trace_id`),
+  PRIMARY KEY (`trace_id`),
   KEY `BOAT_TRACE` (`boat_id`),
   CONSTRAINT `BOAT_TRACE` FOREIGN KEY (`boat_id`) REFERENCES `boat` (`boat_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci COMMENT='船只轨迹表';
@@ -74,6 +77,32 @@ CREATE TABLE `boat_trace` (
 LOCK TABLES `boat_trace` WRITE;
 /*!40000 ALTER TABLE `boat_trace` DISABLE KEYS */;
 /*!40000 ALTER TABLE `boat_trace` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `boat_type`
+--
+
+DROP TABLE IF EXISTS `boat_type`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+ SET character_set_client = utf8mb4 ;
+CREATE TABLE `boat_type` (
+  `type_id` varchar(10) NOT NULL,
+  `descibe` varchar(10) DEFAULT NULL,
+  `create_time` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
+  `update_time` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT '修改时间',
+  PRIMARY KEY (`type_id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci COMMENT='船只种类表';
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `boat_type`
+--
+
+LOCK TABLES `boat_type` WRITE;
+/*!40000 ALTER TABLE `boat_type` DISABLE KEYS */;
+INSERT INTO `boat_type` VALUES ('001','小渔船','2019-07-23 14:13:31','2019-07-23 14:13:31'),('002','大渔船','2019-07-23 14:13:31','2019-07-23 14:13:31'),('003','航母','2019-07-23 14:16:16','2019-07-23 14:16:16');
+/*!40000 ALTER TABLE `boat_type` ENABLE KEYS */;
 UNLOCK TABLES;
 
 --
@@ -177,13 +206,13 @@ DROP TABLE IF EXISTS `route_segment`;
  SET character_set_client = utf8mb4 ;
 CREATE TABLE `route_segment` (
   `segment_id` varchar(20) NOT NULL,
-  `segment_serial_number` int(11) NOT NULL AUTO_INCREMENT,
+  `segment_serial_number` int(11) NOT NULL,
   `route_id` varchar(10) NOT NULL,
   `start` varchar(30) NOT NULL,
   `end` varchar(30) NOT NULL,
   `create_time` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
   `update_time` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT '修改时间',
-  PRIMARY KEY (`segment_serial_number`,`segment_id`),
+  PRIMARY KEY (`segment_id`),
   KEY `ROUTE_SEGMENT` (`route_id`),
   CONSTRAINT `ROUTE_SEGMENT` FOREIGN KEY (`route_id`) REFERENCES `sea_route` (`route_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci COMMENT='管道地理位置表';
@@ -208,8 +237,8 @@ DROP TABLE IF EXISTS `sea_route`;
 CREATE TABLE `sea_route` (
   `route_id` varchar(10) NOT NULL,
   `status` varchar(10) DEFAULT '启用' COMMENT '航线状态',
-  `source` varchar(10) NOT NULL,
-  `destination` varchar(10) NOT NULL,
+  `source` varchar(30) NOT NULL,
+  `destination` varchar(30) NOT NULL,
   `create_time` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
   `update_time` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT '修改时间',
   PRIMARY KEY (`route_id`)
@@ -253,6 +282,10 @@ LOCK TABLES `sensor_status` WRITE;
 UNLOCK TABLES;
 
 --
+-- Dumping events for database 'traceroot'
+--
+
+--
 -- Dumping routines for database 'traceroot'
 --
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
@@ -265,4 +298,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2019-07-23 17:52:46
+-- Dump completed on 2019-07-23 22:34:21
