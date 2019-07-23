@@ -26,11 +26,11 @@ public class PipelineSensorServiceImplTest {
 
     public static String SEGMENTID = "1326574";
 
-    public static String SENSORID = "1904289";
+    public static String SENSORID = "0277363";
 
     public static String PIPEID = "1904289";
 
-    public static SensorStatusEnum TYPE = SensorStatusEnum.NOMAL;
+    public static SensorStatusEnum TYPE = SensorStatusEnum.NORMAL;
 
     //private static String  ;
 
@@ -62,10 +62,6 @@ public class PipelineSensorServiceImplTest {
 
     @Test
     public void deleteBySensorId() throws Exception{
-        try {
             service.deleteBySensorId(SENSORID);
-        } catch (PipeException e) {
-            log.error(e.getMessage());
-        }
     }
 }

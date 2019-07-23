@@ -30,4 +30,10 @@ public class SensorStatus {
     @Column(name = "record_time")
     private String recordTime;
 
+    public SensorStatus(String statusId,String sensorId,String status){
+        this.sensorId=sensorId;
+        this.status=status;
+        this.statusId=statusId;
+    };
+
 }

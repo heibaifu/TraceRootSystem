@@ -17,5 +17,8 @@ public interface PipelineSensorService {
 
     PipelineSensor save(PipelineSensor sensor);
 
+    //管道段传感器状态更新
+    PipelineSensor updateByStatus(String sensorId,String updateStatus);
+
     void deleteBySensorId(String sensorId);
 }
