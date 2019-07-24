@@ -42,12 +42,23 @@ public class PipelineSensorServiceImpl implements PipelineSensorService {
 
     @Override
     public PipelineSensor save(PipelineSensor sensor) {
-        return repository.save(sensor);
+
+        PipelineSensor result=repository.save(sensor);
+
+        //增加一条传感器状态记录
+        SensorStatus sensorStatus = new SensorStatus(RandomUtil.genUniqueId(),result.getSensorId(),result.getPresentStatus());
+        statusRepository.save(sensorStatus);
+
+        return result;
     }
 
     @Override
     public PipelineSensor updateByStatus(String sensorId, String updateStatus) {
         PipelineSensor pipelineSensor=repository.findBySensorId(sensorId);
+        //判断是否存在
+        if (pipelineSensor==null){
+            throw new PipeException(ResultEnum.SENSOR_NOT_EXIST);
+        }
         pipelineSensor.setPresentStatus(updateStatus);
         PipelineSensor result=repository.save(pipelineSensor);
 

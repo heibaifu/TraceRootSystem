@@ -2,9 +2,9 @@ CREATE DATABASE  IF NOT EXISTS `traceroot` /*!40100 DEFAULT CHARACTER SET utf8mb
 USE `traceroot`;
 -- MySQL dump 10.13  Distrib 8.0.15, for Win64 (x86_64)
 --
--- Host: 127.0.0.1    Database: traceroot
+-- Host: localhost    Database: traceroot
 -- ------------------------------------------------------
--- Server version	8.0.12
+-- Server version	8.0.15
 
 /*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
 /*!40101 SET @OLD_CHARACTER_SET_RESULTS=@@CHARACTER_SET_RESULTS */;
@@ -128,7 +128,7 @@ CREATE TABLE `pipeline` (
 
 LOCK TABLES `pipeline` WRITE;
 /*!40000 ALTER TABLE `pipeline` DISABLE KEYS */;
-INSERT INTO `pipeline` VALUES ('1904289','(+168.1563,-43.15636)','(-149.1563,+61.15636)','2019-07-21 03:44:32','2019-07-21 03:46:56'),('2044895','(+44.15636,+49.15636)','(+108.1563,-5.156368)','2019-07-21 03:43:48','2019-07-21 03:43:48'),('2692013','(+30.15636,+64.15636)','(-36.15636,-17.15636)','2019-07-21 03:43:00','2019-07-21 03:43:00'),('4109677','(+124.1563,+23.15636)','(-122.1563,-55.15636)','2019-07-21 03:44:32','2019-07-21 03:44:32'),('4233032','(+101.1563,+83.15636)','(-5.156368,-88.15636)','2019-07-21 03:44:32','2019-07-21 03:44:32'),('4342832','(-51.15636,+38.15636)','(+169.1563,+56.15636)','2019-07-21 03:44:32','2019-07-21 03:44:32'),('4445842','(-73.15636,+4.156368)','(+17.15636,+18.15636)','2019-07-21 03:44:32','2019-07-21 03:44:32'),('4557449','(+89.15636,-40.15636)','(-58.15636,+49.15636)','2019-07-21 03:44:32','2019-07-21 03:44:32'),('4656655','(-74.15636,-36.15636)','(+12.15636,+63.15636)','2019-07-21 03:44:32','2019-07-21 03:44:32'),('4745562','(+110.1563,-45.15636)','(+33.15636,+8.156368)','2019-07-21 03:44:32','2019-07-21 03:44:32'),('4826835','(+79.15636,+8.156368)','(-164.1563,-47.15636)','2019-07-21 03:44:32','2019-07-21 03:44:32');
+INSERT INTO `pipeline` VALUES ('1053733','(+162.1563,-73.15639)','(+82.15639,-81.15639)','2019-07-24 08:56:14','2019-07-24 08:56:14'),('1904289','(+168.1563,-43.15636)','(-149.1563,+61.15636)','2019-07-21 03:44:32','2019-07-21 03:46:56'),('2044895','(+44.15636,+49.15636)','(+108.1563,-5.156368)','2019-07-21 03:43:48','2019-07-21 03:43:48'),('2692013','(+30.15636,+64.15636)','(-36.15636,-17.15636)','2019-07-21 03:43:00','2019-07-21 03:43:00'),('2877158','(+14.15639,+75.15639)','(-116.1563,+72.15639)','2019-07-24 08:56:14','2019-07-24 08:56:14'),('4047638','(+80.15639,+21.15639)','(+28.15639,+75.15639)','2019-07-24 08:56:14','2019-07-24 08:56:14'),('4109677','(+124.1563,+23.15636)','(-122.1563,-55.15636)','2019-07-21 03:44:32','2019-07-21 03:44:32'),('4233032','(+101.1563,+83.15636)','(-5.156368,-88.15636)','2019-07-21 03:44:32','2019-07-21 03:44:32'),('4342832','(-51.15636,+38.15636)','(+169.1563,+56.15636)','2019-07-21 03:44:32','2019-07-21 03:44:32'),('4445842','(-73.15636,+4.156368)','(+17.15636,+18.15636)','2019-07-21 03:44:32','2019-07-21 03:44:32'),('4557449','(+89.15636,-40.15636)','(-58.15636,+49.15636)','2019-07-21 03:44:32','2019-07-21 03:44:32'),('4656655','(-74.15636,-36.15636)','(+12.15636,+63.15636)','2019-07-21 03:44:32','2019-07-21 03:44:32'),('4745562','(+110.1563,-45.15636)','(+33.15636,+8.156368)','2019-07-21 03:44:32','2019-07-21 03:44:32'),('4826835','(+79.15636,+8.156368)','(-164.1563,-47.15636)','2019-07-21 03:44:32','2019-07-21 03:44:32'),('5042176','(-26.15639,-32.15639)','(-179.1563,+5.156395)','2019-07-24 08:56:15','2019-07-24 08:56:15'),('5941015','(+160.1563,-17.15639)','(+69.15639,-56.15639)','2019-07-24 08:56:15','2019-07-24 08:56:15'),('6718218','(+51.15639,+33.15639)','(+82.15639,-29.15639)','2019-07-24 08:56:15','2019-07-24 08:56:15'),('7594071','(+132.1563,-44.15639)','(+83.15639,+12.15639)','2019-07-24 08:56:15','2019-07-24 08:56:15'),('8269112','(-156.1563,-15.15639)','(-50.15639,+60.15639)','2019-07-24 08:56:15','2019-07-24 08:56:15'),('8663739','(+122.1563,+71.15639)','(+142.1563,+29.15639)','2019-07-24 08:56:14','2019-07-24 08:56:14'),('9039050','(+92.15639,+88.15639)','(-107.1563,+50.15639)','2019-07-24 08:56:15','2019-07-24 08:56:15');
 /*!40000 ALTER TABLE `pipeline` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -174,16 +174,18 @@ CREATE TABLE `pipeline_sensor` (
   `sensor_id` varchar(20) NOT NULL,
   `segment_id` varchar(20) NOT NULL,
   `pipe_id` varchar(10) NOT NULL,
-  `type` varchar(10) NOT NULL,
+  `type_id` varchar(10) NOT NULL,
   `location` varchar(30) NOT NULL,
-  `present_status` varchar(10) DEFAULT '状态正常' COMMENT '传感器状态',
+  `present_status` varchar(10) NOT NULL DEFAULT '状态正常' COMMENT '传感器状态',
   `create_time` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
   `update_time` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT '修改时间',
   PRIMARY KEY (`sensor_id`),
   KEY `PIPELINE_SENSOR1` (`pipe_id`),
   KEY `PIPELINE_SENSOR2` (`segment_id`),
+  KEY `PIPELINE_SENSOR3_idx` (`type_id`),
   CONSTRAINT `PIPELINE_SENSOR1` FOREIGN KEY (`pipe_id`) REFERENCES `pipeline` (`pipe_id`),
-  CONSTRAINT `PIPELINE_SENSOR2` FOREIGN KEY (`segment_id`) REFERENCES `pipeline_segment` (`segment_id`)
+  CONSTRAINT `PIPELINE_SENSOR2` FOREIGN KEY (`segment_id`) REFERENCES `pipeline_segment` (`segment_id`),
+  CONSTRAINT `PIPELINE_SENSOR3` FOREIGN KEY (`type_id`) REFERENCES `sensor_type` (`type_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci COMMENT='管道传感器表';
 /*!40101 SET character_set_client = @saved_cs_client */;
 
@@ -193,7 +195,7 @@ CREATE TABLE `pipeline_sensor` (
 
 LOCK TABLES `pipeline_sensor` WRITE;
 /*!40000 ALTER TABLE `pipeline_sensor` DISABLE KEYS */;
-INSERT INTO `pipeline_sensor` VALUES ('0277363','1326574','1904289','坏猪屁传感器','(-53.15638,+23.15638)','状态正常','2019-07-23 09:50:42','2019-07-23 09:50:42'),('3235727','1326574','1904289','宝屁屁传感器','(+56.15638,-8.156387)','状态正常','2019-07-23 09:49:27','2019-07-23 09:50:07');
+INSERT INTO `pipeline_sensor` VALUES ('1262750','1326574','1904289','2926155','(-43.15639,+8.156396)','100','2019-07-24 09:36:51','2019-07-24 09:59:38'),('5931029','1326574','1904289','2926155','(+1.156396,-86.15639)','102','2019-07-24 09:59:03','2019-07-24 10:05:43'),('8898273','1326574','1904289','2926155','(+56.15639,-33.15639)','100','2019-07-24 10:16:33','2019-07-24 10:16:33');
 /*!40000 ALTER TABLE `pipeline_sensor` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -264,8 +266,8 @@ DROP TABLE IF EXISTS `sensor_status`;
 CREATE TABLE `sensor_status` (
   `status_id` varchar(30) NOT NULL,
   `sensor_id` varchar(20) NOT NULL,
-  `status` varchar(10) DEFAULT '状态正常' COMMENT '传感器状态',
-  `record_time` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT '记录时间',
+  `status` varchar(10) NOT NULL DEFAULT '100' COMMENT '传感器状态',
+  `record_time` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '记录时间',
   PRIMARY KEY (`status_id`),
   KEY `SENSOR_STATUS` (`sensor_id`),
   CONSTRAINT `SENSOR_STATUS` FOREIGN KEY (`sensor_id`) REFERENCES `pipeline_sensor` (`sensor_id`)
@@ -278,12 +280,35 @@ CREATE TABLE `sensor_status` (
 
 LOCK TABLES `sensor_status` WRITE;
 /*!40000 ALTER TABLE `sensor_status` DISABLE KEYS */;
+INSERT INTO `sensor_status` VALUES ('0525467','5931029','100','2019-07-24 10:22:16'),('2993021','5931029','101','2019-07-24 10:23:17'),('5055635','8898273','100','2019-07-24 10:16:34'),('5873195','5931029','102','2019-07-24 10:05:43');
 /*!40000 ALTER TABLE `sensor_status` ENABLE KEYS */;
 UNLOCK TABLES;
 
 --
--- Dumping events for database 'traceroot'
+-- Table structure for table `sensor_type`
 --
+
+DROP TABLE IF EXISTS `sensor_type`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+ SET character_set_client = utf8mb4 ;
+CREATE TABLE `sensor_type` (
+  `type_id` varchar(10) NOT NULL COMMENT '种类id',
+  `type_name` varchar(30) NOT NULL COMMENT '传感器种类名字',
+  `create_time` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
+  `update_time` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT '更新时间',
+  PRIMARY KEY (`type_id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci COMMENT='传感器种类表';
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `sensor_type`
+--
+
+LOCK TABLES `sensor_type` WRITE;
+/*!40000 ALTER TABLE `sensor_type` DISABLE KEYS */;
+INSERT INTO `sensor_type` VALUES ('2926155','猪猪传感器','2019-07-24 09:15:43','2019-07-24 09:15:43'),('2926378','质量传感器','2019-07-24 09:16:47','2019-07-24 09:16:47'),('7752109','管压传感器','2019-07-24 09:16:17','2019-07-24 09:16:17');
+/*!40000 ALTER TABLE `sensor_type` ENABLE KEYS */;
+UNLOCK TABLES;
 
 --
 -- Dumping routines for database 'traceroot'
@@ -298,4 +323,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2019-07-23 22:34:21
+-- Dump completed on 2019-07-24 19:49:12

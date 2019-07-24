@@ -26,11 +26,13 @@ public class PipelineSensorServiceImplTest {
 
     public static String SEGMENTID = "1326574";
 
-    public static String SENSORID = "0277363";
+    public static String SENSORID = "1262750";
 
     public static String PIPEID = "1904289";
 
-    public static SensorStatusEnum TYPE = SensorStatusEnum.NORMAL;
+    public static String SENSORTYPE = "2926155";
+
+    public static SensorStatusEnum STATUS = SensorStatusEnum.NORMAL;
 
     //private static String  ;
 
@@ -55,7 +57,7 @@ public class PipelineSensorServiceImplTest {
     @Test
     public void save() throws Exception{
 
-        PipelineSensor sensor = new PipelineSensor(RandomUtil.genUniqueId(),SEGMENTID,PIPEID,"坏猪屁传感器",RandomUtil.genUniqueLocation(),TYPE.getMessage());
+        PipelineSensor sensor = new PipelineSensor(RandomUtil.genUniqueId(),SEGMENTID,PIPEID,SENSORTYPE,RandomUtil.genUniqueLocation(),STATUS.getCode());
         PipelineSensor result = service.save(sensor);
         Assert.assertNotNull(result);
     }
@@ -63,5 +65,12 @@ public class PipelineSensorServiceImplTest {
     @Test
     public void deleteBySensorId() throws Exception{
             service.deleteBySensorId(SENSORID);
+    }
+
+    @Test
+    public void updateByStatus() throws Exception{
+
+        PipelineSensor pipelineSensor=service.updateByStatus("5931029",SensorStatusEnum.ABNORMAL.getCode());
+        Assert.assertNotNull(pipelineSensor);
     }
 }

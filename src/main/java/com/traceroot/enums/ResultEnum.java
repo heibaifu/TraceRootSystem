@@ -14,6 +14,8 @@ public enum  ResultEnum {
     PIPE_NOT_EXIST(3,"管道段不存在"),
 
     SENSOR_NOT_EXIST(4,"传感器不存在"),
+
+    SENSOR_TYPE_NOT_EXIST(3,"传感器类型不存在"),
     ;
     private Integer code;
     private String message;

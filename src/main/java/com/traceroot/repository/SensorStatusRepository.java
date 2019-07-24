@@ -10,11 +10,12 @@ import java.util.List;
 
 public interface SensorStatusRepository extends JpaRepository<SensorStatus,String> {
 
-    Page<SensorStatus> findBySensorIdOrderByRecordTimeDesc(String sensorId);
+    List<SensorStatus> findBySensorIdOrderByRecordTimeDesc(String sensorId);
 
-    Page<SensorStatus> findByRecordTimeGreaterThanEqual(Data recordTime);   //时间大于等于...
+    //List<SensorStatus> findByRecordTimeGreaterThanEqual(Data recordTime);   //时间大于等于...
 
-    SensorStatus findBySensorId (String statusId);    //按状态id查找
+    SensorStatus findByStatusId (String statusId);    //按状态id查找
 
-
+    //todo
+    List<SensorStatus>findByRecordTimeBetweenOrderByRecordTime(Date statTime, Date endTime);
 }
