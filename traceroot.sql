@@ -2,9 +2,9 @@ CREATE DATABASE  IF NOT EXISTS `traceroot` /*!40100 DEFAULT CHARACTER SET utf8mb
 USE `traceroot`;
 -- MySQL dump 10.13  Distrib 8.0.15, for Win64 (x86_64)
 --
--- Host: localhost    Database: traceroot
+-- Host: 127.0.0.1    Database: traceroot
 -- ------------------------------------------------------
--- Server version	8.0.15
+-- Server version	8.0.12
 
 /*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
 /*!40101 SET @OLD_CHARACTER_SET_RESULTS=@@CHARACTER_SET_RESULTS */;
@@ -76,6 +76,7 @@ CREATE TABLE `boat_trace` (
 
 LOCK TABLES `boat_trace` WRITE;
 /*!40000 ALTER TABLE `boat_trace` DISABLE KEYS */;
+INSERT INTO `boat_trace` VALUES ('1765899',1,'1198795','(-168.1563,+33.15639)','151','2019-07-24 14:16:06'),('6354143',2,'1198795','(+98.15639,+79.15639)','150','2019-07-24 14:16:34');
 /*!40000 ALTER TABLE `boat_trace` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -280,7 +281,7 @@ CREATE TABLE `sensor_status` (
 
 LOCK TABLES `sensor_status` WRITE;
 /*!40000 ALTER TABLE `sensor_status` DISABLE KEYS */;
-INSERT INTO `sensor_status` VALUES ('0525467','5931029','100','2019-07-24 10:22:16'),('2993021','5931029','101','2019-07-24 10:23:17'),('5055635','8898273','100','2019-07-24 10:16:34'),('5873195','5931029','102','2019-07-24 10:05:43');
+INSERT INTO `sensor_status` VALUES ('0525467','5931029','100','2019-07-24 10:22:16'),('2848447','8898273','102','2019-07-24 12:40:53'),('2911844','5931029','101','2019-07-24 12:25:05'),('2993021','5931029','101','2019-07-24 10:23:17'),('3073666','8898273','102','2019-07-24 12:27:51'),('5055635','8898273','100','2019-07-24 10:16:34'),('5873195','5931029','102','2019-07-24 10:05:43'),('6214541','8898273','101','2019-07-24 12:27:38'),('6689246','5931029','101','2019-07-24 12:25:05');
 /*!40000 ALTER TABLE `sensor_status` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -311,6 +312,10 @@ INSERT INTO `sensor_type` VALUES ('2926155','猪猪传感器','2019-07-24 09:15:
 UNLOCK TABLES;
 
 --
+-- Dumping events for database 'traceroot'
+--
+
+--
 -- Dumping routines for database 'traceroot'
 --
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
@@ -323,4 +328,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2019-07-24 19:49:12
+-- Dump completed on 2019-07-24 22:37:35
