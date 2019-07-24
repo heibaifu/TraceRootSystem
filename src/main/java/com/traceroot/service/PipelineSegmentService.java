@@ -16,4 +16,6 @@ public interface PipelineSegmentService {
     PipelineSegment update(PipelineSegment segment);
 
     void deleteById(String segmentId);
+
+    void deleteBy(String pipeId);
 }

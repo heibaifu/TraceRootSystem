@@ -1,6 +1,8 @@
 package com.traceroot.service.impl;
 
 import com.traceroot.dataobject.Boat;
+import com.traceroot.enums.ResultEnum;
+import com.traceroot.exception.BoatException;
 import com.traceroot.repository.BoatRepository;
 import com.traceroot.service.BoatService;
 import lombok.extern.slf4j.Slf4j;
@@ -14,7 +16,10 @@ import java.util.List;
 public class BoatServiceImpl implements BoatService {
 
     @Autowired
-    BoatRepository repository;
+    private BoatRepository repository;
+
+    @Autowired
+    private BoatTraceServiceImpl traceService;
 
     /**
      * 按照船只id查询
@@ -83,6 +88,7 @@ public class BoatServiceImpl implements BoatService {
      */
     @Override
     public Boat save(Boat boat) {
+        //todo 保存的时候记录一条轨迹数据，是否需要分成update和insert
         return repository.save(boat);
     }
 
@@ -93,7 +99,12 @@ public class BoatServiceImpl implements BoatService {
      */
     @Override
     public Boolean deleteById(String boatId) {
+        Boat boat = repository.findByBoatId(boatId);
+        if (boat==null){
+            throw new BoatException(ResultEnum.BOAT_NOT_EXIST);
+        }
         repository.deleteById(boatId);
+        log.info(ResultEnum.DELETE_SUCCESS.getMessage());
         return true;
     }
 

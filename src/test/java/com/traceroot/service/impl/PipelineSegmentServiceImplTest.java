@@ -1,9 +1,6 @@
 package com.traceroot.service.impl;
 
 import com.traceroot.dataobject.PipelineSegment;
-import com.traceroot.dataobject.exception.PipeException;
-import com.traceroot.dataobject.multikeysclass.PipelineSegmentMultiKeys;
-import com.traceroot.enums.ResultEnum;
 import com.traceroot.utils.RandomUtil;
 import lombok.extern.slf4j.Slf4j;
 import org.junit.Assert;

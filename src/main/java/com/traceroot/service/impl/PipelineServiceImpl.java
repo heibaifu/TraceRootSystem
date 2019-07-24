@@ -1,8 +1,7 @@
 package com.traceroot.service.impl;
 
 import com.traceroot.dataobject.Pipeline;
-import com.traceroot.dataobject.PipelineSegment;
-import com.traceroot.dataobject.exception.PipeException;
+import com.traceroot.exception.PipeException;
 import com.traceroot.enums.ResultEnum;
 import com.traceroot.repository.PipelineRepository;
 import com.traceroot.service.PipelineService;
@@ -17,7 +16,7 @@ import java.util.List;
 public class PipelineServiceImpl implements PipelineService {
 
     @Autowired
-    PipelineRepository repository;
+    private PipelineRepository repository;
 
     @Override
     public Pipeline selectByPipeId(String pipeId) {

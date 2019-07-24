@@ -2,9 +2,8 @@ package com.traceroot.service.impl;
 
 import com.traceroot.dataobject.PipelineSensor;
 import com.traceroot.dataobject.SensorStatus;
-import com.traceroot.dataobject.exception.PipeException;
+import com.traceroot.exception.PipeException;
 import com.traceroot.enums.ResultEnum;
-import com.traceroot.repository.PipelineRepository;
 import com.traceroot.repository.PipelineSensorRepository;
 import com.traceroot.repository.SensorStatusRepository;
 import com.traceroot.service.PipelineSensorService;

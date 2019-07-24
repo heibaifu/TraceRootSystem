@@ -1,7 +1,7 @@
 package com.traceroot.service.impl;
 
 import com.traceroot.dataobject.Pipeline;
-import com.traceroot.dataobject.exception.PipeException;
+import com.traceroot.exception.PipeException;
 import com.traceroot.utils.RandomUtil;
 import lombok.extern.slf4j.Slf4j;
 import org.junit.Assert;
@@ -12,9 +12,6 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit4.SpringRunner;
 
 import java.util.List;
-import java.util.Random;
-
-import static org.junit.Assert.*;
 
 @RunWith(SpringRunner.class)
 @SpringBootTest

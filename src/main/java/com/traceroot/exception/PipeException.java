@@ -1,4 +1,4 @@
-package com.traceroot.dataobject.exception;
+package com.traceroot.exception;
 
 import com.traceroot.enums.ResultEnum;
 

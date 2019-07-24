@@ -1,15 +1,15 @@
-package com.traceroot.dataobject.exception;
+package com.traceroot.exception;
 
 import com.traceroot.enums.ResultEnum;
 
-public class BoatException extends RuntimeException {
+public class SensorException extends RuntimeException {
     private Integer code;
-    public BoatException(ResultEnum resultEnum){
+    public SensorException(ResultEnum resultEnum){
         super(resultEnum.getMessage());
         this.code=resultEnum.getCode();
     }
 
-    public BoatException(Integer code,String message){
+    public SensorException(Integer code,String message){
         super(message);
         this.code=code;
     }

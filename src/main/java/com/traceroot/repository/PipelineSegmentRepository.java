@@ -10,6 +10,8 @@ public interface PipelineSegmentRepository extends JpaRepository<PipelineSegment
 
     PipelineSegment findBySegmentId(String segmentId);
 
+    List<PipelineSegment> findByPipeId(String pipeId);
+
     List<PipelineSegment> findByPipeIdOrderBySegmentSerialNumber(String pipeId);
 
     Integer countPipelineSegmentByPipeId(String pipeId);

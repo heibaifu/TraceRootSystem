@@ -1,9 +1,8 @@
 package com.traceroot.service.impl;
 
 import com.traceroot.dataobject.SensorType;
-import com.traceroot.dataobject.exception.SensorException;
+import com.traceroot.exception.SensorException;
 import com.traceroot.enums.ResultEnum;
-import com.traceroot.repository.SensorStatusRepository;
 import com.traceroot.repository.SensorTypeRepository;
 import com.traceroot.service.SensorTypeService;
 import lombok.extern.slf4j.Slf4j;

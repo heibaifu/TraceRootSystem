@@ -1,11 +1,10 @@
 package com.traceroot.service.impl;
 
 import com.traceroot.dataobject.SensorStatus;
-import com.traceroot.dataobject.exception.PipeException;
+import com.traceroot.exception.PipeException;
 import com.traceroot.enums.ResultEnum;
 import com.traceroot.repository.SensorStatusRepository;
 import com.traceroot.service.SensorStatusService;
-import com.traceroot.utils.RandomUtil;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -83,7 +82,7 @@ public class SensorStatusServiceImpl implements SensorStatusService {
     public void deleteBySensorId(String sensorId) {
         List<SensorStatus> sensorStatusList = repository.findBySensorIdOrderByRecordTimeDesc(sensorId);
         if (sensorStatusList.size()==0){
-            throw new PipeException(ResultEnum.PIPE_NOT_EXIST);
+            throw new PipeException(ResultEnum.SENSOR_NOT_EXIST);
         }
         repository.deleteAll(sensorStatusList);
         log.info(ResultEnum.DELETE_SUCCESS.getMessage());

@@ -1,9 +1,7 @@
 package com.traceroot.service.impl;
 
-import com.sun.xml.internal.bind.v2.model.core.ID;
 import com.traceroot.dataobject.PipelineSegment;
-import com.traceroot.dataobject.exception.PipeException;
-import com.traceroot.dataobject.multikeysclass.PipelineSegmentMultiKeys;
+import com.traceroot.exception.PipeException;
 import com.traceroot.enums.ResultEnum;
 import com.traceroot.repository.PipelineSegmentRepository;
 import com.traceroot.service.PipelineSegmentService;
@@ -12,13 +10,13 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
-import java.util.Optional;
+
 @Slf4j
 @Service
 public class PipelineSegmentServiceImpl implements PipelineSegmentService {
 
     @Autowired
-    PipelineSegmentRepository repository;
+    private PipelineSegmentRepository repository;
 
     @Override
     public PipelineSegment selectBySegmentId(String segmentId) {
@@ -54,6 +52,16 @@ public class PipelineSegmentServiceImpl implements PipelineSegmentService {
             throw new PipeException(ResultEnum.PIPE_SEGMENT_NOT_EXIST);
         }
         repository.delete(pipelineSegment);
+        log.info(ResultEnum.DELETE_SUCCESS.getMessage());
+    }
+
+    @Override
+    public void deleteBy(String pipeId) {
+        List<PipelineSegment> segmentList = repository.findByPipeId(pipeId);
+        if (segmentList.size()==0){
+            throw new PipeException(ResultEnum.PIPE_NOT_EXIST);
+        }
+        repository.deleteAll(segmentList);
         log.info(ResultEnum.DELETE_SUCCESS.getMessage());
     }
 }
