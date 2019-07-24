@@ -2,6 +2,7 @@ package com.traceroot.service;
 
 import com.traceroot.dataobject.SensorStatus;
 
+import java.util.Date;
 import java.util.List;
 
 /**
@@ -10,17 +11,21 @@ import java.util.List;
  *
  */
 public interface SensorStatusService {
-    //增加
-    SensorStatus save (SensorStatus status);
+
     //查找
     List<SensorStatus> selectBySensorId (String sensorId);
 
-   // List<SensorStatus> todo 按时间区间查找
-
     SensorStatus selectByStatusId (String statusId);
 
-    //删除 todo 实现还没写
+    List<SensorStatus> selectByRecordTimeBetween(Date startTime, Date endTime);
+
+    List<SensorStatus> selectBySensorIdAndRecordTimeBetween(String sensorId, Date startTime, Date endTime);
+
+    //增加和修改
+    SensorStatus save (SensorStatus status);
+
     void deleteByStatusId (String statusId);
 
     void deleteBySensorId (String sensorId);
+
 }

@@ -12,10 +12,9 @@ public interface SensorStatusRepository extends JpaRepository<SensorStatus,Strin
 
     List<SensorStatus> findBySensorIdOrderByRecordTimeDesc(String sensorId);
 
-    //List<SensorStatus> findByRecordTimeGreaterThanEqual(Data recordTime);   //时间大于等于...
-
     SensorStatus findByStatusId (String statusId);    //按状态id查找
 
-    //todo
-    List<SensorStatus>findByRecordTimeBetweenOrderByRecordTime(Date statTime, Date endTime);
+    List<SensorStatus> findByRecordTimeBetweenOrderByRecordTime(Date startTime, Date endTime);
+
+    List<SensorStatus> findBySensorIdAndRecordTimeBetweenOrderByRecordTimeDesc(String sensorId, Date startTime, Date endTime);
 }
