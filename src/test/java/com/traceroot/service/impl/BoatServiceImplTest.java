@@ -54,10 +54,8 @@ public class BoatServiceImplTest {
 
     @Test
     public void selectByRoute() {
-        //todo 根据航线挑选船只测试未做
-        //boatService.selectByRoute();
-
-
+        List<Boat> boatList = boatService.selectByRoute("2472838");
+        Assert.assertNotEquals(0,boatList.size());
     }
 
     @Test
@@ -67,17 +65,15 @@ public class BoatServiceImplTest {
 
     @Test
     public void insert() {
-        for (int i = 0; i < 1; i++) {
-            Boat boat = new Boat(RandomUtil.genUniqueId(),"003",RandomUtil.genUniqueLocation(), BoatStatusEnum.NOMAL.getCode().toString());
-            Boat result = boatService.save(boat);
-            Assert.assertNotNull(result);
-        }
+        Boat boat = new Boat(RandomUtil.genUniqueId(),"001",RandomUtil.genUniqueLocation(), BoatStatusEnum.NOMAL.getCode().toString(),"8211997");
+        Boat result = boatService.save(boat);
+        Assert.assertNotNull(result);
     }
 
     @Test
     public void update() {
         Boat boat = boatService.selectByBoatId(BOATID);
-        boat.setType("大渔船");
+        boat.setType("001");
         Boat result = boatService.save(boat);
         Assert.assertNotNull(result);
     }

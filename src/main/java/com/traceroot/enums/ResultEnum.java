@@ -25,6 +25,8 @@ public enum  ResultEnum {
 
     SEA_ROUTE_NOT_EXIST(9,"航线不存在"),
 
+    ROUTE_SEGMENT_NOT_EXIST(10,"航线段不存在"),
+
 
     ;
     private Integer code;

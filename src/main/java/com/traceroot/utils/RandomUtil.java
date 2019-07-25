@@ -43,6 +43,7 @@ public class RandomUtil {
      * @return
      */
     public static String genUniqueId(){
+        //todo 要保证id唯一
         Random random = new Random() ;
         Integer number = random.nextInt(9000) + 1000;
         return new String(System.currentTimeMillis() + String.valueOf(number)).substring(10);

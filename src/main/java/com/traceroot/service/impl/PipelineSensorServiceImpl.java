@@ -62,7 +62,6 @@ public class PipelineSensorServiceImpl implements PipelineSensorService {
         PipelineSensor result=repository.save(pipelineSensor);
 
         //增加一条传感器状态记录
-        //todo 要保证id唯一
         SensorStatus sensorStatus = new SensorStatus(RandomUtil.genUniqueId(),sensorId,updateStatus);
         statusRepository.save(sensorStatus);
         return result;

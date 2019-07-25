@@ -1,5 +1,6 @@
 package com.traceroot.dataobject;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.traceroot.enums.SeaRouteStatusEnum;
 import lombok.Data;
 import org.springframework.data.annotation.CreatedDate;
@@ -32,6 +33,17 @@ public class SeaRoute {
 
     //航线终点
     private String destination;
+
+    public SeaRoute() {
+    }
+
+    @JsonIgnore
+    public SeaRoute(String routeId, String status, String source, String destination) {
+        this.routeId = routeId;
+        this.status = status;
+        this.source = source;
+        this.destination = destination;
+    }
 
     /*创建时间*/
     @CreatedDate
