@@ -3,18 +3,18 @@ package com.traceroot.exception;
 import com.traceroot.enums.ResultEnum;
 
 /**
- * 管道部分异常
+ * 航线异常
  */
-public class PipeException extends TraceRootException {
+public class RouteException extends TraceRootException {
 
     private Integer code;
 
-    public PipeException(ResultEnum resultEnum){
+    public RouteException(ResultEnum resultEnum){
         super(resultEnum);
         this.code=resultEnum.getCode();
     }
 
-    public PipeException(Integer code, String message){
+    public RouteException(Integer code, String message){
         super(code,message);
         this.code=code;
     }

@@ -21,6 +21,10 @@ public enum  ResultEnum {
 
     TRACE_NOT_EXIST(7,"轨迹不存在"),
 
+    BOAT_TYPE_NOT_EXIST(8,"船只类型不存在"),
+
+    SEA_ROUTE_NOT_EXIST(9,"航线不存在"),
+
 
     ;
     private Integer code;

@@ -1,7 +1,7 @@
 package com.traceroot.service.impl;
 
 import com.traceroot.dataobject.SensorType;
-import com.traceroot.exception.SensorException;
+import com.traceroot.exception.PipeException;
 import com.traceroot.enums.ResultEnum;
 import com.traceroot.repository.SensorTypeRepository;
 import com.traceroot.service.SensorTypeService;
@@ -47,7 +47,7 @@ public class SensorTypeServiceImpl implements SensorTypeService {
     public void deleteByTypeId(String typeId) {
         SensorType sensorType = repository.findByTypeId(typeId);
         if (sensorType==null){
-            throw new SensorException(ResultEnum.SENSOR_TYPE_NOT_EXIST);
+            throw new PipeException(ResultEnum.SENSOR_TYPE_NOT_EXIST);
         }
         repository.delete(sensorType);
         log.info(ResultEnum.DELETE_SUCCESS.getMessage());

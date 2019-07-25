@@ -2,14 +2,18 @@ package com.traceroot.exception;
 
 import com.traceroot.enums.ResultEnum;
 
-public class SensorException extends RuntimeException {
+/**
+ * 项目异常
+ */
+
+public class TraceRootException extends RuntimeException {
     private Integer code;
-    public SensorException(ResultEnum resultEnum){
+    public TraceRootException(ResultEnum resultEnum){
         super(resultEnum.getMessage());
         this.code=resultEnum.getCode();
     }
 
-    public SensorException(Integer code,String message){
+    public TraceRootException(Integer code, String message){
         super(message);
         this.code=code;
     }

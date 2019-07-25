@@ -22,6 +22,8 @@ public class BoatServiceImplTest {
 
     public static String BOATID = "6126226";
 
+    String RUTEID="1234";
+
     @Test
     public void selectByBoatId() {
         Boat boat = boatService.selectByBoatId(BOATID);
@@ -53,6 +55,9 @@ public class BoatServiceImplTest {
     @Test
     public void selectByRoute() {
         //todo 根据航线挑选船只测试未做
+        //boatService.selectByRoute();
+
+
     }
 
     @Test
