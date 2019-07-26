@@ -4,7 +4,7 @@ import com.traceroot.dataobject.RouteSegment;
 import com.traceroot.enums.ResultEnum;
 import com.traceroot.exception.RouteException;
 import com.traceroot.repository.RouteSegmentRepository;
-import com.traceroot.service.RouteSegmentService;
+import com.traceroot.service.ifs.RouteSegmentService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 

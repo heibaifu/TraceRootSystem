@@ -1,7 +1,7 @@
 package com.traceroot.service.impl;
 
 import com.traceroot.dataobject.SensorType;
-import com.traceroot.service.SensorTypeService;
+import com.traceroot.service.ifs.SensorTypeService;
 import com.traceroot.utils.RandomUtil;
 import lombok.extern.slf4j.Slf4j;
 import org.junit.Assert;
@@ -11,7 +11,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit4.SpringRunner;
 
-import static org.junit.Assert.*;
 @RunWith(SpringRunner.class)
 @SpringBootTest
 @Slf4j

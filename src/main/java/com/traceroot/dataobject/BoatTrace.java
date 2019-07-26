@@ -52,4 +52,9 @@ public class BoatTrace {
         this.recordLocation = recordLocation;
         this.status = status;
     }
+
+    @JsonIgnore
+    public Integer traceSerialNumber2Int(){
+        return Integer.valueOf(traceSerialNumber);
+    }
 }

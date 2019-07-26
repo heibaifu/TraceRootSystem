@@ -1,4 +1,4 @@
-package com.traceroot.service;
+package com.traceroot.service.ifs;
 
 import com.traceroot.dataobject.PipelineSegment;
 import com.traceroot.dataobject.multikeysclass.PipelineSegmentMultiKeys;

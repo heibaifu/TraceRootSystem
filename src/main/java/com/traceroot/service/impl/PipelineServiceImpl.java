@@ -4,7 +4,7 @@ import com.traceroot.dataobject.Pipeline;
 import com.traceroot.exception.PipeException;
 import com.traceroot.enums.ResultEnum;
 import com.traceroot.repository.PipelineRepository;
-import com.traceroot.service.PipelineService;
+import com.traceroot.service.ifs.PipelineService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;

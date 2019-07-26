@@ -1,4 +1,4 @@
-package com.traceroot.service;
+package com.traceroot.service.ifs;
 
 import com.traceroot.dataobject.BoatTrace;
 
@@ -14,6 +14,10 @@ public interface BoatTraceService {
     List<BoatTrace> selectByRecordTimeBetween(Date startTime, Date endTime);
 
     List<BoatTrace> selectByBoatIdAndRecordTimeBetween(String traceId, Date startTime, Date endTime);
+
+    List<BoatTrace> selectByRecordTimeBetweenAndRecordLocationIsLikeOrderByRecordTimeDesc(Date startTime, Date endTime,String location);
+
+    List<BoatTrace> selectByLocationIsLikeOrderByRecordTimeDesc(String location);
 
     BoatTrace insert (BoatTrace boatTrace);
 

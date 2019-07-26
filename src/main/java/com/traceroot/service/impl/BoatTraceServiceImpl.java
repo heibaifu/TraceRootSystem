@@ -4,7 +4,7 @@ import com.traceroot.dataobject.BoatTrace;
 import com.traceroot.enums.ResultEnum;
 import com.traceroot.exception.BoatException;
 import com.traceroot.repository.BoatTraceRepository;
-import com.traceroot.service.BoatTraceService;
+import com.traceroot.service.ifs.BoatTraceService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -37,6 +37,30 @@ public class BoatTraceServiceImpl implements BoatTraceService {
     @Override
     public List<BoatTrace> selectByBoatIdAndRecordTimeBetween(String traceId, Date startTime, Date endTime) {
         return boatTraceRepository.findByBoatIdAndRecordTimeBetweenOrderByRecordTimeDesc(traceId,startTime,endTime);
+    }
+
+    /**
+     * 根据（指定位置附近）模糊匹配表达式，返回指定时间段内的轨迹数据
+     * 例子："(+116.3%,+39.9%)"
+     * @param startTime
+     * @param endTime
+     * @param location
+     * @return
+     */
+    @Override
+    public List<BoatTrace> selectByRecordTimeBetweenAndRecordLocationIsLikeOrderByRecordTimeDesc(Date startTime, Date endTime, String location) {
+        return boatTraceRepository.findByRecordTimeBetweenAndRecordLocationIsLikeOrderByRecordTimeDesc(startTime,endTime,location);
+    }
+
+    /**
+     * 根据（指定位置附近）模糊匹配表达式，返回轨迹数据
+     * 例子："(+116.3%,+39.9%)"
+     * @param location
+     * @return
+     */
+    @Override
+    public List<BoatTrace> selectByLocationIsLikeOrderByRecordTimeDesc(String location) {
+        return boatTraceRepository.findByRecordLocationIsLikeOrderByRecordTimeDesc(location);
     }
 
     @Override

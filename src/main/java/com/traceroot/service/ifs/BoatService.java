@@ -1,4 +1,4 @@
-package com.traceroot.service;
+package com.traceroot.service.ifs;
 
 import com.traceroot.dataobject.Boat;
 
@@ -13,8 +13,6 @@ public interface BoatService {
     List<Boat> selectAllBoat();
 
     List<Boat> selectByRoute(String routeId);
-
-    List<Boat> selectByPassingPipelineSegment(String segmentId);
 
     List<Boat> selectByTypeIn(List<String> typeList);
 

@@ -2,6 +2,7 @@ package com.traceroot.service.impl;
 
 import com.traceroot.dataobject.BoatTrace;
 import com.traceroot.enums.BoatStatusEnum;
+import com.traceroot.repository.BoatTraceRepository;
 import com.traceroot.utils.RandomUtil;
 import com.traceroot.utils.String2TimestampUtil;
 import lombok.extern.slf4j.Slf4j;
@@ -26,7 +27,7 @@ public class BoatTraceServiceImplTest {
     @Autowired
     private BoatTraceServiceImpl traceService;
 
-    private String BOATID = "1198795";
+    private String BOATID = "0673058";
 
     private String TRACEID = "5191791";
 
@@ -94,4 +95,18 @@ public class BoatTraceServiceImplTest {
         Assert.assertEquals(0,boatTraces.size());
     }
 
+
+    @Test
+    public void selectByRecordTimeBetweenAndRecordLocationIsLikeOrderByRecordTimeDesc() {
+        try {
+            startTime = String2TimestampUtil.string2Time("2019-07-25 17:10:08");
+            endTime = String2TimestampUtil.string2Time("2019-07-27 21:31:56");
+        } catch (ParseException e) {
+            log.error("【时间设定异常】",e.getMessage());
+        }
+        List<BoatTrace> boatTraceList = traceService
+                .selectByRecordTimeBetweenAndRecordLocationIsLikeOrderByRecordTimeDesc(startTime, endTime, "(+116.3%,+39.9%)");
+        /*List<BoatTrace> boatTraceList = traceService.selectByLocationIsLikeOrderByRecordTimeDesc("(+116.3%,+39.9%)");*/
+        Assert.assertNotEquals(0,boatTraceList.size());
+    }
 }

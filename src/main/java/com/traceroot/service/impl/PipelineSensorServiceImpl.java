@@ -6,7 +6,7 @@ import com.traceroot.exception.PipeException;
 import com.traceroot.enums.ResultEnum;
 import com.traceroot.repository.PipelineSensorRepository;
 import com.traceroot.repository.SensorStatusRepository;
-import com.traceroot.service.PipelineSensorService;
+import com.traceroot.service.ifs.PipelineSensorService;
 import com.traceroot.utils.RandomUtil;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;

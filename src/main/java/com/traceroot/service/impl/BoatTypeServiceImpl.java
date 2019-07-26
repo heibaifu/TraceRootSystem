@@ -4,7 +4,7 @@ import com.traceroot.dataobject.BoatType;
 import com.traceroot.enums.ResultEnum;
 import com.traceroot.exception.RouteException;
 import com.traceroot.repository.BoatTypeRepository;
-import com.traceroot.service.BoatTypeService;
+import com.traceroot.service.ifs.BoatTypeService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;

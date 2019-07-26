@@ -4,7 +4,7 @@ import com.traceroot.dataobject.SensorType;
 import com.traceroot.exception.PipeException;
 import com.traceroot.enums.ResultEnum;
 import com.traceroot.repository.SensorTypeRepository;
-import com.traceroot.service.SensorTypeService;
+import com.traceroot.service.ifs.SensorTypeService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;

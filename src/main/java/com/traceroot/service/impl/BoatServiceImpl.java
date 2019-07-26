@@ -6,14 +6,13 @@ import com.traceroot.dataobject.PipelineSegment;
 import com.traceroot.enums.ResultEnum;
 import com.traceroot.exception.BoatException;
 import com.traceroot.repository.BoatRepository;
-import com.traceroot.service.BoatService;
+import com.traceroot.service.ifs.BoatService;
 import com.traceroot.utils.DoubleLocation;
 import com.traceroot.utils.LocationUtil;
 import com.traceroot.utils.RandomUtil;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import org.springframework.util.StringUtils;
 
 import java.util.List;
 
@@ -23,9 +22,6 @@ public class BoatServiceImpl implements BoatService {
 
     @Autowired
     private BoatRepository repository;
-
-    @Autowired
-    private PipelineSegmentServiceImpl segmentService;
 
     @Autowired
     private BoatTraceServiceImpl traceService;
@@ -69,33 +65,6 @@ public class BoatServiceImpl implements BoatService {
         return repository.findByRouteId(routeId);
     }
 
-    /**
-     * 按是否穿越管道查询船只
-     * @param segmentId
-     * @return
-     */
-    @Override
-    public List<Boat> selectByPassingPipelineSegment(String segmentId) {
-        //todo 根据船只穿越管道线返回船只列表
-
-        //1.查找这段管道的坐标
-        PipelineSegment pipelineSegment = segmentService.selectBySegmentId(segmentId);
-        DoubleLocation segmentStart,segmentEnd;
-        String segmentStartLocation = pipelineSegment.getStart();
-        segmentStart = LocationUtil.string2doubleLocation(segmentStartLocation);
-        String segmentEndLocation = pipelineSegment.getEnd();
-        segmentEnd = LocationUtil.string2doubleLocation(segmentEndLocation);
-
-        //2.循环比对其他船只的轨迹
-
-
-        //3.统计穿越管道线的次数
-
-
-        //4.降序返回
-
-        return null;
-    }
 
     /**
      * 按船只类型查询船只
