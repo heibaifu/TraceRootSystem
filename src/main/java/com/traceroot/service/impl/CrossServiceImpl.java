@@ -7,12 +7,14 @@ import com.traceroot.service.ifs.CrossService;
 import com.traceroot.utils.DoubleLocation;
 import com.traceroot.utils.LocationUtil;
 import com.traceroot.utils.MathUtil;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.*;
 
 @Service
+@Slf4j
 public class CrossServiceImpl implements CrossService {
 
     @Autowired
@@ -113,7 +115,8 @@ public class CrossServiceImpl implements CrossService {
                     if (MathUtil.intersection(segmentStart
                             , segmentEnd, LocationUtil.string2doubleLocation(traceList.get(i).getRecordLocation())
                             , LocationUtil.string2doubleLocation(traceList.get(i + 1).getRecordLocation()))
-                            || traceList.get(i).getRecordLocation() + 1 == traceList.get(i + 1).getRecordLocation()) {
+                            || traceList.get(i).getTraceSerialNumber() + 1 == traceList.get(i + 1).getTraceSerialNumber()) {
+                        log.info(traceList.get(i).getTraceId());
                         count++;
                     }
                 }

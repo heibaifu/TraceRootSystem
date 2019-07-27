@@ -34,24 +34,24 @@ public class CrossServiceImplTest {
     @Test
     public void findBoatNearSegmentDuringTime() {
         try {
-            startTime = String2TimestampUtil.string2Time("2019-07-25 17:10:08");
-            endTime = String2TimestampUtil.string2Time("2019-07-27 21:31:56");
+            startTime = String2TimestampUtil.string2Time("2019-07-27 20:10:08");
+            endTime = String2TimestampUtil.string2Time("2019-07-27 20:50:56");
         } catch (ParseException e) {
             log.error("【时间设定异常】",e.getMessage());
         }
-        Map<String, List<BoatTrace>> map = service.findBoatNearSegmentDuringTime("1326574", startTime, endTime, 0);
+        Map<String, List<BoatTrace>> map = service.findBoatNearSegmentDuringTime("123", startTime, endTime, 1);
         Assert.assertNotEquals(0,map.size());
     }
 
     @Test
     public void selectByPassingPipelineSegment() {
         try {
-            startTime = String2TimestampUtil.string2Time("2019-07-25 17:10:08");
-            endTime = String2TimestampUtil.string2Time("2019-07-27 21:31:56");
+            startTime = String2TimestampUtil.string2Time("2019-07-27 19:10:08");
+            endTime = String2TimestampUtil.string2Time("2019-07-27 20:50:56");
         } catch (ParseException e) {
             log.error("【时间设定异常】",e.getMessage());
         }
-        TreeMap<Integer, String> map = service.selectByPassingPipelineSegment("1326574", startTime, endTime, 0);
+        TreeMap<Integer, String> map = service.selectByPassingPipelineSegment("124", startTime, endTime, 1);
         Assert.assertNotEquals(0,map.size());
     }
 }

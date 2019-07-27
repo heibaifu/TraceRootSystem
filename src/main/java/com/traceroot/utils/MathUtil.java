@@ -19,11 +19,11 @@ public class MathUtil {
         double l1x1 = l1Start.getLongitude();
         double l1y1 = l1Start.getLatitude();
         double l1x2 = l1End.getLongitude();
-        double l1y2 = l1End.getLongitude();;
+        double l1y2 = l1End.getLatitude();;
         double l2x1 = l2Start.getLongitude();
-        double l2y1 = l2Start.getLongitude();;
+        double l2y1 = l2Start.getLatitude();;
         double l2x2 = l2End.getLongitude();
-        double l2y2 = l2End.getLongitude();;
+        double l2y2 = l2End.getLatitude();;
 
         // 快速排斥实验 首先判断两条线段在 x 以及 y 坐标的投影是否有重合。 有一个为真，则代表两线段必不可交。
         if (Math.max(l1x1,l1x2) < Math.min(l2x1 ,l2x2)

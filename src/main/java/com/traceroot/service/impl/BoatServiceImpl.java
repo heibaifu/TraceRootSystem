@@ -86,7 +86,28 @@ public class BoatServiceImpl implements BoatService {
         BoatTrace boatTrace = new BoatTrace(RandomUtil.genUniqueId(),boat.getBoatId(),boat.getPresentLocation(),boat.getStatus());
         Boat save = repository.save(boat);
         traceService.insert(boatTrace);
+
         return save;
+    }
+
+    @Override
+    public Boat updateByLocation(String boatId, String presentLocation) {
+        Boat boat=repository.findByBoatId(boatId);
+        if (boat==null){
+            throw new BoatException(ResultEnum.BOAT_NOT_EXIST);
+        }
+        boat.setPresentLocation(presentLocation);
+        repository.save(boat);
+
+        //保存一条船只轨迹
+        BoatTrace boatTrace=new BoatTrace();
+        boatTrace.setTraceId(RandomUtil.genUniqueId());
+        boatTrace.setBoatId(boatId);
+        boatTrace.setRecordLocation(presentLocation);
+        boatTrace.setStatus(boat.getStatus());
+        traceService.insert(boatTrace);
+
+        return boat;
     }
 
     /**

@@ -9,6 +9,7 @@ import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit4.SpringRunner;
+import  com.traceroot.dataobject.BoatTrace;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -19,6 +20,9 @@ public class BoatServiceImplTest {
 
     @Autowired
     BoatServiceImpl boatService;
+
+    @Autowired
+    BoatTraceServiceImpl boatTraceService;
 
     public static String BOATID = "6126226";
 
@@ -64,17 +68,15 @@ public class BoatServiceImplTest {
     }
 
     @Test
-    public void insert() {
-        Boat boat = new Boat(RandomUtil.genUniqueId(),"001",RandomUtil.genUniqueLocation(), BoatStatusEnum.NOMAL.getCode().toString(),"8211997");
+    public void save() {
+        Boat boat = new Boat(RandomUtil.genUniqueId(),"002",RandomUtil.genUniqueLocation(), BoatStatusEnum.NOMAL.getCode().toString(),"8211997");
         Boat result = boatService.save(boat);
         Assert.assertNotNull(result);
     }
 
     @Test
-    public void update() {
-        Boat boat = boatService.selectByBoatId(BOATID);
-        boat.setType("001");
-        Boat result = boatService.save(boat);
+    public void updateByLocation() {
+        Boat result=boatService.updateByLocation("2506573","(+116.398834,+39.95369)");
         Assert.assertNotNull(result);
     }
 

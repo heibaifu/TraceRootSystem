@@ -21,7 +21,7 @@ public class RouteSegmentServiceImplTest {
     @Autowired
     private RouteSegmentServiceImpl segmentService;
 
-    private String ROUTEID = "2472838";
+    private String ROUTEID = "8406013";
 
     private String SEGMENTID = "4679410";
 
