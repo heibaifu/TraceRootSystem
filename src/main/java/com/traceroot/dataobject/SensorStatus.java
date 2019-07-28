@@ -32,6 +32,8 @@ public class SensorStatus {
     //@ColumnDefault("100")
     private String status = "100";
 
+    private String value;
+
     /*记录时间*/
     @CreatedDate
     @Column(name = "record_time", nullable = false,updatable = false)

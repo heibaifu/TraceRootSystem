@@ -85,10 +85,10 @@ public class CrossServiceImpl implements CrossService {
     /**
      * 给定时间区间，按是否穿越管道查询船只
      * @param segmentId
-     * @return TreeMap<Integer,Boat> 以穿越次数为key的、根据key排序的有序映射
+     * @return TreeMap<Integer,List<String>> 以穿越次数为key的、根据key排序的有序映射，value为相同穿越次数的船只号List
      */
     @Override
-    public TreeMap<Integer,String> selectByPassingPipelineSegment(String segmentId,Date startTime,Date endTime,Integer accuracyDegree) {
+    public TreeMap<Integer,List<String>> selectByPassingPipelineSegment(String segmentId,Date startTime,Date endTime,Integer accuracyDegree) {
 
         //1.查找这段管道的坐标
         PipelineSegment pipelineSegment = segmentService.selectBySegmentId(segmentId);
@@ -101,29 +101,38 @@ public class CrossServiceImpl implements CrossService {
         List<String> boatIdList = new ArrayList<>();
         boatListMap.forEach((t,v)-> boatIdList.add(t));
 
-        TreeMap<Integer,String> result = new TreeMap<>();
+        TreeMap<Integer,List<String>> result = new TreeMap<>();
 
         //3.循环比对指定时间内穿过管道附近的船只的轨迹
         for(String boatId : boatIdList){
             List<BoatTrace> traceList = boatListMap.get(boatId);
             Integer count = 0;
-            if (traceList.size() == 1){
-                count = 1;
-            }else {
+            if (traceList.size() != 1) {
                 for (int i = 0; i < traceList.size() - 1; i++) {
                     //4.统计穿越管道线的次数
                     if (MathUtil.intersection(segmentStart
                             , segmentEnd, LocationUtil.string2doubleLocation(traceList.get(i).getRecordLocation())
                             , LocationUtil.string2doubleLocation(traceList.get(i + 1).getRecordLocation()))
-                            || traceList.get(i).getTraceSerialNumber() + 1 == traceList.get(i + 1).getTraceSerialNumber()) {
+                            && Integer.valueOf(traceList.get(i).getTraceSerialNumber()) + 1 == Integer.valueOf(traceList.get(i + 1).getTraceSerialNumber())) {
                         log.info(traceList.get(i).getTraceId());
                         count++;
                     }
                 }
-                result.put(count, boatId);
+                //如果穿越次数不为0
+                if (count != 0) {
+                    if (result.containsKey(count))
+                        result.get(count).add(boatId);
+                    else {
+                        ArrayList<String> sameKeyList = new ArrayList<>();
+                        sameKeyList.add(boatId);
+                        result.put(count, sameKeyList);
+                    }
+                }
             }
         }
-
         return result;
     }
+
+
+
 }

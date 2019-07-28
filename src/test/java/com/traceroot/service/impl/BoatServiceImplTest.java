@@ -69,14 +69,15 @@ public class BoatServiceImplTest {
 
     @Test
     public void save() {
-        Boat boat = new Boat(RandomUtil.genUniqueId(),"002",RandomUtil.genUniqueLocation(), BoatStatusEnum.NOMAL.getCode().toString(),"8211997");
+        //Boat boat = new Boat(RandomUtil.genUniqueId(),"003",RandomUtil.genUniqueLocation(), BoatStatusEnum.NOMAL.getCode().toString(),"6479668");
+        Boat boat = new Boat(RandomUtil.genUniqueId(),"003","(+116.36565,+39.967115)", BoatStatusEnum.NOMAL.getCode().toString(),"6479668");
         Boat result = boatService.save(boat);
         Assert.assertNotNull(result);
     }
 
     @Test
     public void updateByLocation() {
-        Boat result=boatService.updateByLocation("2506573","(+116.398834,+39.95369)");
+        Boat result=boatService.updateByLocation("5562266","(+116.366746,+39.967792)");
         Assert.assertNotNull(result);
     }
 

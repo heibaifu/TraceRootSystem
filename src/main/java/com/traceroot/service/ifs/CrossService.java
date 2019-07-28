@@ -13,7 +13,7 @@ import java.util.TreeMap;
  */
 public interface CrossService {
 
-    TreeMap<Integer,String> selectByPassingPipelineSegment(String segmentId,Date startTime,Date endTime,Integer accuracyDegree);
+    TreeMap<Integer,List<String>> selectByPassingPipelineSegment(String segmentId,Date startTime,Date endTime,Integer accuracyDegree);
 
     Map<String,List<BoatTrace>> findBoatNearSegmentDuringTime(String segmentId, Date startTime, Date endTime , Integer accuracyDegree);
 }
