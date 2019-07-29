@@ -29,7 +29,6 @@ public class CrossServiceImpl implements CrossService {
     /**
      * 查找指定时间内在指定管道附近游弋的船只，及对应船只的轨迹
      * todo 根据给定范围进行查找的功能未开发
-     * todo 返回最新数据：所有船只当前位置，传感器当前状态
      * @param segmentId
      * @param startTime
      * @param endTime
