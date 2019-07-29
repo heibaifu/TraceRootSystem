@@ -41,6 +41,9 @@ public class PipelineSensor {
     /*传感器当前状态*/
     private String presentStatus;
 
+    /*传感器当前值*/
+    private String presentValue;
+
     /*创建时间*/
     @CreatedDate
     @Column(name = "create_time", nullable = false,updatable = false)

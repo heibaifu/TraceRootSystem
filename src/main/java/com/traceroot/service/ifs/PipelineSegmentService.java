@@ -15,7 +15,9 @@ public interface PipelineSegmentService {
 
     PipelineSegment update(PipelineSegment segment);
 
-    void deleteById(String segmentId);
+    List<PipelineSegment> findByPipeIdAndSegmentSerialNumberAfter(String pipeId,Integer serialNumber);
 
-    void deleteBy(String pipeId);
+    void deleteBySegmentId(String segmentId);
+
+    void deleteByPipeId(String pipeId);
 }

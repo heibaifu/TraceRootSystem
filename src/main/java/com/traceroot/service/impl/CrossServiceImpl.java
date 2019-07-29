@@ -3,6 +3,9 @@ package com.traceroot.service.impl;
 import com.traceroot.dataobject.Boat;
 import com.traceroot.dataobject.BoatTrace;
 import com.traceroot.dataobject.PipelineSegment;
+import com.traceroot.enums.ResultEnum;
+import com.traceroot.exception.BoatException;
+import com.traceroot.exception.PipeException;
 import com.traceroot.service.ifs.CrossService;
 import com.traceroot.utils.DoubleLocation;
 import com.traceroot.utils.LocationUtil;
@@ -26,6 +29,7 @@ public class CrossServiceImpl implements CrossService {
     /**
      * 查找指定时间内在指定管道附近游弋的船只，及对应船只的轨迹
      * todo 根据给定范围进行查找的功能未开发
+     * todo 返回最新数据：所有船只当前位置，传感器当前状态
      * @param segmentId
      * @param startTime
      * @param endTime
@@ -49,6 +53,9 @@ public class CrossServiceImpl implements CrossService {
 
         //搜索数据库
         List<BoatTrace> boatTraces = traceService.selectByRecordTimeBetweenAndRecordLocationIsLikeOrderByRecordTimeDesc(startTime, endTime, fuzzyMatchingExpr);
+        if (boatTraces.size()==0){
+            throw new BoatException(ResultEnum.SEA_ROUTE_NOT_EXIST);
+        }
 
         //找出boatTraces里轨迹所对应的所有的boatId
         List<String> boatIdList = new ArrayList<>();
@@ -92,6 +99,9 @@ public class CrossServiceImpl implements CrossService {
 
         //1.查找这段管道的坐标
         PipelineSegment pipelineSegment = segmentService.selectBySegmentId(segmentId);
+        if (pipelineSegment==null){
+            throw new PipeException(ResultEnum.PIPE_SEGMENT_NOT_EXIST);
+        }
         DoubleLocation segmentStart,segmentEnd;
         segmentStart = LocationUtil.string2doubleLocation(pipelineSegment.getStart());
         segmentEnd = LocationUtil.string2doubleLocation(pipelineSegment.getEnd());

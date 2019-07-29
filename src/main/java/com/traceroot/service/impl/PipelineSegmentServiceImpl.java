@@ -44,19 +44,39 @@ public class PipelineSegmentServiceImpl implements PipelineSegmentService {
         return repository.save(segment);
     }
 
-    //删除管道段，先查询有没有再删除
+    //查找在serialNumber之后的部分
     @Override
-    public void deleteById(String segmentId){
+    public List<PipelineSegment> findByPipeIdAndSegmentSerialNumberAfter(String pipeId, Integer serialNumber) {
+
+        return repository.findByPipeIdAndSegmentSerialNumberAfterOrderBySegmentSerialNumber(pipeId, serialNumber);
+    }
+
+    //删除管道段，先查询有没有再删除，删除时同时修改其他段的serial_number
+    @Override
+    public void deleteBySegmentId(String segmentId){
         PipelineSegment pipelineSegment = repository.findBySegmentId(segmentId);
         if (pipelineSegment==null){
             throw new PipeException(ResultEnum.PIPE_SEGMENT_NOT_EXIST);
+        }
+
+        //修改其余管道段的序列号
+        Integer number=pipelineSegment.getSegmentSerialNumber();
+        String pipeId=pipelineSegment.getPipeId();
+        int size=repository.countPipelineSegmentByPipeId(pipeId);
+        List<PipelineSegment> pipelineSegments=repository.findByPipeIdAndSegmentSerialNumberAfterOrderBySegmentSerialNumber(pipeId,number);
+
+        if (number != size){
+            for (int i=0;i<pipelineSegments.size();i++){
+                pipelineSegments.get(i).setSegmentSerialNumber(i+number);
+                repository.save(pipelineSegments.get(i));
+            }
         }
         repository.delete(pipelineSegment);
         log.info(ResultEnum.DELETE_SUCCESS.getMessage());
     }
 
     @Override
-    public void deleteBy(String pipeId) {
+    public void deleteByPipeId(String pipeId) {
         List<PipelineSegment> segmentList = repository.findByPipeId(pipeId);
         if (segmentList.size()==0){
             throw new PipeException(ResultEnum.PIPE_NOT_EXIST);

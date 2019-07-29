@@ -21,7 +21,7 @@ public class PipelineSegmentServiceImplTest {
     @Autowired
     PipelineSegmentServiceImpl segmentService;
 
-    static String PipeID = "1904289";
+    static String PipeID = "1525826";
 
     @Test
     public void selectBySegmentId() {
@@ -47,7 +47,13 @@ public class PipelineSegmentServiceImplTest {
     }
 
     @Test
-    public void deleteById() {
-        segmentService.deleteById(PipeID);
+    public void deleteByPipeId() {
+        segmentService.deleteByPipeId(PipeID);
+    }
+
+    @Test
+    public void deleteBySegmentId() {
+
+        segmentService.deleteBySegmentId("7304969");
     }
 }

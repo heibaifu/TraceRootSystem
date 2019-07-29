@@ -12,6 +12,8 @@ public interface RouteSegmentService {
 
     List<RouteSegment> selectByRouteIdOrderBySegmentSerialNumberAsc(String routeId);
 
+    List<RouteSegment> findByRouteIdAndSegmentSerialNumberAfter(String routeId,Integer serialNumber);
+
     RouteSegment insert(RouteSegment segment);
 
     RouteSegment update(RouteSegment segment);

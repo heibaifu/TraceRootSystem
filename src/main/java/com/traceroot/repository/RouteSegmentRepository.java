@@ -13,5 +13,7 @@ public interface RouteSegmentRepository extends JpaRepository<RouteSegment, Stri
 
     List<RouteSegment> findByRouteIdOrderBySegmentSerialNumberAsc(String routeId);
 
+    List<RouteSegment> findByRouteIdAndSegmentSerialNumberAfterOrderBySegmentSerialNumberAsc(String routeId,Integer serialNumber);
+
     Integer countRouteSegmentByRouteId(String routeId);
 }

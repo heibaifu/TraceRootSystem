@@ -21,7 +21,7 @@ public class RouteSegmentServiceImplTest {
     @Autowired
     private RouteSegmentServiceImpl segmentService;
 
-    private String ROUTEID = "8406013";
+    private String ROUTEID = "1188454";
 
     private String SEGMENTID = "4679410";
 
@@ -39,7 +39,7 @@ public class RouteSegmentServiceImplTest {
 
     @Test
     public void insert() {
-        RouteSegment routeSegment = new RouteSegment(RandomUtil.genUniqueId(), ROUTEID, RandomUtil.genUniqueLocation(), RandomUtil.genUniqueLocation());
+        RouteSegment routeSegment = new RouteSegment(/*RandomUtil.genUniqueId()*/"204", ROUTEID, RandomUtil.genUniqueLocation(), RandomUtil.genUniqueLocation());
         RouteSegment result = segmentService.insert(routeSegment);
         Assert.assertNotNull(result);
     }
@@ -55,7 +55,7 @@ public class RouteSegmentServiceImplTest {
 
     @Test
     public void deleteBySegmentId() {
-        segmentService.deleteBySegmentId(SEGMENTID);
+        segmentService.deleteBySegmentId("201");
     }
 
     @Test

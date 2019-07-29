@@ -48,6 +48,18 @@ public class RouteSegmentServiceImpl implements RouteSegmentService {
     }
 
     /**
+     * 查找在序列号之后的航线段，按升序排列
+     * @param routeId
+     * @param serialNumber
+     * @return
+     */
+    @Override
+    public List<RouteSegment> findByRouteIdAndSegmentSerialNumberAfter(String routeId, Integer serialNumber) {
+
+        return repository.findByRouteIdAndSegmentSerialNumberAfterOrderBySegmentSerialNumberAsc(routeId,serialNumber);
+    }
+
+    /**
      * 插入数据
      * @param segment
      * @return
@@ -80,11 +92,26 @@ public class RouteSegmentServiceImpl implements RouteSegmentService {
      */
     @Override
     public void deleteBySegmentId(String segmentId) {
-        RouteSegment result = repository.findBySegmentId(segmentId);
-        if(result!=null)
-            repository.delete(result);
-        else
+        RouteSegment routeSegment = repository.findBySegmentId(segmentId);
+        if(routeSegment!=null) {
+            //修改其余航线段的序列号
+            Integer number=routeSegment.getSegmentSerialNumber();
+            String routeId=routeSegment.getRouteId();
+            int size=repository.countRouteSegmentByRouteId(routeId);
+            List<RouteSegment> routeSegments=repository.findByRouteIdAndSegmentSerialNumberAfterOrderBySegmentSerialNumberAsc(routeId,number);
+
+            if (number != size){
+                for (int i=0;i<routeSegments.size();i++){
+                    routeSegments.get(i).setSegmentSerialNumber(i+number);
+                    repository.save(routeSegments.get(i));
+                }
+            }
+
+            repository.delete(routeSegment);
+        }
+        else {
             throw new RouteException(ResultEnum.ROUTE_SEGMENT_NOT_EXIST);
+        }
     }
 
     /**

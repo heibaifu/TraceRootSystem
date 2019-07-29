@@ -38,8 +38,8 @@ public class BoatTrace {
     private String status;
 
     /*记录时间*/
-    @LastModifiedDate
-    @Column(name = "record_time")
+    @CreatedDate
+    @Column(name = "record_time", nullable = false,updatable = false)
     private Date recordTime;
 
     public BoatTrace() {
