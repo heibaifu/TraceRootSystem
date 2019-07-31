@@ -1,0 +1,187 @@
+@charset "utf-8";
+/* CSS Document */
+html{
+	height:100%
+} 
+body{
+	height:100%;
+	margin:0px;
+	padding:0px
+}  
+#container{
+	height:100%
+} 
+
+.BMap_cpyCtrl
+{
+  display:none;
+}
+.anchorBL {
+  display: none;
+} /*去左下角水印*/
+
+.liquid{
+	margin-left: 0%;
+	width: 15%;
+	height: 140%;
+	float:left;
+	position: relative;
+	top: -20%;
+	
+}
+.middle {
+
+				position: absolute;
+
+				top: 50%;
+
+				left: 50%;
+
+				transform: translate(-50%, -50%);
+
+			}
+
+			.bar {
+
+				width: 6px;
+
+				height: 2px;
+
+				background: white;
+
+				display: inline-block;
+
+				transform-origin: bottom center;
+
+				animation: loading 1.5s ease-in-out infinite;
+
+			}
+
+			.bar1 {
+
+				animation-delay: 0.1s;
+
+			}
+
+			.bar2 {
+
+				animation-delay: 0.2s;
+
+			}
+
+			.bar3 {
+
+				animation-delay: 0.3s;
+
+			}
+
+			.bar4 {
+
+				animation-delay: 0.4s;
+
+			}
+
+			.bar5 {
+
+				animation-delay: 0.5s;
+
+			}
+
+			.bar6 {
+
+				animation-delay: 0.6s;
+
+			}
+
+			.bar7 {
+
+				animation-delay: 0.7s;
+
+			}
+
+			.bar8 {
+
+				animation-delay: 0.8s;
+
+			}
+
+			@keyframes loading {
+
+				0% {
+
+					transform: scaleY(0.1);
+
+					background: #fff;
+
+				}
+
+				50% {
+
+					transform: scaleY(30);
+
+					background: #2ecc71;
+
+				}
+
+				100% {
+
+					transform: scaleY(0.1);
+
+					background: transparent;
+
+				}
+
+			}
+#liquid{
+	height:20%;
+	width: 100%;
+	background: rgba(0,0,0,.5);
+	box-sizing: border-box;
+	position: absolute;
+	bottom: 0%;
+	
+}
+#navigator{
+	width: 20%;
+	height:70%;
+	background: rgba(0,0,0,.5);
+	box-sizing: border-box;
+	position: absolute;
+	left: 0%;
+	top:0%;
+}
+#drag{
+	width: 100%;
+	height:10%;
+	float: left;
+	
+	box-sizing: border-box;
+	position: absolute;
+	left: 0%;
+	top:70%;
+}
+#t{
+	width:20%;
+	background: rgba(0,0,0,.5);
+	position: relative;
+	
+	
+}
+.has_children li{
+	cursor: pointer;
+	font-family: "宋体";
+	display: none;
+}
+#dragon{
+	width:80%;
+	display: none;
+	position: relative;
+	background: rgba(0,0,0,.5);
+	
+}
+#drag:hover > #dragon {
+	width: 50px;
+	display: inline-block;
+	padding: 0 10px;	
+	float: left;
+}
