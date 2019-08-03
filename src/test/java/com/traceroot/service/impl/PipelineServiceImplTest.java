@@ -1,6 +1,7 @@
 package com.traceroot.service.impl;
 
 import com.traceroot.dataobject.Pipeline;
+import com.traceroot.dto.PipeDTO;
 import com.traceroot.exception.PipeException;
 import com.traceroot.utils.RandomUtil;
 import lombok.extern.slf4j.Slf4j;
@@ -31,8 +32,8 @@ public class PipelineServiceImplTest {
 
     @Test
     public void selectAll() throws Exception{
-        List<Pipeline> pipelines = pipelineService.selectAll();
-        log.info(pipelines.toString());
+        List<PipeDTO> pipeDTOList = pipelineService.selectAll();
+        log.info(pipeDTOList.toString());
     }
 
     @Test

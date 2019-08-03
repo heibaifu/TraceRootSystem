@@ -42,6 +42,7 @@ public class SensorStatus {
 //    @LastModifiedDate
 //    @Column(name = "record_time")
 //    private String recordTime;
+
     @JsonIgnore
     public SensorStatus(String statusId,String sensorId,String status){
         this.sensorId=sensorId;

@@ -1,16 +1,19 @@
 package com.traceroot.utils;
 
+import java.lang.reflect.Array;
+import java.util.Arrays;
+
 public class LocationUtil {
 
     /**
      * 将经纬度坐标的字符串表示转化为DoubleLocation类型返回
-     * @param segmentStartLocation
+     * @param location
      * @return
      */
-    public static DoubleLocation string2doubleLocation(String segmentStartLocation){
+    public static DoubleLocation string2doubleLocation(String location){
         //经度 Longitude 简写Lng 纬度 Latitude 简写Lat
         double Lng, Lat;
-        String[] strings = segmentStartLocation.split(",");
+        String[] strings = location.split(",");
         Lng = Double.parseDouble(strings[0].substring(1)); //拿取经度
         Lat = Double.parseDouble(strings[1].substring(0,strings[1].length()-1)); //拿取纬度
         return new DoubleLocation(Lng,Lat);
@@ -24,6 +27,25 @@ public class LocationUtil {
     public static String doubleLocation2String(DoubleLocation location){
         //经度 Longitude 纬度 Latitude
         String result = "(" + location.getLongitude() +"," + location.getLatitude() + ")";
+        return result;
+    }
+
+
+    /**
+     * 将经纬度坐标的字符串表示转化为Double类型的数组
+     * 根据前端需求取绝对值
+     * @param location
+     * @return
+     */
+    public static Double[] string2DoubleArray(String location){
+        //经度 Longitude 简写Lng 纬度 Latitude 简写Lat
+        double Lng, Lat;
+        String[] strings = location.split(",");
+        Lng = Double.parseDouble(strings[0].substring(1)); //拿取经度
+        Lat = Double.parseDouble(strings[1].substring(0,strings[1].length()-1)); //拿取纬度
+        Double[] result = new Double[2];
+        result[0] = Math.abs(Lng);
+        result[1] = Math.abs(Lat);
         return result;
     }
 

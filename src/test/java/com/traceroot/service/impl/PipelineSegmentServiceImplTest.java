@@ -1,6 +1,7 @@
 package com.traceroot.service.impl;
 
 import com.traceroot.dataobject.PipelineSegment;
+import com.traceroot.dto.PipeSegmentDTO;
 import com.traceroot.utils.RandomUtil;
 import lombok.extern.slf4j.Slf4j;
 import org.junit.Assert;
@@ -29,6 +30,12 @@ public class PipelineSegmentServiceImplTest {
         pipelineSegment=segmentService.selectBySegmentId(PipeID);
         Assert.assertNotNull(pipelineSegment);
 
+    }
+
+    @Test
+    public void selectAll() {
+        List<PipeSegmentDTO> pipeSegmentDTOList = segmentService.selectAll();
+        Assert.assertNotNull(pipeSegmentDTOList);
     }
 
     @Test

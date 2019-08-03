@@ -1,10 +1,12 @@
 package com.traceroot.service.impl;
 
 import com.traceroot.dataobject.Pipeline;
+import com.traceroot.dto.PipeDTO;
 import com.traceroot.exception.PipeException;
 import com.traceroot.enums.ResultEnum;
 import com.traceroot.repository.PipelineRepository;
 import com.traceroot.service.ifs.PipelineService;
+import com.traceroot.utils.DTOUtil.Pipeline2PipeDTOConverter;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -23,9 +25,15 @@ public class PipelineServiceImpl implements PipelineService {
         return  repository.findByPipeId(pipeId);
     }
 
+    /**
+     * 查找所有管道信息
+     * @return
+     */
     @Override
-    public List<Pipeline> selectAll() {
-        return repository.findAll();
+    public List<PipeDTO> selectAll() {
+        List<Pipeline> pipelineList = repository.findAll();
+        List<PipeDTO> pipeDTOList = Pipeline2PipeDTOConverter.convert(pipelineList);
+        return pipeDTOList;
     }
 
     @Override

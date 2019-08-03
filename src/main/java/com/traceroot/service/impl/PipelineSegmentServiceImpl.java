@@ -1,10 +1,12 @@
 package com.traceroot.service.impl;
 
 import com.traceroot.dataobject.PipelineSegment;
+import com.traceroot.dto.PipeSegmentDTO;
 import com.traceroot.exception.PipeException;
 import com.traceroot.enums.ResultEnum;
 import com.traceroot.repository.PipelineSegmentRepository;
 import com.traceroot.service.ifs.PipelineSegmentService;
+import com.traceroot.utils.DTOUtil.PipelineSegment2PipeSegmentDTOConverter;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -19,6 +21,13 @@ public class PipelineSegmentServiceImpl implements PipelineSegmentService {
     private PipelineSegmentRepository repository;
 
     @Override
+    public List<PipeSegmentDTO> selectAll() {
+        List<PipelineSegment> segmentList = repository.findAll();
+        List<PipeSegmentDTO> segmentDTOList = PipelineSegment2PipeSegmentDTOConverter.convert(segmentList);
+        return segmentDTOList;
+    }
+
+    @Override
     public PipelineSegment selectBySegmentId(String segmentId) {
         return repository.findBySegmentId(segmentId);
     }
@@ -26,6 +35,19 @@ public class PipelineSegmentServiceImpl implements PipelineSegmentService {
     @Override
     public List<PipelineSegment> selectByPipeId(String pipeId) {
         return repository.findByPipeIdOrderBySegmentSerialNumber(pipeId);
+    }
+
+    /**
+     * 返回有问题的管道段
+     * @return
+     */
+    @Override
+    public List<PipeSegmentDTO> selectByWarning() {
+
+        //todo 返回有问题的管道段
+        List<PipelineSegment> segmentList = repository.findAll();
+        List<PipeSegmentDTO> segmentDTOList = PipelineSegment2PipeSegmentDTOConverter.convert(segmentList);
+        return segmentDTOList;
     }
 
     @Override
