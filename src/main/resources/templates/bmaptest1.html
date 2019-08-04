@@ -1,361 +1,736 @@
-<!DOCTYPE html>  
+<!DOCTYPE html>
+
 <html xmlns:th="http://www.thymeleaf.org">
-<head>  
-<meta name="viewport" content="initial-scale=1.0, user-scalable=no" />  
-<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />  
-<title>bmaptest</title>  
 
-<link href="/traceroot/css/style.css" rel="stylesheet" type="text/css">
-<script type="text/javascript" src="http://api.map.baidu.com/api?v=3.0&ak=nBKX588I9lDCyaKBip9bQTpmeeCidwL3">
-//v2.0版本的引用方式：src="http://api.map.baidu.com/api?v=2.0&ak=您的密钥"
-</script>
-<script src="/traceroot/js/echarts.min.js"></script>
-<script src="/traceroot/js/echarts-liquidfill.min.js "></script>
-<script type="text/javascript" src="/traceroot/js/changec.js"></script>
-<script type="text/javascript" src="/traceroot/js/jquery-3.3.1.js"></script>
+<head>
+
+    <meta name="viewport" content="initial-scale=1.0, user-scalable=no" />
+
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+
+    <title>bmaptest</title>
 
 
 
-</head>  
- 
-<body>  
-<div style="position:relative; width:100%; height:100%;" id="container"></div> 
+    <link href="/traceroot/css/style.css" rel="stylesheet" type="text/css">
+
+    <script type="text/javascript" src="http://api.map.baidu.com/api?v=3.0&ak=nBKX588I9lDCyaKBip9bQTpmeeCidwL3">
+
+        //v2.0版本的引用方式：src="http://api.map.baidu.com/api?v=2.0&ak=您的密钥"
+
+    </script>
+
+    <script src="/traceroot/js/echarts.min.js"></script>
+
+    <script src="/traceroot/js/echarts-liquidfill.min.js "></script>
+
+    <script type="text/javascript" src="/traceroot/js/changec.js"></script>
+
+    <script type="text/javascript" src="/traceroot/js/jquery-3.3.1.js"></script>
+
+
+
+
+
+
+
+</head>
+
+
+
+<body>
+
+<div style="position:relative; width:100%; height:100%;" id="container"></div>
+
 <div id="middle" class="middle">					<!--loading效果-->
 
-			<div class="bar bar1"></div>
 
-			<div class="bar bar2"></div>
 
-			<div class="bar bar3"></div>
+    <div class="bar bar1"></div>
 
-			<div class="bar bar4"></div>
 
-			<div class="bar bar5"></div>
 
-			<div class="bar bar6"></div>
+    <div class="bar bar2"></div>
 
-			<div class="bar bar7"></div>
 
-			<div class="bar bar8"></div>
 
-		</div>
-<div id="navigator">
-	<div class="has_children">
-	<span onclick=change(0)>管道线路管理</span>
-	 <li onclick=change(1)>渤海</li> 
-     <li onclick=change(2)>黄海</li> 
-     <li onclick=change(3)>东海</li>
-     <li onclick=change(4)>南海</li>
-	 <li onclick=change(5)>城市管道</li>
-	</div>
-	<!--<div id="boat" class="has_children">
-	<span>船只轨迹监测</span>
-	 <li onclick=change(6)></li>
-     <li onclick=change(7)></li>
-     <li onclick=change(8)></li>
-	</div> -->
-	<div id="echarts" style="width:100%;height:70%;">
-	
-	</div>
-	
-	</div>
-<div id="drag">
-	<p>告警管道id</p>
-		
-	<div id="dragon" class="dragon">
-		<p>aaa</p>
+    <div class="bar bar3"></div>
 
-		<!--根据告警管道的个数决定显示多少个p-->
-	</div>
-	</div>
-<div id="liquid" >
-<div class="liquid">
-  
-    <table cellspacing="1" cellpadding="3" width="30%" style="color: beige">
-      <tr>
-        <td>经度</td>
-        <td><input type="text" name="lng" id="lng" value=""/>
-        </td>
-      </tr>
-      <tr>
-        <td >纬度</td>
-        <td><input type="text" name="lat" id="lat" value=""/>
-        </td>
-      </tr>
-	  <tr>
-        <td >管道id</td>
-        <td><input type="text" name="id" id="id" value=""/>
-        </td>
-      </tr>
-	</table>
-  
+
+
+    <div class="bar bar4"></div>
+
+
+
+    <div class="bar bar5"></div>
+
+
+
+    <div class="bar bar6"></div>
+
+
+
+    <div class="bar bar7"></div>
+
+
+
+    <div class="bar bar8"></div>
+
+
+
 </div>
-<div id="liquid1" class="liquid" ></div>
-<div id="liquid2" class="liquid" ></div>
-<div id="liquid3" class="liquid" ></div>
-<div id="liquid4" class="liquid" ></div>
-		</div>
+
+<div id="navigator">
+
+    <div class="has_children">
+
+        <span onclick=change(0)>管道线路管理</span>
+
+        <li onclick=change(1)>渤海</li>
+
+        <li onclick=change(2)>黄海</li>
+
+        <li onclick=change(3)>东海</li>
+
+        <li onclick=change(4)>南海</li>
+
+        <li onclick=change(5)>城市管道</li>
+
+    </div>
+
+    <!--<div id="boat" class="has_children">
+
+    <span>船只轨迹监测</span>
+
+     <li onclick=change(6)></li>
+
+     <li onclick=change(7)></li>
+
+     <li onclick=change(8)></li>
+
+    </div> -->
+
+    <div id="echarts" style="width:100%;height:70%;">
+
+
+
+    </div>
+
+
+
+</div>
+
+<div id="drag">
+
+    <p>告警管道id</p>
+
+
+
+    <div id="dragon" class="dragon">
+
+        <p>aaa</p>
+
+
+
+        <!--根据告警管道的个数决定显示多少个p-->
+
+    </div>
+
+</div>
+
+<div id="liquid" >
+
+    <div class="liquid">
+
+
+
+        <table cellspacing="1" cellpadding="3" width="30%" style="color: beige">
+
+            <tr>
+
+                <td>经度</td>
+
+                <td><input type="text" name="lng" id="lng" value=""/>
+
+                </td>
+
+            </tr>
+
+            <tr>
+
+                <td >纬度</td>
+
+                <td><input type="text" name="lat" id="lat" value=""/>
+
+                </td>
+
+            </tr>
+
+            <tr>
+
+                <td >管道id</td>
+
+                <td><input type="text" name="id" id="id" value=""/>
+
+                </td>
+
+            </tr>
+
+        </table>
+
+
+
+    </div>
+
+    <div id="liquid1" class="liquid" ></div>
+
+    <div id="liquid2" class="liquid" ></div>
+
+    <div id="liquid3" class="liquid" ></div>
+
+    <div id="liquid4" class="liquid" ></div>
+
+    <div class="liquid">
+        <table cellspacing="1" cellpadding="2" width="60%" style="color: beige">
+            <tr>
+                <td>更新时间</td>
+                <td><input type="text" name="update" id="update" value=""/>
+                </td>
+            </tr>
+            <tr>
+                <td>创建时间</td>
+                <td><input type="text" name="creatdate" id="creatdate" value=""/>
+                </td>
+            </tr>
+        </table>
+    </div>
+
+</div>
+
+
 
 <script type="text/javascript">
-        // 基于准备好的dom，初始化echarts实例
-         echarts.init(document.getElementById('echarts')).setOption({
-           title: {
-        text: 'ECharts test'
-    },
-    tooltip: {},
-    legend: {
-        data:['销量']
-    },
-    xAxis: {
-        data: ["正常管道","告警管道"],
-		axisLine:{
-                                lineStyle:{
-                                    color:'yellow',					 //设置坐标轴字体颜色
-								}
-		}
-    },
-    yAxis: {
-		
-		axisLine:{
-                                lineStyle:{
-                                    color:'yellow',					 //设置坐标轴字体颜色
-								}
-		}
-	},
-				
-    series: [{
-        name: '管道',
-        type: 'bar',
-		itemStyle:{ normal:{color:'blue'}},							 //设置柱状图颜色
-        data: [20,5]												//此处需要告警管道的个数
-    }]
-        });
-	</script>
-<script type="text/javascript">	 //管道参数数据显示
-		 var x=new Array();   //管道参数数据
-		x[0]=[0.5];
-		x[1]=[0.9];
-		
-	
-	echarts.init(document.getElementById('liquid1')).setOption ({
-   
-    series: {
-        type: 'liquidFill',
-        data: x[0],
-		name: "线路负载",
-		label:{
-			
-			 position: ['50%', '50%'],
-			 formatter: '{a}\n{b}\n{c}',
-            fontSize: 20
 
-		},
-		outline: {
-            borderDistance: 0,
-            itemStyle: {
-                borderWidth: 5,
-                borderColor: '#333'
-                
-			}
-		}
-    }
-		
-});
-echarts.init(document.getElementById('liquid2')).setOption ({
-   
-    series: {
-        type: 'liquidFill',
-        data: x[1],
-		name: "温度相对值",
-		label:{
-			
-			 position: ['50%', '50%'],
-			 formatter: '{a}\n\n{c}',			//{a} refers to series name, {b} to data name, and {c} to data value.
-            fontSize: 20
+    // 基于准备好的dom，初始化echarts实例
 
-		},
-		outline: {
-            borderDistance: 0,
-            itemStyle: {
-                borderWidth: 5,
-                borderColor: '#333'
-                
-			}
-		}
-    }
-		
-});
-echarts.init(document.getElementById('liquid3')).setOption ({
-   
-    series: {
-        type: 'liquidFill',
-        data: x[1],
-		name: "温度相对值",
-		label:{
-			
-			 position: ['50%', '50%'],
-			 formatter: '{a}\n\n{c}',			//{a} refers to series name, {b} to data name, and {c} to data value.
-            fontSize: 20
+    echarts.init(document.getElementById('echarts')).setOption({
 
-		},
-		outline: {
-            borderDistance: 0,
-            itemStyle: {
-                borderWidth: 5,
-                borderColor: '#333'
-                
-			}
-		}
-    }
-		
-});
-echarts.init(document.getElementById('liquid4')).setOption ({
-   
-    series: {
-        type: 'liquidFill',
-        data: x[1],
-		name: "温度相对值",
-		label:{
-			
-			 position: ['50%', '50%'],
-			 formatter: '{a}\n\n{c}',			//{a} refers to series name, {b} to data name, and {c} to data value.
-            fontSize: 20
+        title: {
 
-		},
-		outline: {
-            borderDistance: 0,
-            itemStyle: {
-                borderWidth: 5,
-                borderColor: '#333'
-                
-			}
-		}
-    }
-		
-});
-	setTimeout(function () {					//之后数据传输时要将此替换（为了模拟数据到来）
-    changec(x);
-	},1000
-	)
-    </script>
-<script type="text/javascript"> 			//百度地图设置
-		var map = new BMap.Map("container");
-			// 创建地图实例  
-		var point = new BMap.Point(116.404, 39.915);
-			// 创建点坐标  
-		map.centerAndZoom(point, 15);					// 初始化地图，设置中心点坐标和地图级别
-		map.enableScrollWheelZoom(true);
-		map.disableDoubleClickZoom();
-		 var markersArray = [];
-		map.setMapStyleV2({     
-  			styleId: '7b1d087644685621c5642aa7841a7956',
-			});
-map.addEventListener("tilesloaded",function(){$("#middle").css("display", "none");});   //loading结束
-	
-		
-	/*function clearOverlays() {
-    if (markersArray) {
-      for (i in markersArray) {
-        map.removeOverlay(markersArray[i])
-      }
-    }
-  }
-  //地图上标注
-  function addMarker(point1) {
-    var marker = new BMap.Marker(point1);
-    markersArray.push(marker);
-    clearOverlays();
-    map.addOverlay(marker);
-  }*/
-  //点击地图时间处理
-  function showInfo() {
-	  var pos = circle.getCenter();
-    document.getElementById('lng').value = pos.lng;
-    document.getElementById('lat').value = pos.lat;
-  
-    //addMarker(e.point);
-  }
-		
-  
-	  						//从处添加前后端传感器的数据交互，给后台管道id，返回数据
-	/*  markersArray.push(m);
-    	clearOverlays();	
-	  map.addOverlay(m);*/														
-    
-  
-	var marker1 = new BMap.Marker(new BMap.Point(116.404, 39.915));			//加载单个点
-		var circle = new BMap.Circle(point,500,{strokeColor:"blue", strokeWeight:2, strokeOpacity:0,fillOpacity:0}); //创建圆
-		var polyline = new BMap.Polyline([
-		new BMap.Point(116.399, 39.910),
-		new BMap.Point(116.405, 39.920),
-		new BMap.Point(116.425, 39.900)
-	], {strokeColor:"blue", strokeWeight:2, strokeOpacity:0.5});   //创建折线
-		
-		map.addOverlay(marker1); 
-		map.addOverlay(polyline);          //增加折线
-		map.addOverlay(circle);
-		
-		circle.addEventListener("click", showInfo);			//获取鼠标点击位置的经纬度信息
-		/* var points = [];  // 添加海量点数据
-        for (var i = 0; i < data.data.length; i++) {
-          points.push(new BMap.Point(data.data[i][0], data.data[i][1]));
-        }
-        var options = {
-            size: BMAP_POINT_SIZE_SMALL,
-            shape: BMAP_POINT_SHAPE_STAR,
-            color: '#d340c3'
-        }
-        var pointCollection = new BMap.PointCollection(points, options);  // 初始化PointCollection
-        pointCollection.addEventListener('click', function (e) {
-          alert('单击点的坐标为：' + e.point.lng + ',' + e.point.lat);  // 监听点击事件
-        });
-        map.addOverlay(pointCollection);  // 添加Overlay
-		*/
-</script>  
-<script th:inline="javascript">
-		//写一个循环体，根据告警点数的多少决定加多少个p
-//for(var i=0;i<badnode.length;i++){
-var para=document.createElement("p");
-	var badnodeid=  [[${badnodeid}]];
-        console.log(badnodeid);
-        var node=document.createTextNode(badnodeid);
-para.appendChild(node);
-var element=document.getElementById("dragon");
-element.appendChild(para);
+            text: 'ECharts test'
+
+        },
+
+        tooltip: {},
+
+        legend: {
+
+            data:['销量']
+
+        },
+
+        xAxis: {
+
+            data: ["正常管道","告警管道"],
+
+            axisLine:{
+
+                lineStyle:{
+
+                    color:'yellow',					 //设置坐标轴字体颜色
+
+                }
+
+            }
+
+        },
+
+        yAxis: {
+
+
+
+            axisLine:{
+
+                lineStyle:{
+
+                    color:'yellow',					 //设置坐标轴字体颜色
+
+                }
+
+            }
+
+        },
+
+
+
+        series: [{
+
+            name: '管道',
+
+            type: 'bar',
+
+            itemStyle:{ normal:{color:'blue'}},							 //设置柱状图颜色
+
+            data: [20,5]												//此处需要告警管道的个数
+
+        }]
+
+    });
 
 </script>
-<script>
-	function change(n)
-	{
-	    map.setZoom(6);
-	switch(n)
-{
-case 1:
-  point = new BMap.Point(119.861811,38.611712);
-  map.panTo(point);
 
-  break;
-case 2:
-   point = new BMap.Point(120.611501,34.976702);
-   map.panTo(point);
-  break;
-case 3:
-    point = new BMap.Point(122.197347,28.116691);
-    map.panTo(point);
-  break;
-case 4:
-  var point = new BMap.Point(115.004004,11.655103);
-  map.panTo(point);
-  break;
-case 5:
-  var point = new BMap.Point(121.479853,31.232993);
-  map.panTo(point);
-  break;
-default:
-  var point = new BMap.Point(116.404, 39.915);
-  map.panTo(point);
+<script type="text/javascript">	 //管道参数数据显示
+
+var x=new Array();   //管道参数数据
+
+x[0]=[0.5];
+
+x[1]=[0.9];
+
+
+
+
+
+echarts.init(document.getElementById('liquid1')).setOption ({
+
+
+
+    series: {
+
+        type: 'liquidFill',
+
+        data: x[0],
+
+        name: "线路负载",
+
+        label:{
+
+
+
+            position: ['50%', '50%'],
+
+            formatter: '{a}\n{b}\n{c}',
+
+            fontSize: 20
+
+
+
+        },
+
+        outline: {
+
+            borderDistance: 0,
+
+            itemStyle: {
+
+                borderWidth: 5,
+
+                borderColor: '#333'
+
+
+
+            }
+
+        }
+
+    }
+
+
+
+});
+
+echarts.init(document.getElementById('liquid2')).setOption ({
+
+
+
+    series: {
+
+        type: 'liquidFill',
+
+        data: x[1],
+
+        name: "温度相对值",
+
+        label:{
+
+
+
+            position: ['50%', '50%'],
+
+            formatter: '{a}\n\n{c}',			//{a} refers to series name, {b} to data name, and {c} to data value.
+
+            fontSize: 20
+
+
+
+        },
+
+        outline: {
+
+            borderDistance: 0,
+
+            itemStyle: {
+
+                borderWidth: 5,
+
+                borderColor: '#333'
+
+
+
+            }
+
+        }
+
+    }
+
+
+
+});
+
+echarts.init(document.getElementById('liquid3')).setOption ({
+
+
+
+    series: {
+
+        type: 'liquidFill',
+
+        data: x[1],
+
+        name: "温度相对值",
+
+        label:{
+
+
+
+            position: ['50%', '50%'],
+
+            formatter: '{a}\n\n{c}',			//{a} refers to series name, {b} to data name, and {c} to data value.
+
+            fontSize: 20
+
+
+
+        },
+
+        outline: {
+
+            borderDistance: 0,
+
+            itemStyle: {
+
+                borderWidth: 5,
+
+                borderColor: '#333'
+
+
+
+            }
+
+        }
+
+    }
+
+
+
+});
+
+echarts.init(document.getElementById('liquid4')).setOption ({
+
+
+
+    series: {
+
+        type: 'liquidFill',
+
+        data: x[1],
+
+        name: "温度相对值",
+
+        label:{
+
+
+
+            position: ['50%', '50%'],
+
+            formatter: '{a}\n\n{c}',			//{a} refers to series name, {b} to data name, and {c} to data value.
+
+            fontSize: 20
+
+
+
+        },
+
+        outline: {
+
+            borderDistance: 0,
+
+            itemStyle: {
+
+                borderWidth: 5,
+
+                borderColor: '#333'
+
+
+
+            }
+
+        }
+
+    }
+
+
+
+});
+
+setTimeout(function () {					//之后数据传输时要将此替换（为了模拟数据到来）
+
+        changec(x);
+
+    },1000
+
+)
+
+</script>
+
+<script type="text/javascript"> 			//百度地图设置
+
+var map = new BMap.Map("container");
+
+// 创建地图实例
+
+var point = new BMap.Point(116.404, 39.915);
+
+// 创建点坐标
+
+map.centerAndZoom(point, 15);					// 初始化地图，设置中心点坐标和地图级别
+
+map.enableScrollWheelZoom(true);
+
+map.disableDoubleClickZoom();
+
+var markersArray = [];
+
+map.setMapStyleV2({
+
+    styleId: '7b1d087644685621c5642aa7841a7956',
+
+});
+
+map.addEventListener("tilesloaded",function(){$("#middle").css("display", "none");});   //loading结束
+
+
+
+
+
+/*function clearOverlays() {
+
+if (markersArray) {
+
+  for (i in markersArray) {
+
+    map.removeOverlay(markersArray[i])
+
+  }
+
 }
-	}
-	</script>
-	</body>  
+
+}
+
+//地图上标注
+
+function addMarker(point1) {
+
+var marker = new BMap.Marker(point1);
+
+markersArray.push(marker);
+
+clearOverlays();
+
+map.addOverlay(marker);
+
+}*/
+
+//点击地图时间处理
+
+function showInfo() {
+
+    var pos = circle.getCenter();
+
+    document.getElementById('lng').value = pos.lng;
+
+    document.getElementById('lat').value = pos.lat;
+
+
+
+    //addMarker(e.point);
+
+}
+
+
+
+
+
+//从处添加前后端传感器的数据交互，给后台管道id，返回数据
+
+/*  markersArray.push(m);
+
+    clearOverlays();
+
+  map.addOverlay(m);*/
+
+
+
+
+
+var marker1 = new BMap.Marker(new BMap.Point(116.404, 39.915));			//加载单个点
+
+var circle = new BMap.Circle(point,500,{strokeColor:"blue", strokeWeight:2, strokeOpacity:0,fillOpacity:0}); //创建圆
+
+var polyline = new BMap.Polyline([
+
+    new BMap.Point(116.399, 39.910),
+
+    new BMap.Point(116.405, 39.920),
+
+    new BMap.Point(116.425, 39.900)
+
+], {strokeColor:"blue", strokeWeight:2, strokeOpacity:0.5});   //创建折线
+
+
+
+map.addOverlay(marker1);
+
+map.addOverlay(polyline);          //增加折线
+
+map.addOverlay(circle);
+
+
+
+circle.addEventListener("click", showInfo);			//获取鼠标点击位置的经纬度信息
+
+/* var points = [];  // 添加海量点数据
+
+for (var i = 0; i < data.data.length; i++) {
+
+  points.push(new BMap.Point(data.data[i][0], data.data[i][1]));
+
+}
+
+var options = {
+
+    size: BMAP_POINT_SIZE_SMALL,
+
+    shape: BMAP_POINT_SHAPE_STAR,
+
+    color: '#d340c3'
+
+}
+
+var pointCollection = new BMap.PointCollection(points, options);  // 初始化PointCollection
+
+pointCollection.addEventListener('click', function (e) {
+
+  alert('单击点的坐标为：' + e.point.lng + ',' + e.point.lat);  // 监听点击事件
+
+});
+
+map.addOverlay(pointCollection);  // 添加Overlay
+
+*/
+
+</script>
+
+<script th:inline="javascript">
+
+    //写一个循环体，根据告警点数的多少决定加多少个p
+
+    //for(var i=0;i<badnode.length;i++){
+
+    var para=document.createElement("p");
+
+    var badnodeid=  [[${badnodeid}]];
+
+    console.log(badnodeid);
+
+    var node=document.createTextNode(badnodeid);
+
+    para.appendChild(node);
+
+    var element=document.getElementById("dragon");
+
+    element.appendChild(para);
+
+
+
+</script>
+
+<script>
+
+    function change(n)
+
+    {
+
+        map.setZoom(6);
+
+        switch(n)
+
+        {
+
+            case 1:
+
+                point = new BMap.Point(119.861811,38.611712);
+
+                map.panTo(point);
+
+
+
+                break;
+
+            case 2:
+
+                point = new BMap.Point(120.611501,34.976702);
+
+                map.panTo(point);
+
+                break;
+
+            case 3:
+
+                point = new BMap.Point(122.197347,28.116691);
+
+                map.panTo(point);
+
+                break;
+
+            case 4:
+
+                var point = new BMap.Point(115.004004,11.655103);
+
+                map.panTo(point);
+
+                break;
+
+            case 5:
+
+                var point = new BMap.Point(121.479853,31.232993);
+
+                map.panTo(point);
+
+                break;
+
+            default:
+
+                var point = new BMap.Point(116.404, 39.915);
+
+                map.panTo(point);
+
+        }
+
+    }
+
+</script>
+
+</body>
+
 </html>
