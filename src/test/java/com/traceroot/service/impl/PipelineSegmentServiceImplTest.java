@@ -22,7 +22,7 @@ public class PipelineSegmentServiceImplTest {
     @Autowired
     PipelineSegmentServiceImpl segmentService;
 
-    static String PipeID = "1525826";
+    static String PipeID = "1053733";
 
     @Test
     public void selectBySegmentId() {
@@ -62,5 +62,22 @@ public class PipelineSegmentServiceImplTest {
     public void deleteBySegmentId() {
 
         segmentService.deleteBySegmentId("7304969");
+    }
+
+    @Test
+    public void selectByWarning() {
+        segmentService.selectByWarning();
+    }
+
+    @Test
+    public void  arrryString(){
+        String[] badnodeid=new String[2];
+        List<PipeSegmentDTO> warningSegments=segmentService.selectByWarning();
+        for (int i=0;i<warningSegments.size();i++){
+            badnodeid[i]=warningSegments.get(i).getSegmentId();
+        }
+
+        log.info(String.valueOf(badnodeid.length));
+
     }
 }

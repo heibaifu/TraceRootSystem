@@ -21,11 +21,11 @@ public class PipelineSensorServiceImplTest {
     @Autowired
     PipelineSensorServiceImpl service;
 
-    public static String SEGMENTID = "1326574";
+    public static String SEGMENTID = "124";
 
     public static String SENSORID = "1262750";
 
-    public static String PIPEID = "1904289";
+    public static String PIPEID = "2044895";
 
     public static String SENSORTYPE = "2926155";
 
@@ -54,7 +54,7 @@ public class PipelineSensorServiceImplTest {
     @Test
     public void save() throws Exception{
 
-        PipelineSensor sensor = new PipelineSensor(RandomUtil.genUniqueId(),SEGMENTID,PIPEID,SENSORTYPE,RandomUtil.genUniqueLocation(),STATUS.getCode());
+        PipelineSensor sensor = new PipelineSensor(RandomUtil.genUniqueId(),SEGMENTID,PIPEID,SENSORTYPE,RandomUtil.genUniqueLocation(),SensorStatusEnum.ABNORMAL.getCode());
         PipelineSensor result = service.save(sensor);
         Assert.assertNotNull(result);
     }
@@ -70,4 +70,6 @@ public class PipelineSensorServiceImplTest {
         PipelineSensor pipelineSensor=service.updateByStatus("5931029",SensorStatusEnum.ABNORMAL.getCode());
         Assert.assertNotNull(pipelineSensor);
     }
+
+
 }

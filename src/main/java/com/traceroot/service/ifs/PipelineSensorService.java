@@ -20,5 +20,7 @@ public interface PipelineSensorService {
     //管道段传感器状态更新
     PipelineSensor updateByStatus(String sensorId,String updateStatus);
 
+    List<PipelineSensor> selectByPresentStatus(String statusEnum);
+
     void deleteBySensorId(String sensorId);
 }

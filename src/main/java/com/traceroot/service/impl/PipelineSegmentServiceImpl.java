@@ -1,7 +1,9 @@
 package com.traceroot.service.impl;
 
 import com.traceroot.dataobject.PipelineSegment;
+import com.traceroot.dataobject.PipelineSensor;
 import com.traceroot.dto.PipeSegmentDTO;
+import com.traceroot.enums.SensorStatusEnum;
 import com.traceroot.exception.PipeException;
 import com.traceroot.enums.ResultEnum;
 import com.traceroot.repository.PipelineSegmentRepository;
@@ -11,6 +13,8 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
 
 @Slf4j
@@ -20,6 +24,10 @@ public class PipelineSegmentServiceImpl implements PipelineSegmentService {
     @Autowired
     private PipelineSegmentRepository repository;
 
+    @Autowired
+    private PipelineSensorServiceImpl pipelineSensorService;
+
+    //将查出来的列表转换为DTO列表
     @Override
     public List<PipeSegmentDTO> selectAll() {
         List<PipelineSegment> segmentList = repository.findAll();
@@ -44,8 +52,20 @@ public class PipelineSegmentServiceImpl implements PipelineSegmentService {
     @Override
     public List<PipeSegmentDTO> selectByWarning() {
 
-        //todo 返回有问题的管道段
-        List<PipelineSegment> segmentList = repository.findAll();
+        //todo 传感器状态需注意，不止查找一种状态
+        List<PipelineSensor> pipelineSensors=pipelineSensorService.selectByPresentStatus(SensorStatusEnum.ABNORMAL.getCode());
+        List<PipelineSegment> segmentList =new ArrayList<>();
+        for (int i=0;i<pipelineSensors.size();i++){
+            //从传感器列表的第0项开始查找
+            String segmentId=pipelineSensors.get(i).getSegmentId();
+            segmentList.add(repository.findBySegmentId(segmentId));
+        }
+
+        //用HashSet剔除重复数据
+        HashSet h = new HashSet(segmentList);
+        segmentList.clear();
+        segmentList.addAll(h);
+
         List<PipeSegmentDTO> segmentDTOList = PipelineSegment2PipeSegmentDTOConverter.convert(segmentList);
         return segmentDTOList;
     }

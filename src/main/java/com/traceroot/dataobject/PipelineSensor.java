@@ -41,6 +41,8 @@ public class PipelineSensor {
     /*传感器当前状态*/
     private String presentStatus;
 
+    //todo presentStatus应该可以根据presentValue而设定（比如低于或高于某值就应该是什么状态），进而统计出问题的管道段
+
     /*传感器当前值*/
     private String presentValue;
 

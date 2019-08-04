@@ -13,4 +13,6 @@ public interface PipelineSensorRepository extends JpaRepository<PipelineSensor,S
 
     List<PipelineSensor> findBySegmentId(String segmentId);
 
+    List<PipelineSensor> findByPresentStatus(String statusEnum);
+
 }

@@ -67,6 +67,14 @@ public class PipelineSensorServiceImpl implements PipelineSensorService {
         return result;
     }
 
+    /*根据传感器状态号查找传感器*/
+    @Override
+    public List<PipelineSensor> selectByPresentStatus(String statusEnum) {
+
+        return repository.findByPresentStatus(statusEnum);
+
+    }
+
     @Override
     public void deleteBySensorId(String SensorId) {
         PipelineSensor sensor = repository.findBySensorId(SensorId);

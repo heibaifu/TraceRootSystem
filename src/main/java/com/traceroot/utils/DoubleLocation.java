@@ -19,7 +19,7 @@ public class DoubleLocation {
     }
 
     public DoubleLocation(double longitude, double latitude) {
-        Longitude = longitude;
-        Latitude = latitude;
+        Longitude = longitude;//经度
+        Latitude = latitude;//纬度
     }
 }
