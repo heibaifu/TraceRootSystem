@@ -84,7 +84,7 @@
 
     <div class="has_children">
 
-        <span onclick=change(0)>管道线路管理</span>
+        <li onclick=change(0)>管道线路管理</li>
 
         <li onclick=change(1)>渤海</li>
 
@@ -112,11 +112,7 @@
 
     <div id="echarts" style="width:100%;height:70%;">
 
-
-
     </div>
-
-
 
 </div>
 
@@ -124,13 +120,9 @@
 
     <p>告警管道id</p>
 
-
-
     <div id="dragon" class="dragon">
 
         <p>aaa</p>
-
-
 
         <!--根据告警管道的个数决定显示多少个p-->
 
@@ -142,9 +134,7 @@
 
     <div class="liquid">
 
-
-
-        <table cellspacing="1" cellpadding="3" width="30%" style="color: beige">
+        <table cellspacing="1" cellpadding="3" width="30%" style="color: beige" >
 
             <tr>
 
@@ -191,15 +181,16 @@
     <div id="liquid4" class="liquid" ></div>
 
     <div class="liquid">
-        <table cellspacing="1" cellpadding="2" width="60%" style="color: beige">
-            <tr>
+        <table cellspacing="1" cellpadding="2" width="60%" style="color: beige" th:each="t:${upcreattime}">
+
+            <tr  >
                 <td>更新时间</td>
-                <td><input type="text" name="update" id="update" value=""/>
+                <td><input type="text" name="update" id="update" th:value="${t.updatetime}"/>
                 </td>
             </tr>
-            <tr>
+            <tr >
                 <td>创建时间</td>
-                <td><input type="text" name="creatdate" id="creatdate" value=""/>
+                <td><input type="text" name="creatdate" id="creatdate" th:value="${t.creattime}"/>
                 </td>
             </tr>
         </table>
@@ -573,13 +564,12 @@ function showInfo() {
     }
     var infoWindow = new BMap.InfoWindow("地址：北京市东城区王府井大街88号乐天银泰百货八层", opts);  // 创建信息窗口对象
 
+    //var infoWindow = new BMap.InfoWindow("位置：" + [[${sensorlocation}]] + "状态:" + [[${sensorstatus}]] , opts);
+    //预留给弹窗显示信息用
+
     map.openInfoWindow(infoWindow,point); //开启信息窗口
 
 }
-
-
-
-
 
 //从处添加前后端传感器的数据交互，给后台管道id，返回数据
 
@@ -588,10 +578,6 @@ function showInfo() {
     clearOverlays();
 
   map.addOverlay(m);*/
-
-
-
-
 
 var marker1 = new BMap.Marker(new BMap.Point(116.404, 39.915));			//加载单个点
 
