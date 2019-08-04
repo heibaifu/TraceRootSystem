@@ -2,6 +2,7 @@ package com.traceroot.service.impl;
 
 import com.traceroot.dataobject.PipelineSensor;
 import com.traceroot.dataobject.SensorStatus;
+import com.traceroot.enums.SensorStatusEnum;
 import com.traceroot.exception.PipeException;
 import com.traceroot.enums.ResultEnum;
 import com.traceroot.repository.PipelineSensorRepository;
@@ -67,11 +68,15 @@ public class PipelineSensorServiceImpl implements PipelineSensorService {
         return result;
     }
 
-    /*根据传感器状态号查找传感器*/
+    /**
+     * 根据传感器状态号查找传感器
+     * @param statusEnum
+     * @return
+     */
     @Override
-    public List<PipelineSensor> selectByPresentStatus(String statusEnum) {
+    public List<PipelineSensor> selectByPresentStatus(SensorStatusEnum statusEnum) {
 
-        return repository.findByPresentStatus(statusEnum);
+        return repository.findByPresentStatus(statusEnum.getCode());
 
     }
 

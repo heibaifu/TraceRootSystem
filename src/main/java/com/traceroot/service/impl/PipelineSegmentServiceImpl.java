@@ -53,7 +53,7 @@ public class PipelineSegmentServiceImpl implements PipelineSegmentService {
     public List<PipeSegmentDTO> selectByWarning() {
 
         //todo 传感器状态需注意，不止查找一种状态
-        List<PipelineSensor> pipelineSensors=pipelineSensorService.selectByPresentStatus(SensorStatusEnum.ABNORMAL.getCode());
+        List<PipelineSensor> pipelineSensors=pipelineSensorService.selectByPresentStatus(SensorStatusEnum.ABNORMAL);
         List<PipelineSegment> segmentList =new ArrayList<>();
         for (int i=0;i<pipelineSensors.size();i++){
             //从传感器列表的第0项开始查找

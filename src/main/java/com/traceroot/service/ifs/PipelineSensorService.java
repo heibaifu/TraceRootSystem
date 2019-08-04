@@ -1,6 +1,7 @@
 package com.traceroot.service.ifs;
 
 import com.traceroot.dataobject.PipelineSensor;
+import com.traceroot.enums.SensorStatusEnum;
 
 import java.util.List;
 
@@ -20,7 +21,7 @@ public interface PipelineSensorService {
     //管道段传感器状态更新
     PipelineSensor updateByStatus(String sensorId,String updateStatus);
 
-    List<PipelineSensor> selectByPresentStatus(String statusEnum);
+    List<PipelineSensor> selectByPresentStatus(SensorStatusEnum statusEnum);
 
     void deleteBySensorId(String sensorId);
 }

@@ -17,7 +17,7 @@ public class PipelineSegment2PipeSegmentDTOConverter {
 
         PipeSegmentDTO pipeSegmentDTO = new PipeSegmentDTO() ;
 
-        BeanUtils.copyProperties(pipelineSegment,pipeSegmentDTO);//source,target
+        BeanUtils.copyProperties(pipelineSegment,pipeSegmentDTO);   //source,target
 
         pipeSegmentDTO.setStart(LocationUtil.string2DoubleArray(pipelineSegment.getStart()));
         pipeSegmentDTO.setEnd(LocationUtil.string2DoubleArray(pipelineSegment.getEnd()));

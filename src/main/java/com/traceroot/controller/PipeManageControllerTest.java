@@ -8,10 +8,13 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ConcurrentModel;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.servlet.ModelAndView;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 @Controller
 @RequestMapping("/pipe")
@@ -47,14 +50,15 @@ public class PipeManageControllerTest {
 
     }*/
 
-    public String pipeManager(Model model){
+    @GetMapping()
+    public ModelAndView pipeManager(Map<String, Object> map){
 
         List<Upcreattime> upcreattime=new ArrayList<>();
         upcreattime.add(new Upcreattime("1998-09-11","2010-12-21"));
-        model.addAttribute("upcreattime",upcreattime);
+        map.put("upcreattime",upcreattime);
 
 
-        return "bmaptest1.html";
+        return new ModelAndView("bmaptest1.html",map);
     }
 
 
