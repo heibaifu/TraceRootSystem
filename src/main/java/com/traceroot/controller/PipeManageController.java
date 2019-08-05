@@ -2,6 +2,7 @@ package com.traceroot.controller;
 
 import com.traceroot.VO.ResultVO;
 import com.traceroot.converter.PipeForm2PipeDTOConverter;
+import com.traceroot.converter.PipeSegmentForm2PipeSegmentDTOConverter;
 import com.traceroot.dataobject.Pipeline;
 import com.traceroot.dataobject.PipelineSegment;
 import com.traceroot.dto.PipeDTO;
@@ -9,6 +10,7 @@ import com.traceroot.dto.PipeSegmentDTO;
 import com.traceroot.enums.ResultEnum;
 import com.traceroot.exception.PipeException;
 import com.traceroot.form.PipeForm;
+import com.traceroot.form.PipeSegmentForm;
 import com.traceroot.service.impl.PipelineSegmentServiceImpl;
 import com.traceroot.service.impl.PipelineServiceImpl;
 import com.traceroot.utils.ResultVOUtil;
@@ -87,5 +89,27 @@ public class PipeManageController {
     }
 
 
+    @PostMapping("/savesegment")
+    @ResponseBody
+    public ResultVO<Map<String,String>> saveSegment(@Valid PipeSegmentForm segmentForm,
+                                                 BindingResult bindingResult){
+        if (bindingResult.hasErrors()){
+            log.error("【保存管道段】参数不正确，pipeForm={}",segmentForm);
+            throw new PipeException(ResultEnum.PARAM_ERROR.getCode()
+                    ,bindingResult.getFieldError().getDefaultMessage());
+        }
+
+        PipeSegmentDTO pipeSegmentDTO = PipeSegmentForm2PipeSegmentDTOConverter.convert(segmentForm);
+        PipeSegmentDTO result = segmentService.save(pipeSegmentDTO);
+        if (result == null){
+            log.error("【保存管道段】保存失败，result={}",result);
+            throw new PipeException(ResultEnum.SAVE_FAIL);
+        }
+
+        Map<String,String> map = new HashMap<>();
+        map.put("pipeId",result.getPipeId());
+
+        return ResultVOUtil.success(map);
+    }
 
 }
