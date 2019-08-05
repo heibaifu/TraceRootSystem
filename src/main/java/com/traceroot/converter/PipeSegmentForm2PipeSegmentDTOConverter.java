@@ -1,5 +1,8 @@
 package com.traceroot.converter;
 
+import com.google.gson.Gson;
+import com.google.gson.JsonSyntaxException;
+import com.google.gson.reflect.TypeToken;
 import com.traceroot.dataobject.SensorStatus;
 import com.traceroot.dto.PipeSegmentDTO;
 import com.traceroot.enums.ResultEnum;
@@ -27,7 +30,7 @@ public class PipeSegmentForm2PipeSegmentDTOConverter {
         if (segmentForm.getStatusList()!=null && !segmentForm.getStatusList().equals("")){
             List<SensorStatus> statusList = new ArrayList<>();
             try {
-                statusList = gson.fromGson(segmentForm.getStatusList(),new TypeToken<List<statusList>>(){}.getType());
+                statusList = gson.fromJson(segmentForm.getStatusList(),new TypeToken<List<SensorStatus>>(){}.getType());
             } catch (JsonSyntaxException e) {
                 log.error("【对象转换】错误，string={}",segmentForm.getStatusList());
                 throw new PipeException(ResultEnum.PARAM_ERROR);

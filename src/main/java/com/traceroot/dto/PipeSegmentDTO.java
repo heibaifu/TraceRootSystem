@@ -1,5 +1,6 @@
 package com.traceroot.dto;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.traceroot.dataobject.SensorStatus;
 import lombok.Data;
 
@@ -30,4 +31,17 @@ public class PipeSegmentDTO {
 
     private Date updateTime;
 
+    @JsonIgnore
+    public PipeSegmentDTO() {
+    }
+
+    @JsonIgnore
+    public PipeSegmentDTO(String segmentId, String pipeId, Integer segmentSerialNumber, String start, String end, List<SensorStatus> statusList) {
+        this.segmentId = segmentId;
+        this.pipeId = pipeId;
+        this.segmentSerialNumber = segmentSerialNumber;
+        this.start = start;
+        this.end = end;
+        this.statusList = statusList;
+    }
 }

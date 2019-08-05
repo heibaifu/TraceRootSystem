@@ -22,6 +22,4 @@ public class PipeForm {
     @NotEmpty(message = "目的地址必填")
     private String destination;
 
-    private String createTime;
-
 }

@@ -10,6 +10,7 @@ import com.traceroot.repository.PipelineSegmentRepository;
 import com.traceroot.service.ifs.PipelineSegmentService;
 import com.traceroot.converter.PipelineSegment2PipeSegmentDTOConverter;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -47,12 +48,12 @@ public class PipelineSegmentServiceImpl implements PipelineSegmentService {
 
     /**
      * 返回有问题的管道段
+     * todo 传感器状态需注意，不止查找一种状态
      * @return
      */
     @Override
     public List<PipeSegmentDTO> selectByWarning() {
 
-        //todo 传感器状态需注意，不止查找一种状态
         List<PipelineSensor> pipelineSensors=pipelineSensorService.selectByPresentStatus(SensorStatusEnum.ABNORMAL);
         List<PipelineSegment> segmentList =new ArrayList<>();
         for (int i=0;i<pipelineSensors.size();i++){
@@ -70,20 +71,48 @@ public class PipelineSegmentServiceImpl implements PipelineSegmentService {
         return segmentDTOList;
     }
 
+    /**
+     * 插入
+     * todo 插入到中间部分，需要修改序列号，可以以后有需求再写
+     * @param pipeSegmentDTO
+     * @return
+     */
     @Override
-    public PipelineSegment insert(PipelineSegment segment) {
-        Integer amount = repository.countPipelineSegmentByPipeId(segment.getPipeId());
-        segment.setSegmentSerialNumber(amount+1);
-        return repository.save(segment);
+    public PipelineSegment insert(PipeSegmentDTO pipeSegmentDTO) {
+
+        //判断是否已经存在
+        PipelineSegment pipelineSegment = repository.findBySegmentId(pipeSegmentDTO.getSegmentId());
+        if (pipelineSegment!=null){
+            throw new PipeException(ResultEnum.PIPE_SEGMENT_AlREADY_EXIST);
+        }
+
+        //不存在则插入
+        pipelineSegment = new PipelineSegment();
+        BeanUtils.copyProperties(pipeSegmentDTO,pipelineSegment);
+        Integer amount = repository.countPipelineSegmentByPipeId(pipeSegmentDTO.getPipeId());
+        pipelineSegment.setSegmentSerialNumber(amount+1);
+        return repository.save(pipelineSegment);
     }
 
+    /**
+     * 更新
+     * todo 调整管道序号（等价于删除再插入），可以以后有需求再写
+     * @param pipeSegmentDTO
+     * @return
+     */
     @Override
-    public PipelineSegment update(PipelineSegment segment) {
-        PipelineSegment pipelineSegment = repository.findBySegmentId(segment.getSegmentId());
+    public PipelineSegment update(PipeSegmentDTO pipeSegmentDTO) {
+
+        //判断是否已经存在
+        PipelineSegment pipelineSegment = repository.findBySegmentId(pipeSegmentDTO.getSegmentId());
         if (pipelineSegment==null){
             throw new PipeException(ResultEnum.PIPE_SEGMENT_NOT_EXIST);
+        } else {
+            //存在则更新
+            pipeSegmentDTO.setSegmentSerialNumber(pipelineSegment.getSegmentSerialNumber());
+            BeanUtils.copyProperties(pipeSegmentDTO,pipelineSegment);
+            return repository.save(pipelineSegment);
         }
-        return repository.save(segment);
     }
 
     //查找在serialNumber之后的部分

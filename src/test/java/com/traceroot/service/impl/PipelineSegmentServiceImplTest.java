@@ -22,7 +22,7 @@ public class PipelineSegmentServiceImplTest {
     @Autowired
     PipelineSegmentServiceImpl segmentService;
 
-    static String PipeID = "1053733";
+    static String PipeID = "2044895";
 
     @Test
     public void selectBySegmentId() {
@@ -48,8 +48,15 @@ public class PipelineSegmentServiceImplTest {
 
     @Test
     public void insert() {
-        PipelineSegment segment = new PipelineSegment(RandomUtil.genUniqueId(),PipeID,RandomUtil.genUniqueLocation(),RandomUtil.genUniqueLocation());
-        PipelineSegment result = segmentService.insert(segment);
+        PipeSegmentDTO pipeSegmentDTO = new PipeSegmentDTO("7002954", PipeID, null, RandomUtil.genUniqueLocation(), RandomUtil.genUniqueLocation(), null);
+        PipelineSegment result = segmentService.insert(pipeSegmentDTO);
+        Assert.assertNotNull(result);
+    }
+
+    @Test
+    public void update() {
+        PipeSegmentDTO pipeSegmentDTO = new PipeSegmentDTO("7002954", PipeID, null, RandomUtil.genUniqueLocation(), RandomUtil.genUniqueLocation(), null);
+        PipelineSegment result = segmentService.update(pipeSegmentDTO);
         Assert.assertNotNull(result);
     }
 

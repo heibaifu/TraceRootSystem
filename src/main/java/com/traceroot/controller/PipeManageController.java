@@ -57,6 +57,12 @@ public class PipeManageController {
         return new ModelAndView("bmaptest1.html", map);
     }
 
+    /**
+     * 保存管道
+     * @param pipeForm
+     * @param bindingResult
+     * @return
+     */
     @PostMapping("/savepipe")
     @ResponseBody
     public ResultVO<Map<String,String>> savePipe(@Valid PipeForm pipeForm,
@@ -89,6 +95,13 @@ public class PipeManageController {
     }
 
 
+    /**
+     * 保存管道段
+     * todo 没有用postman测试，测试的时候序列号写null好了
+     * @param segmentForm
+     * @param bindingResult
+     * @return
+     */
     @PostMapping("/savesegment")
     @ResponseBody
     public ResultVO<Map<String,String>> saveSegment(@Valid PipeSegmentForm segmentForm,
@@ -100,7 +113,13 @@ public class PipeManageController {
         }
 
         PipeSegmentDTO pipeSegmentDTO = PipeSegmentForm2PipeSegmentDTOConverter.convert(segmentForm);
-        PipeSegmentDTO result = segmentService.save(pipeSegmentDTO);
+
+        PipelineSegment result;
+        if (segmentService.selectBySegmentId (segmentForm.getSegmentId()) !=null) {
+            result = segmentService.update(pipeSegmentDTO);
+        }else {
+            result = segmentService.insert(pipeSegmentDTO);
+        }
         if (result == null){
             log.error("【保存管道段】保存失败，result={}",result);
             throw new PipeException(ResultEnum.SAVE_FAIL);

@@ -22,7 +22,7 @@ public class PipeSegmentForm {
     private String pipeId;
 
     /*管道段的序列号，可以不传*/
-    private Integer segmentSerialNumber;
+    private Integer segmentSerialNumber = null;
 
     /*管道起点*/
     @NotEmpty(message = "源地址必填")

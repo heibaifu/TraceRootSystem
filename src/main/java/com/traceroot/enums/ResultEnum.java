@@ -29,7 +29,9 @@ public enum  ResultEnum {
 
     PARAM_ERROR(11,"参数错误"),
 
-    SAVE_FAIL(12,"保存失败");
+    SAVE_FAIL(12,"保存失败"),
+
+    PIPE_SEGMENT_AlREADY_EXIST(13,"管道段已经存在")
 
 
     ;

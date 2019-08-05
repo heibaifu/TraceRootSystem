@@ -16,9 +16,9 @@ public interface PipelineSegmentService {
 
     List<PipeSegmentDTO> selectByWarning();
 
-    PipelineSegment insert(PipelineSegment segment);
+    PipelineSegment insert(PipeSegmentDTO pipeSegmentDTO);
 
-    PipelineSegment update(PipelineSegment segment);
+    PipelineSegment update(PipeSegmentDTO pipeSegmentDTO);
 
     List<PipelineSegment> findByPipeIdAndSegmentSerialNumberAfter(String pipeId,Integer serialNumber);
 
