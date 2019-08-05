@@ -3,6 +3,7 @@ package com.traceroot.service.impl;
 import com.traceroot.dataobject.PipelineSegment;
 import com.traceroot.dataobject.PipelineSensor;
 import com.traceroot.dto.PipeSegmentDTO;
+import com.traceroot.dto.PipelineSensorDTO;
 import com.traceroot.enums.SensorStatusEnum;
 import com.traceroot.exception.PipeException;
 import com.traceroot.enums.ResultEnum;
@@ -54,7 +55,7 @@ public class PipelineSegmentServiceImpl implements PipelineSegmentService {
     @Override
     public List<PipeSegmentDTO> selectByWarning() {
 
-        List<PipelineSensor> pipelineSensors=pipelineSensorService.selectByPresentStatus(SensorStatusEnum.ABNORMAL);
+        List<PipelineSensorDTO> pipelineSensors=pipelineSensorService.selectByPresentStatus(SensorStatusEnum.ABNORMAL);
         List<PipelineSegment> segmentList =new ArrayList<>();
         for (int i=0;i<pipelineSensors.size();i++){
             //从传感器列表的第0项开始查找

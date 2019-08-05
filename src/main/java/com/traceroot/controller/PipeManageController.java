@@ -1,17 +1,23 @@
 package com.traceroot.controller;
 
 import com.traceroot.VO.ResultVO;
+import com.traceroot.converter.dao2dto.PipelineSensor2SensorDTOConverter;
 import com.traceroot.converter.form2dto.PipeForm2PipeDTOConverter;
 import com.traceroot.converter.form2dto.PipeSegmentForm2PipeSegmentDTOConverter;
+import com.traceroot.converter.form2dto.PipelineSensorForm2SensorDTOConverter;
 import com.traceroot.dataobject.Pipeline;
 import com.traceroot.dataobject.PipelineSegment;
+import com.traceroot.dataobject.PipelineSensor;
 import com.traceroot.dto.PipeDTO;
 import com.traceroot.dto.PipeSegmentDTO;
+import com.traceroot.dto.PipelineSensorDTO;
 import com.traceroot.enums.ResultEnum;
 import com.traceroot.exception.PipeException;
 import com.traceroot.form.PipeForm;
 import com.traceroot.form.PipeSegmentForm;
+import com.traceroot.form.PipelineSensorForm;
 import com.traceroot.service.impl.PipelineSegmentServiceImpl;
+import com.traceroot.service.impl.PipelineSensorServiceImpl;
 import com.traceroot.service.impl.PipelineServiceImpl;
 import com.traceroot.utils.ResultVOUtil;
 import lombok.extern.slf4j.Slf4j;
@@ -36,6 +42,9 @@ public class PipeManageController {
 
     @Autowired
     PipelineSegmentServiceImpl segmentService;
+
+    @Autowired
+    PipelineSensorServiceImpl pipelineSensorService;
 
     @GetMapping()
     public ModelAndView pipeManager(
@@ -94,7 +103,6 @@ public class PipeManageController {
 
     /**
      * 保存管道段
-     * todo 没有用postman测试，测试的时候序列号写null好了
      * @param segmentForm
      * @param bindingResult
      * @return
@@ -127,5 +135,37 @@ public class PipeManageController {
 
         return ResultVOUtil.success(map);
     }
+
+
+    //管道及管道段的删除操作
+
+    /**
+     * 管道传感器的新增
+     * @param pipelineSensorForm
+     * @param bindingResult
+     * @return
+     */
+    @PostMapping("/savesensor")
+    @ResponseBody
+    public ResultVO<Map<String,String>> saveSensor (@Valid PipelineSensorForm pipelineSensorForm,
+                                                    BindingResult bindingResult){
+        if (bindingResult.hasErrors()){
+            log.error("【保存传感器】参数不正确，pipelineSensorForm={}",pipelineSensorForm);
+            throw new PipeException(ResultEnum.PARAM_ERROR.getCode(),bindingResult.getFieldError().getDefaultMessage());
+        }
+
+        PipelineSensorDTO pipelineSensorDTO= PipelineSensorForm2SensorDTOConverter.convert(pipelineSensorForm);
+        PipelineSensorDTO result = pipelineSensorService.save(pipelineSensorDTO);
+        if (result == null){
+            log.error("【保存传感器】保存失败，result={}",result);
+            throw new PipeException(ResultEnum.SAVE_FAIL);
+        }
+
+        Map<String,String> map = new HashMap<>();
+        map.put("sensorId",result.getSensorId());
+
+        return ResultVOUtil.success(map);
+    }
+
 
 }

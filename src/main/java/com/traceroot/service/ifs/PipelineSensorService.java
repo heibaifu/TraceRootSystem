@@ -1,6 +1,7 @@
 package com.traceroot.service.ifs;
 
 import com.traceroot.dataobject.PipelineSensor;
+import com.traceroot.dto.PipelineSensorDTO;
 import com.traceroot.enums.SensorStatusEnum;
 
 import java.util.List;
@@ -10,18 +11,18 @@ import java.util.List;
  */
 public interface PipelineSensorService {
 
-    List<PipelineSensor> selectBySegmentId(String segmentId);
+    List<PipelineSensorDTO> selectBySegmentId(String segmentId);
 
-    PipelineSensor selectBySensorId(String sensorId);
+    PipelineSensorDTO selectBySensorId(String sensorId);
 
-    List<PipelineSensor> selectByPipeId(String pipeId);
+    List<PipelineSensorDTO> selectByPipeId(String pipeId);
 
-    PipelineSensor save(PipelineSensor sensor);
+    PipelineSensorDTO save(PipelineSensorDTO pipelineSensorDTO);
 
     //管道段传感器状态更新
-    PipelineSensor updateByStatus(String sensorId,String updateStatus);
+    PipelineSensorDTO updateByStatus(String sensorId, String updateStatus);
 
-    List<PipelineSensor> selectByPresentStatus(SensorStatusEnum statusEnum);
+    List<PipelineSensorDTO> selectByPresentStatus(SensorStatusEnum statusEnum);
 
     void deleteBySensorId(String sensorId);
 }
