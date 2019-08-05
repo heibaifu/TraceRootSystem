@@ -1,6 +1,7 @@
 package com.traceroot.controller;
 
 import com.traceroot.dataobject.Upcreattime;
+import com.traceroot.dto.PipeSegmentDTO;
 import com.traceroot.service.impl.PipelineSegmentServiceImpl;
 import com.traceroot.service.impl.PipelineServiceImpl;
 import lombok.extern.slf4j.Slf4j;
@@ -53,9 +54,12 @@ public class PipeManageControllerTest {
     @GetMapping()
     public ModelAndView pipeManager(Map<String, Object> map){
 
-        List<Upcreattime> upcreattime=new ArrayList<>();
-        upcreattime.add(new Upcreattime("1998-09-11","2010-12-21"));
-        map.put("upcreattime",upcreattime);
+/*        List<Upcreattime> upcreattime=new ArrayList<>();
+        upcreattime.add(new Upcreattime("1998-09-11","2010-12-21"));*/
+
+        List<PipeSegmentDTO> pipeSegmentDTOList = segmentService.selectAll();
+
+        map.put("pipeSegmentDTOList",pipeSegmentDTOList);
 
 
         return new ModelAndView("bmaptest1.html",map);

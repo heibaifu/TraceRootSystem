@@ -181,16 +181,16 @@
     <div id="liquid4" class="liquid" ></div>
 
     <div class="liquid">
-        <table cellspacing="1" cellpadding="2" width="60%" style="color: beige" th:each="t:${upcreattime}">
+        <table cellspacing="1" cellpadding="2" width="60%" style="color: beige" th:each="t:${pipeSegmentDTOList}">
 
             <tr  >
                 <td>更新时间</td>
-                <td><input type="text" name="update" id="update" th:value="${t.updatetime}"/>
+                <td><input type="text" name="update" id="update" th:value="${t.updateTime}"/>
                 </td>
             </tr>
             <tr >
                 <td>创建时间</td>
-                <td><input type="text" name="creatdate" id="creatdate" th:value="${t.creattime}"/>
+                <td><input type="text" name="creatdate" id="creatdate" th:value="${t.createTime}"/>
                 </td>
             </tr>
         </table>
