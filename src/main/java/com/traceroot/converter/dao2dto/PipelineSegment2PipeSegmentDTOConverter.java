@@ -1,4 +1,4 @@
-package com.traceroot.converter;
+package com.traceroot.converter.dao2dto;
 
 import com.traceroot.dataobject.PipelineSegment;
 import com.traceroot.dto.PipeSegmentDTO;

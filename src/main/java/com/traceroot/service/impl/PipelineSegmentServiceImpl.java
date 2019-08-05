@@ -8,7 +8,7 @@ import com.traceroot.exception.PipeException;
 import com.traceroot.enums.ResultEnum;
 import com.traceroot.repository.PipelineSegmentRepository;
 import com.traceroot.service.ifs.PipelineSegmentService;
-import com.traceroot.converter.PipelineSegment2PipeSegmentDTOConverter;
+import com.traceroot.converter.dao2dto.PipelineSegment2PipeSegmentDTOConverter;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
