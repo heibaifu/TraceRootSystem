@@ -32,20 +32,18 @@ public class LocationUtil {
 
 
     /**
-     * 将经纬度坐标的字符串表示转化为Double类型的数组
-     * 根据前端需求取绝对值
+     * 将经纬度坐标的字符串表示转化为前端需要的格式类型返回
+     * 根据前端需求取绝对值，去掉括号
      * @param location
-     * @return
+     * @return "精度,纬度"
      */
-    public static Double[] string2DoubleArray(String location){
+    public static String string2DTOstring(String location){
         //经度 Longitude 简写Lng 纬度 Latitude 简写Lat
         double Lng, Lat;
         String[] strings = location.split(",");
         Lng = Double.parseDouble(strings[0].substring(1)); //拿取经度
         Lat = Double.parseDouble(strings[1].substring(0,strings[1].length()-1)); //拿取纬度
-        Double[] result = new Double[2];
-        result[0] = Math.abs(Lng);
-        result[1] = Math.abs(Lat);
+        String result = Math.abs(Lng)+ ","+ Math.abs(Lat);
         return result;
     }
 

@@ -18,10 +18,10 @@ public class PipeSegmentDTO {
     private Integer segmentSerialNumber;
 
     /*管道起点*/
-    private Double[] start = new Double[2];
+    private String start;
 
     /*管道终点*/
-    private Double[] end = new Double[2];
+    private String end;
 
     /*管道段对应的传感器状态，可以不传*/
     private List<SensorStatus> statusList = null;

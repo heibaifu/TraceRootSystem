@@ -32,7 +32,7 @@ public class Pipeline {
 
     /*创建时间*/
     @CreatedDate
-    @Column(name = "create_time", nullable = false,updatable = false)
+    @Column(name = "create_time", nullable = false,updatable = false )
     private Date createTime;
 
     /*更新时间*/

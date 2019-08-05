@@ -11,7 +11,7 @@ public interface PipelineService {
 
     List<PipeDTO> selectAll();
 
-    Pipeline save(Pipeline pipeline);
+    Pipeline save(PipeDTO pipeDTO);
 
     void deleteById(String pipeId);
 }

@@ -1,4 +1,4 @@
-package com.traceroot.utils.DTOUtil;
+package com.traceroot.converter;
 
 import com.traceroot.dataobject.PipelineSegment;
 import com.traceroot.dto.PipeSegmentDTO;
@@ -19,8 +19,8 @@ public class PipelineSegment2PipeSegmentDTOConverter {
 
         BeanUtils.copyProperties(pipelineSegment,pipeSegmentDTO);   //source,target
 
-        pipeSegmentDTO.setStart(LocationUtil.string2DoubleArray(pipelineSegment.getStart()));
-        pipeSegmentDTO.setEnd(LocationUtil.string2DoubleArray(pipelineSegment.getEnd()));
+        pipeSegmentDTO.setStart(LocationUtil.string2DTOstring(pipelineSegment.getStart()));
+        pipeSegmentDTO.setEnd(LocationUtil.string2DTOstring(pipelineSegment.getEnd()));
 
         return pipeSegmentDTO;
     }

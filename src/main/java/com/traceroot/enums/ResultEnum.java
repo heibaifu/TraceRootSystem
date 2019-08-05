@@ -27,6 +27,10 @@ public enum  ResultEnum {
 
     ROUTE_SEGMENT_NOT_EXIST(10,"航线段不存在"),
 
+    PARAM_ERROR(11,"参数错误"),
+
+    SAVE_FAIL(12,"保存失败");
+
 
     ;
     private Integer code;

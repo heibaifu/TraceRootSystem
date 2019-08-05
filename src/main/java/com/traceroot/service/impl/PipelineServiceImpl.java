@@ -6,11 +6,13 @@ import com.traceroot.exception.PipeException;
 import com.traceroot.enums.ResultEnum;
 import com.traceroot.repository.PipelineRepository;
 import com.traceroot.service.ifs.PipelineService;
-import com.traceroot.utils.DTOUtil.Pipeline2PipeDTOConverter;
+import com.traceroot.converter.Pipeline2PipeDTOConverter;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import javax.transaction.Transactional;
 import java.util.List;
 
 @Service
@@ -37,7 +39,10 @@ public class PipelineServiceImpl implements PipelineService {
     }
 
     @Override
-    public Pipeline save(Pipeline pipeline) {
+    @Transactional
+    public Pipeline save(PipeDTO pipeDTO) {
+        Pipeline pipeline = new Pipeline();
+        BeanUtils.copyProperties(pipeDTO,pipeline);
         return repository.save(pipeline);
     }
 
