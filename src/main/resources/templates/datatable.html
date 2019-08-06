@@ -3,6 +3,7 @@
 <head>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
     <title>Thymeleaf快速入门-Hello Thymeleaf</title>
+    <script src="/traceroot/js/transdata.js"></script>
 </head>
 <body>
 <table id="pipesegment">
@@ -15,9 +16,9 @@
     </thead>
     <tbody>
     <tr th:each="pipe:${pipesegment}">
-        <td th:text="${pipe.id}"></td>
-        <td th:text="${pipe.start}"></td>
-        <td th:text="${pipe.end}"></td>
+        <td id="pipe.id" th:text="${pipe.id}"></td>
+        <td id="pipe.start" th:text="${pipe.start}"></td>
+        <td id="pipe.end" th:text="${pipe.end}"></td>
     </tr>
     </tbody>
 </table>
@@ -34,11 +35,11 @@
     </thead>
     <tbody>
     <tr th:each="sensor:${sensor}">
-        <td th:text="${sensor.id}"></td>
-        <td th:text="${sensor.location}"></td>
-        <td th:text="${sensor.type}"></td>
-        <td th:text="${sensor.state}"></td>
-        <td th:text="${sensor.value}"></td>
+        <td id="sensor.id" th:text="${sensor.id}"></td>
+        <td id="sensor.location" th:text="${sensor.location}"></td>
+        <td id="sensor.type" th:text="${sensor.type}"></td>
+        <td id="sensor.state" th:text="${sensor.state}"></td>
+        <td id="sensor.value" th:text="${sensor.value}"></td>
     </tr>
     </tbody>
 </table>
