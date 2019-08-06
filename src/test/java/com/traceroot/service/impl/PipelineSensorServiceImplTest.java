@@ -68,11 +68,17 @@ public class PipelineSensorServiceImplTest {
     }
 
     @Test
-    public void updateByStatus() throws Exception{
+    public void update() throws Exception{
 
-        PipelineSensorDTO pipelineSensor=service.updateByStatus("5931029",SensorStatusEnum.ABNORMAL.getCode());
-        Assert.assertNotNull(pipelineSensor);
+        //PipelineSensorDTO pipelineSensor=service.update("5931029",SensorStatusEnum.ABNORMAL.getCode());
+        //Assert.assertNotNull(pipelineSensor);
     }
 
 
+    @Test
+    public void selectByLocation() {
+        PipelineSensorDTO pipelineSensor=service.selectByLocation("(888.888,222.2222)");
+        Assert.assertNotNull(pipelineSensor);
+
+    }
 }

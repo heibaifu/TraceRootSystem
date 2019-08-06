@@ -9,6 +9,8 @@ public interface PipelineSensorRepository extends JpaRepository<PipelineSensor,S
 
     PipelineSensor findBySensorId(String sensorId);
 
+    PipelineSensor findByLocation(String location);
+
     List<PipelineSensor> findByPipeId(String pipeId);
 
     List<PipelineSensor> findBySegmentId(String segmentId);

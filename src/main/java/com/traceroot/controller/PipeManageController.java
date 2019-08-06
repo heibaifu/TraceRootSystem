@@ -19,10 +19,12 @@ import com.traceroot.form.PipelineSensorForm;
 import com.traceroot.service.impl.PipelineSegmentServiceImpl;
 import com.traceroot.service.impl.PipelineSensorServiceImpl;
 import com.traceroot.service.impl.PipelineServiceImpl;
+import com.traceroot.utils.RandomUtil;
 import com.traceroot.utils.ResultVOUtil;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.util.StringUtils;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
@@ -60,6 +62,20 @@ public class PipeManageController {
         }
         map.put("badnodeid", badnodeid);
 
+        return new ModelAndView("bmaptest1.html", map);
+    }
+
+    /*根据传感器坐标查找传感器*/
+    //todo 从前端发来的坐标是否需要加正负号
+    @GetMapping()
+    public ModelAndView pipelineSensorMsg(@RequestParam(value = "sensorlocation",required = false)String sensorLocation,
+                                          Map<String,Object>map){
+        PipelineSensorDTO pipelineSensorDTO=pipelineSensorService.selectByLocation("("+sensorLocation+")");
+        if (pipelineSensorDTO==null){
+            log.error("【查找传感器】传感器不存在，sensorLocation={}",sensorLocation);
+            throw new PipeException(ResultEnum.SENSOR_NOT_EXIST);
+        }
+        map.put("pipelineSensor",pipelineSensorDTO);
         return new ModelAndView("bmaptest1.html", map);
     }
 
@@ -140,7 +156,7 @@ public class PipeManageController {
     //管道及管道段的删除操作
 
     /**
-     * 管道传感器的新增
+     * 管道传感器的新增及更新
      * @param pipelineSensorForm
      * @param bindingResult
      * @return
@@ -154,8 +170,20 @@ public class PipeManageController {
             throw new PipeException(ResultEnum.PARAM_ERROR.getCode(),bindingResult.getFieldError().getDefaultMessage());
         }
 
-        PipelineSensorDTO pipelineSensorDTO= PipelineSensorForm2SensorDTOConverter.convert(pipelineSensorForm);
-        PipelineSensorDTO result = pipelineSensorService.save(pipelineSensorDTO);
+        //先判断传感器ID是否存在以分清是更新还是新增
+        PipelineSensorDTO pipelineSensorDTO=new PipelineSensorDTO();
+        PipelineSensorDTO result=new PipelineSensorDTO();
+        if (pipelineSensorForm.getSensorId()==null||StringUtils.isEmpty(pipelineSensorForm.getSensorId())){
+
+            pipelineSensorForm.setSensorId(RandomUtil.genUniqueId());
+            pipelineSensorDTO= PipelineSensorForm2SensorDTOConverter.convert(pipelineSensorForm);
+            result = pipelineSensorService.save(pipelineSensorDTO); //新增
+
+        }else{
+            pipelineSensorDTO= pipelineSensorService.selectBySensorId(pipelineSensorForm.getSensorId());
+            result = pipelineSensorService.update(pipelineSensorDTO);    //更新
+        }
+
         if (result == null){
             log.error("【保存传感器】保存失败，result={}",result);
             throw new PipeException(ResultEnum.SAVE_FAIL);

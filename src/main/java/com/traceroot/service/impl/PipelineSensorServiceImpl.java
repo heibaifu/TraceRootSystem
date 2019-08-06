@@ -68,22 +68,26 @@ public class PipelineSensorServiceImpl implements PipelineSensorService {
         return sensorDTO;
     }
 
-    //todo 使用了DTO，此方法可以不需要，有待思考
     @Override
-    public PipelineSensorDTO updateByStatus(String sensorId, String updateStatus) {
+    public PipelineSensorDTO update(PipelineSensorDTO pipelineSensorDTO) {
 
-        PipelineSensor pipelineSensor=repository.findBySensorId(sensorId);
+        PipelineSensor pipelineSensor=repository.findBySensorId(pipelineSensorDTO.getSensorId());
         //判断是否存在
         if (pipelineSensor==null){
             throw new PipeException(ResultEnum.SENSOR_NOT_EXIST);
         }
-        pipelineSensor.setPresentStatus(updateStatus);
+
+        BeanUtils.copyProperties(pipelineSensorDTO,pipelineSensor);
         PipelineSensor result=repository.save(pipelineSensor);
-        PipelineSensorDTO pipelineSensorDTO=PipelineSensor2SensorDTOConverter.convert(result);
 
         //增加一条传感器状态记录
-        SensorStatus sensorStatus = new SensorStatus(RandomUtil.genUniqueId(),sensorId,updateStatus);
+        SensorStatus sensorStatus = new SensorStatus();
+        sensorStatus.setStatusId(RandomUtil.genUniqueId());
+        sensorStatus.setStatus(pipelineSensorDTO.getPresentStatus());
+        sensorStatus.setSensorId(pipelineSensorDTO.getSensorId());
+        sensorStatus.setValue(pipelineSensorDTO.getPresentValue());
         statusRepository.save(sensorStatus);
+
         return pipelineSensorDTO;
     }
 
@@ -108,5 +112,12 @@ public class PipelineSensorServiceImpl implements PipelineSensorService {
         }
         repository.delete(sensor);
         log.info(ResultEnum.DELETE_SUCCESS.getMessage());
+    }
+
+    @Override
+    public PipelineSensorDTO selectByLocation(String location) {
+        PipelineSensor pipelineSensor=repository.findByLocation(location);
+        PipelineSensorDTO pipelineSensorDTO=PipelineSensor2SensorDTOConverter.convert(pipelineSensor);
+        return pipelineSensorDTO;
     }
 }

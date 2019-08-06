@@ -11,7 +11,6 @@ import javax.validation.constraints.NotEmpty;
 @Data
 public class PipelineSensorForm {
 
-    @NotEmpty(message = "传感器Id必填")
     private String sensorId;
 
     /*对应的管道段id*/

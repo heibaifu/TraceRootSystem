@@ -1,8 +1,10 @@
 package com.traceroot.service.impl;
 
+import com.traceroot.converter.dao2dto.Boat2BoatDTOConverter;
 import com.traceroot.dataobject.Boat;
 import com.traceroot.dataobject.BoatTrace;
 import com.traceroot.dataobject.PipelineSegment;
+import com.traceroot.dto.BoatDTO;
 import com.traceroot.enums.ResultEnum;
 import com.traceroot.exception.BoatException;
 import com.traceroot.repository.BoatRepository;
@@ -11,6 +13,7 @@ import com.traceroot.utils.DoubleLocation;
 import com.traceroot.utils.LocationUtil;
 import com.traceroot.utils.RandomUtil;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -32,8 +35,14 @@ public class BoatServiceImpl implements BoatService {
      * @return
      */
     @Override
-    public Boat selectByBoatId(String boatId) {
-        return repository.findByBoatId(boatId);
+    public BoatDTO selectByBoatId(String boatId) {
+        Boat boat=repository.findByBoatId(boatId);
+        BoatDTO boatDTO= Boat2BoatDTOConverter.convert(boat);
+
+        List<BoatTrace> boatTraces=traceService.selectByBoatId(boatId);
+        boatDTO.setBoatTraces(boatTraces);
+
+        return boatDTO;
     }
 
     /**
@@ -42,8 +51,11 @@ public class BoatServiceImpl implements BoatService {
      * @return
      */
     @Override
-    public List<Boat> selectByStatus(String status) {
-        return repository.findByStatus(status);
+    public List<BoatDTO> selectByStatus(String status) {
+        List<Boat> boatList=repository.findByStatus(status);
+        List<BoatDTO> boatDTOList=Boat2BoatDTOConverter.convert(boatList);
+
+        return boatDTOList;
     }
 
     /**
@@ -51,8 +63,11 @@ public class BoatServiceImpl implements BoatService {
      * @return
      */
     @Override
-    public List<Boat> selectAllBoat() {
-        return repository.findAll();
+    public List<BoatDTO> selectAllBoat() {
+        List<Boat> boatList=repository.findAll();
+        List<BoatDTO> boatDTOList=Boat2BoatDTOConverter.convert(boatList);
+
+        return boatDTOList;
     }
 
     /**
@@ -61,8 +76,11 @@ public class BoatServiceImpl implements BoatService {
      * @return
      */
     @Override
-    public List<Boat> selectByRoute(String routeId) {
-        return repository.findByRouteId(routeId);
+    public List<BoatDTO> selectByRoute(String routeId) {
+        List<Boat> boatList=repository.findByRouteId(routeId);
+        List<BoatDTO> boatDTOList=Boat2BoatDTOConverter.convert(boatList);
+
+        return boatDTOList;
     }
 
 
@@ -72,25 +90,33 @@ public class BoatServiceImpl implements BoatService {
      * @return
      */
     @Override
-    public List<Boat> selectByTypeIn(List<String> typeList) {
-        return repository.findByTypeIn(typeList);
+    public List<BoatDTO> selectByTypeIn(List<String> typeList) {
+        List<Boat> boatList=repository.findByTypeIn(typeList);
+        List<BoatDTO> boatDTOList=Boat2BoatDTOConverter.convert(boatList);
+
+        return boatDTOList;
     }
 
     /**
      * 保存船只信息
-     * @param boat
+     * @param boatDTO
      * @return
      */
     @Override
-    public Boat save(Boat boat) {
-        BoatTrace boatTrace = new BoatTrace(RandomUtil.genUniqueId(),boat.getBoatId(),boat.getPresentLocation(),boat.getStatus());
-        Boat save = repository.save(boat);
+    public BoatDTO save(BoatDTO boatDTO) {
+
+        Boat boat=new Boat();
+        BeanUtils.copyProperties(boatDTO,boat);
+        BoatDTO result = Boat2BoatDTOConverter.convert(repository.save(boat));
+
+        //新建一条轨迹信息
+        BoatTrace boatTrace = new BoatTrace(RandomUtil.genUniqueId(),boatDTO.getBoatId(),boatDTO.getPresentLocation(),boatDTO.getStatus());
         traceService.insert(boatTrace);
 
-        return save;
+        return result;
     }
 
-    @Override
+    /*@Override
     public Boat updateByLocation(String boatId, String presentLocation) {
         Boat boat=repository.findByBoatId(boatId);
         if (boat==null){
@@ -108,7 +134,7 @@ public class BoatServiceImpl implements BoatService {
         traceService.insert(boatTrace);
 
         return boat;
-    }
+    }*/
 
     /**
      * 按照船只id删除船只

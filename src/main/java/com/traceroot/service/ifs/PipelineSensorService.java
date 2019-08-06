@@ -20,9 +20,12 @@ public interface PipelineSensorService {
     PipelineSensorDTO save(PipelineSensorDTO pipelineSensorDTO);
 
     //管道段传感器状态更新
-    PipelineSensorDTO updateByStatus(String sensorId, String updateStatus);
+    PipelineSensorDTO update(PipelineSensorDTO pipelineSensorDTO);
 
     List<PipelineSensorDTO> selectByPresentStatus(SensorStatusEnum statusEnum);
 
     void deleteBySensorId(String sensorId);
+
+    PipelineSensorDTO selectByLocation(String location);
+
 }
