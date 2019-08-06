@@ -607,35 +607,20 @@ map.addOverlay(circle);
 
 circle.addEventListener("click", showInfo);			//获取鼠标点击位置的经纬度信息
 
-/* var points = [];  // 添加海量点数据
 
-for (var i = 0; i < data.data.length; i++) {
 
-  points.push(new BMap.Point(data.data[i][0], data.data[i][1]));
 
-}
-
-var options = {
-
-    size: BMAP_POINT_SIZE_SMALL,
-
-    shape: BMAP_POINT_SHAPE_STAR,
-
-    color: '#d340c3'
-
-}
-
-var pointCollection = new BMap.PointCollection(points, options);  // 初始化PointCollection
-
-pointCollection.addEventListener('click', function (e) {
-
-  alert('单击点的坐标为：' + e.point.lng + ',' + e.point.lat);  // 监听点击事件
-
-});
-
-map.addOverlay(pointCollection);  // 添加Overlay
-
-*/
+for (var i = 0; i < pipestartdata.size; i++) {
+        var ss = pipestartdata[i].split(",");
+        var ee = pipestartdata[i].split(",");
+        var points1 = new BMap.Point((ss[0],ss[1]));
+        var points2 = new BMap.Point((ss[0],ss[1]));
+        var pipeline = new BMap.Polyline([
+           points1,
+            points2
+        ], {strokeColor:"blue", strokeWeight:2, strokeOpacity:0.5});   //创建折线
+            map.addOverlay(pipeline);
+    }
 
 </script>
 

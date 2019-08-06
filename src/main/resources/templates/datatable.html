@@ -5,7 +5,7 @@
     <title>Thymeleaf快速入门-Hello Thymeleaf</title>
     <script src="/traceroot/js/transdata.js"></script>
 </head>
-<body>
+<body onload="load()">
 <table id="pipesegment">
     <thead>
     <tr>
@@ -43,5 +43,11 @@
     </tr>
     </tbody>
 </table>
+<script >
+    function load()
+    {
+        window.location.href='/traceroot/pipe';
+    }
+</script>
 </body>
 </html>
