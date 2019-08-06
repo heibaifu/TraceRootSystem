@@ -192,7 +192,7 @@
             </tr>
             <tr >
                 <td>创建时间</td>
-                <td><input type="text" name="creatdate" id="creatdate" />
+                <td><input type="text" name="creatdate" id="pipesegmentend" />
                 </td>
             </tr>
         </table>
@@ -200,7 +200,7 @@
 
 </div>
 
-
+<iframe src="'/traceroot/pipe/datatable'"></iframe>
 
 <script type="text/javascript">
 
@@ -609,19 +609,19 @@ circle.addEventListener("click", showInfo);			//获取鼠标点击位置的经�
 
 
 
-
+/*
 for (var i = 0; i < pipestartdata.size; i++) {
         var ss = pipestartdata[i].split(",");
-        var ee = pipestartdata[i].split(",");
+        var ee = pipeenddata[i].split(",");
         var points1 = new BMap.Point((ss[0],ss[1]));
-        var points2 = new BMap.Point((ss[0],ss[1]));
+        var points2 = new BMap.Point((ee[0],ee[1]));
         var pipeline = new BMap.Polyline([
            points1,
             points2
         ], {strokeColor:"blue", strokeWeight:2, strokeOpacity:0.5});   //创建折线
             map.addOverlay(pipeline);
     }
-
+*/
 </script>
 
 <script th:inline="javascript">
