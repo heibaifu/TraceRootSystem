@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+    <title>Thymeleaf快速入门-Hello Thymeleaf</title>
+</head>
+<body>
+<table id="pipesegment">
+    <thead>
+    <tr>
+        <th>管道段id</th>
+        <th>管道段起点</th>
+        <th>管道段终点</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr th:each="pipe:${pipesegment}">
+        <td th:text="${pipe.id}"></td>
+        <td th:text="${pipe.start}"></td>
+        <td th:text="${pipe.end}"></td>
+    </tr>
+    </tbody>
+</table>
+
+<table id="sensor">
+    <thead>
+    <tr>
+        <th>传感器id</th>
+        <th>传感器位置</th>
+        <th>传感器种类</th>
+        <th>传感器状态</th>
+        <th>传感器数值</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr th:each="sensor:${sensor}">
+        <td th:text="${sensor.id}"></td>
+        <td th:text="${sensor.location}"></td>
+        <td th:text="${sensor.type}"></td>
+        <td th:text="${sensor.state}"></td>
+        <td th:text="${sensor.value}"></td>
+    </tr>
+    </tbody>
+</table>
+</body>
+</html>
