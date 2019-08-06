@@ -33,7 +33,7 @@ public class LocationUtil {
 
     /**
      * 将经纬度坐标的字符串表示转化为前端需要的格式类型返回
-     * 根据前端需求取绝对值，去掉括号
+     * 根据前端需求去掉括号
      * @param location
      * @return "精度,纬度"
      */
@@ -43,7 +43,7 @@ public class LocationUtil {
         String[] strings = location.split(",");
         Lng = Double.parseDouble(strings[0].substring(1)); //拿取经度
         Lat = Double.parseDouble(strings[1].substring(0,strings[1].length()-1)); //拿取纬度
-        String result = Math.abs(Lng)+ ","+ Math.abs(Lat);
+        String result = Lng+ ","+ Lat;
         return result;
     }
 

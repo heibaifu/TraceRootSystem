@@ -1,4 +1,4 @@
-package com.traceroot.VO;
+package com.traceroot.vo;
 
 import lombok.Data;
 

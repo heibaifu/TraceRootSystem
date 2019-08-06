@@ -1,6 +1,6 @@
 package com.traceroot.controller;
 
-import com.traceroot.VO.ResultVO;
+import com.traceroot.vo.ResultVO;
 import com.traceroot.converter.dao2dto.PipelineSensor2SensorDTOConverter;
 import com.traceroot.converter.form2dto.PipeForm2PipeDTOConverter;
 import com.traceroot.converter.form2dto.PipeSegmentForm2PipeSegmentDTOConverter;
@@ -65,9 +65,13 @@ public class PipeManageController {
         return new ModelAndView("bmaptest1.html", map);
     }
 
-    /*根据传感器坐标查找传感器*/
-    //todo 从前端发来的坐标是否需要加正负号
-    @GetMapping()
+    /**
+     * 根据传感器坐标查找传感器
+     * @param sensorLocation
+     * @param map
+     * @return
+     */
+    @GetMapping("/findsensor")
     public ModelAndView pipelineSensorMsg(@RequestParam(value = "sensorlocation",required = false)String sensorLocation,
                                           Map<String,Object>map){
         PipelineSensorDTO pipelineSensorDTO=pipelineSensorService.selectByLocation("("+sensorLocation+")");
@@ -152,8 +156,37 @@ public class PipeManageController {
         return ResultVOUtil.success(map);
     }
 
+    /**
+     * 删除管道
+     * todo 删除操作都没写
+     * @param pipeId
+     * @return
+     */
+    @GetMapping("/deletepipe")
+    @ResponseBody
+    public ResultVO<Map<String,String>> pipelineDelete(@RequestParam(value = "pipeId",required = false)String pipeId){
 
-    //管道及管道段的删除操作
+        Map<String,String> map = new HashMap<>();
+//        map.put("pipeId",result.getSensorId());
+
+        return ResultVOUtil.success(map);
+    }
+
+    /**
+     * 删除管道段
+     * @param segmentId
+     * @return
+     */
+    @GetMapping("/deletesegment")
+    @ResponseBody
+    public ResultVO<Map<String,String>> segmentDelete(@RequestParam(value = "segmentId",required = false)String segmentId){
+
+        Map<String,String> map = new HashMap<>();
+//        map.put("segmentId",result.getSensorId());
+
+        return ResultVOUtil.success(map);
+    }
+
 
     /**
      * 管道传感器的新增及更新
@@ -191,6 +224,21 @@ public class PipeManageController {
 
         Map<String,String> map = new HashMap<>();
         map.put("sensorId",result.getSensorId());
+
+        return ResultVOUtil.success(map);
+    }
+
+    /**
+     * 删除传感器
+     * @param sensorId
+     * @return
+     */
+    @GetMapping("/deletesensor")
+    @ResponseBody
+    public ResultVO<Map<String,String>> sensorDelete(@RequestParam(value = "sensorId",required = false)String sensorId){
+
+        Map<String,String> map = new HashMap<>();
+//        map.put("sensorId",result.getSensorId());
 
         return ResultVOUtil.success(map);
     }

@@ -1,6 +1,6 @@
 package com.traceroot.utils;
 
-import com.traceroot.VO.ResultVO;
+import com.traceroot.vo.ResultVO;
 
 public class ResultVOUtil {
 
