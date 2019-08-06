@@ -23,7 +23,7 @@ public class PipelineSensorServiceImplTest {
     @Autowired
     PipelineSensorServiceImpl service;
 
-    public static String SEGMENTID = "124";
+    public static String SEGMENTID = "123";
 
     public static String SENSORID = "1262750";
 

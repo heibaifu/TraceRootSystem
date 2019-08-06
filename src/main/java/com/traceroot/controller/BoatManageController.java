@@ -7,6 +7,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 @Controller
 @RequestMapping("/boat")
 @Slf4j
-public class BoatController {
+public class BoatManageController {
 
 }

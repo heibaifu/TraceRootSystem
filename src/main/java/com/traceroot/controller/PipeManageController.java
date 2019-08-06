@@ -1,13 +1,11 @@
 package com.traceroot.controller;
 
 import com.traceroot.vo.ResultVO;
-import com.traceroot.converter.dao2dto.PipelineSensor2SensorDTOConverter;
 import com.traceroot.converter.form2dto.PipeForm2PipeDTOConverter;
 import com.traceroot.converter.form2dto.PipeSegmentForm2PipeSegmentDTOConverter;
 import com.traceroot.converter.form2dto.PipelineSensorForm2SensorDTOConverter;
 import com.traceroot.dataobject.Pipeline;
 import com.traceroot.dataobject.PipelineSegment;
-import com.traceroot.dataobject.PipelineSensor;
 import com.traceroot.dto.PipeDTO;
 import com.traceroot.dto.PipeSegmentDTO;
 import com.traceroot.dto.PipelineSensorDTO;
@@ -46,23 +44,35 @@ public class PipeManageController {
     PipelineSegmentServiceImpl segmentService;
 
     @Autowired
-    PipelineSensorServiceImpl pipelineSensorService;
+    PipelineSensorServiceImpl sensorService;
 
     @GetMapping()
-    public ModelAndView pipeManager(
+    public ModelAndView pipeIndex(Map<String, Object> map) {
+        return new ModelAndView("bmaptest1.html", map);
+    }
+
+
+    @GetMapping("/datatable")
+    public ModelAndView datatableInsert(
             /*@RequestParam(value = "badnodeid", defaultValue = "5") Integer badnodeid*/
             Map<String, Object> map) {
 
-        //List<PipeSegmentDTO> pipeSegmentDTOList = segmentService.selectAll();
+        List<PipeSegmentDTO> pipeSegmentDTOList = segmentService.selectAll();
 
-        List<PipeSegmentDTO> warningSegments=segmentService.selectByWarning();
+        List<PipelineSensorDTO> sensorDTOList = sensorService.selectAll();
+
+        /*List<PipeSegmentDTO> warningSegments=segmentService.selectByWarning();
         String[] badnodeid=new String[warningSegments.size()];
         for (int i=0;i<warningSegments.size();i++){
             badnodeid[i]=warningSegments.get(i).getSegmentId();
         }
-        map.put("badnodeid", badnodeid);
+        map.put("badnodeid", badnodeid);*/
 
-        return new ModelAndView("bmaptest1.html", map);
+        map.put("pipeSegmentList", pipeSegmentDTOList);
+
+        map.put("sensorDTOList", sensorDTOList);
+
+        return new ModelAndView("datatable.html", map);
     }
 
     /**
@@ -74,7 +84,7 @@ public class PipeManageController {
     @GetMapping("/findsensor")
     public ModelAndView pipelineSensorMsg(@RequestParam(value = "sensorlocation",required = false)String sensorLocation,
                                           Map<String,Object>map){
-        PipelineSensorDTO pipelineSensorDTO=pipelineSensorService.selectByLocation("("+sensorLocation+")");
+        PipelineSensorDTO pipelineSensorDTO= sensorService.selectByLocation("("+sensorLocation+")");
         if (pipelineSensorDTO==null){
             log.error("【查找传感器】传感器不存在，sensorLocation={}",sensorLocation);
             throw new PipeException(ResultEnum.SENSOR_NOT_EXIST);
@@ -210,11 +220,11 @@ public class PipeManageController {
 
             pipelineSensorForm.setSensorId(RandomUtil.genUniqueId());
             pipelineSensorDTO= PipelineSensorForm2SensorDTOConverter.convert(pipelineSensorForm);
-            result = pipelineSensorService.save(pipelineSensorDTO); //新增
+            result = sensorService.save(pipelineSensorDTO); //新增
 
         }else{
-            pipelineSensorDTO= pipelineSensorService.selectBySensorId(pipelineSensorForm.getSensorId());
-            result = pipelineSensorService.update(pipelineSensorDTO);    //更新
+            pipelineSensorDTO= sensorService.selectBySensorId(pipelineSensorForm.getSensorId());
+            result = sensorService.update(pipelineSensorDTO);    //更新
         }
 
         if (result == null){

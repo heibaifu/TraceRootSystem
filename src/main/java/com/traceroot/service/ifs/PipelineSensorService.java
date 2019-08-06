@@ -11,11 +11,15 @@ import java.util.List;
  */
 public interface PipelineSensorService {
 
+    List<PipelineSensorDTO> selectAll();
+
     List<PipelineSensorDTO> selectBySegmentId(String segmentId);
 
     PipelineSensorDTO selectBySensorId(String sensorId);
 
     List<PipelineSensorDTO> selectByPipeId(String pipeId);
+
+    PipelineSensorDTO selectByLocation(String location);
 
     PipelineSensorDTO save(PipelineSensorDTO pipelineSensorDTO);
 
@@ -25,7 +29,5 @@ public interface PipelineSensorService {
     List<PipelineSensorDTO> selectByPresentStatus(SensorStatusEnum statusEnum);
 
     void deleteBySensorId(String sensorId);
-
-    PipelineSensorDTO selectByLocation(String location);
 
 }

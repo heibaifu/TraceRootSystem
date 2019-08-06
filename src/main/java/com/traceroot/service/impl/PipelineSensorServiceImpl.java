@@ -28,6 +28,13 @@ public class PipelineSensorServiceImpl implements PipelineSensorService {
     @Autowired
     private SensorStatusRepository statusRepository;
 
+    @Override
+    public List<PipelineSensorDTO> selectAll() {
+        List<PipelineSensor> sensorList = repository.findAll();
+        List<PipelineSensorDTO> sensorDTOList = PipelineSensor2SensorDTOConverter.convert(sensorList);
+        return sensorDTOList;
+    }
+
     /*查询传感器列表DTO*/
     //todo 是否需要给statusList加内容
     @Override
@@ -52,6 +59,20 @@ public class PipelineSensorServiceImpl implements PipelineSensorService {
         List<PipelineSensorDTO> pipelineSensorDTOS=PipelineSensor2SensorDTOConverter.convert(repository.findByPipeId(pipeId));
 
         return pipelineSensorDTOS;
+    }
+
+
+    /**
+     * 根据传感器状态号查找传感器
+     * @param statusEnum
+     * @return
+     */
+    @Override
+    public List<PipelineSensorDTO> selectByPresentStatus(SensorStatusEnum statusEnum) {
+
+        List<PipelineSensorDTO> pipelineSensorDTOS=PipelineSensor2SensorDTOConverter.convert(repository.findByPresentStatus(statusEnum.getCode()));
+        return pipelineSensorDTOS;
+
     }
 
     @Override
@@ -89,19 +110,6 @@ public class PipelineSensorServiceImpl implements PipelineSensorService {
         statusRepository.save(sensorStatus);
 
         return pipelineSensorDTO;
-    }
-
-    /**
-     * 根据传感器状态号查找传感器
-     * @param statusEnum
-     * @return
-     */
-    @Override
-    public List<PipelineSensorDTO> selectByPresentStatus(SensorStatusEnum statusEnum) {
-
-        List<PipelineSensorDTO> pipelineSensorDTOS=PipelineSensor2SensorDTOConverter.convert(repository.findByPresentStatus(statusEnum.getCode()));
-        return pipelineSensorDTOS;
-
     }
 
     @Override

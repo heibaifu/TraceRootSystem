@@ -15,8 +15,8 @@
     </tr>
     </thead>
     <tbody>
-    <tr th:each="pipe:${pipesegment}">
-        <td id="pipe.id" th:text="${pipe.id}"></td>
+    <tr th:each="pipe:${pipeSegmentList}">
+        <td id="pipe.id" th:text="${pipe.pipeId}"></td>
         <td id="pipe.start" th:text="${pipe.start}"></td>
         <td id="pipe.end" th:text="${pipe.end}"></td>
     </tr>
@@ -34,12 +34,12 @@
     </tr>
     </thead>
     <tbody>
-    <tr th:each="sensor:${sensor}">
-        <td id="sensor.id" th:text="${sensor.id}"></td>
+    <tr th:each="sensor:${sensorDTOList}">
+        <td id="sensor.id" th:text="${sensor.sensorId}"></td>
         <td id="sensor.location" th:text="${sensor.location}"></td>
-        <td id="sensor.type" th:text="${sensor.type}"></td>
-        <td id="sensor.state" th:text="${sensor.state}"></td>
-        <td id="sensor.value" th:text="${sensor.value}"></td>
+        <td id="sensor.type" th:text="${sensor.typeId}"></td>
+        <td id="sensor.state" th:text="${sensor.presentStatus}"></td>
+        <td id="sensor.value" th:text="${sensor.presentValue}"></td>
     </tr>
     </tbody>
 </table>

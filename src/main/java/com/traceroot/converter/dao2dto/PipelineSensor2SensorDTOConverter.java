@@ -2,6 +2,7 @@ package com.traceroot.converter.dao2dto;
 
 import com.traceroot.dataobject.PipelineSensor;
 import com.traceroot.dto.PipelineSensorDTO;
+import com.traceroot.utils.LocationUtil;
 import org.springframework.beans.BeanUtils;
 
 import java.util.List;
@@ -12,6 +13,7 @@ public class PipelineSensor2SensorDTOConverter {
     public static PipelineSensorDTO convert(PipelineSensor pipelineSensor){
         PipelineSensorDTO pipelineSensorDTO =new PipelineSensorDTO();
         BeanUtils.copyProperties(pipelineSensor, pipelineSensorDTO);
+        pipelineSensorDTO.setLocation(LocationUtil.string2DTOstring(pipelineSensor.getLocation()));
         return pipelineSensorDTO;
     }
 

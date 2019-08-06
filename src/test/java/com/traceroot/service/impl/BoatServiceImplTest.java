@@ -28,7 +28,7 @@ public class BoatServiceImplTest {
 
     String RUTEID="1234";
 
-    @Test
+    /*@Test
     public void selectByBoatId() {
         Boat boat = boatService.selectByBoatId(BOATID);
         Assert.assertEquals(BOATID,boat.getBoatId());
@@ -79,7 +79,7 @@ public class BoatServiceImplTest {
     public void updateByLocation() {
         Boat result=boatService.updateByLocation("5562266","(+116.366746,+39.967792)");
         Assert.assertNotNull(result);
-    }
+    }*/
 
     @Test
     public void deleteById() {
