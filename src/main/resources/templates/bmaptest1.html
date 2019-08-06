@@ -20,6 +20,8 @@
 
     </script>
 
+    <script src="/traceroot/js/transdata.js"></script>
+
     <script src="/traceroot/js/echarts.min.js"></script>
 
     <script src="/traceroot/js/echarts-liquidfill.min.js "></script>
@@ -181,16 +183,16 @@
     <div id="liquid4" class="liquid" ></div>
 
     <div class="liquid">
-        <table cellspacing="1" cellpadding="2" width="60%" style="color: beige" th:each="t:${pipeSegmentDTOList}">
+        <table cellspacing="1" cellpadding="2" width="60%" style="color: beige" >
 
             <tr  >
                 <td>更新时间</td>
-                <td><input type="text" name="update" id="update" th:value="${t.updateTime}"/>
+                <td><input type="text" name="update" id="pipesegmentstart" />
                 </td>
             </tr>
             <tr >
                 <td>创建时间</td>
-                <td><input type="text" name="creatdate" id="creatdate" th:value="${t.createTime}"/>
+                <td><input type="text" name="creatdate" id="creatdate" />
                 </td>
             </tr>
         </table>
