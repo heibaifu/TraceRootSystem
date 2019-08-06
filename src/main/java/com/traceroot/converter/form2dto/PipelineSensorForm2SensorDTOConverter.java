@@ -13,7 +13,7 @@ public class PipelineSensorForm2SensorDTOConverter {
         PipelineSensorDTO pipelineSensorDTO=new PipelineSensorDTO();
         BeanUtils.copyProperties(pipelineSensorForm,pipelineSensorDTO);
 
-        pipelineSensorDTO.setLocation("("+pipelineSensorForm.getLocation()+")");
+        pipelineSensorDTO.setLocation(pipelineSensorForm.getLocation());
 
         return pipelineSensorDTO;
     }

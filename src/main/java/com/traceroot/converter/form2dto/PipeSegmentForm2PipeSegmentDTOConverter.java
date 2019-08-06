@@ -22,8 +22,8 @@ public class PipeSegmentForm2PipeSegmentDTOConverter {
 
         segmentDTO.setPipeId(segmentForm.getPipeId());
         segmentDTO.setSegmentId(segmentForm.getSegmentId());
-        segmentDTO.setStart("(" + segmentForm.getStart() + ")");
-        segmentDTO.setEnd("(" + segmentForm.getEnd() + ")");
+        segmentDTO.setStart(segmentForm.getStart());
+        segmentDTO.setEnd(segmentForm.getEnd());
         segmentDTO.setSegmentSerialNumber(segmentForm.getSegmentSerialNumber());
 
         Gson gson = new Gson();

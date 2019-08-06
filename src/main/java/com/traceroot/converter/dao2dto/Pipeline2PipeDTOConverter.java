@@ -14,8 +14,8 @@ public class Pipeline2PipeDTOConverter {
         PipeDTO pipeDTO = new PipeDTO() ;
 
         pipeDTO.setPipeId(pipeline.getPipeId());
-        pipeDTO.setSource(LocationUtil.string2DTOstring(pipeline.getSource()));
-        pipeDTO.setDestination(LocationUtil.string2DTOstring(pipeline.getDestination()));
+        pipeDTO.setSource(pipeline.getSource());
+        pipeDTO.setDestination(pipeline.getDestination());
         /*pipeDTO.setCreateTime(pipeline.getCreateTime());*/
 
         return pipeDTO;

@@ -10,7 +10,7 @@ public class BoatForm2BoatDTOConverter {
         BoatDTO boatDTO=new BoatDTO();
         BeanUtils.copyProperties(boatForm,boatDTO);
 
-        boatDTO.setPresentLocation("("+boatForm.getPresentLocation()+")");
+        boatDTO.setPresentLocation(boatForm.getPresentLocation());
 
         return boatDTO;
     }

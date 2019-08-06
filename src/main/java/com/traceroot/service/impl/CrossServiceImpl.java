@@ -53,7 +53,7 @@ public class CrossServiceImpl implements CrossService {
         //搜索数据库
         List<BoatTrace> boatTraces = traceService.selectByRecordTimeBetweenAndRecordLocationIsLikeOrderByRecordTimeDesc(startTime, endTime, fuzzyMatchingExpr);
         if (boatTraces.size()==0){
-            throw new BoatException(ResultEnum.SEA_ROUTE_NOT_EXIST);
+            throw new BoatException(ResultEnum.NO_SURROUND_BOAT_FOUND);
         }
 
         //找出boatTraces里轨迹所对应的所有的boatId

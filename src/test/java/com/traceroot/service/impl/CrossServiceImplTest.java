@@ -47,7 +47,7 @@ public class CrossServiceImplTest {
     public void selectByPassingPipelineSegment() {
         try {
             startTime = String2TimestampUtil.string2Time("2019-07-27 19:17:18");
-            endTime = String2TimestampUtil.string2Time("2019-07-28 18:34:00");
+            endTime = String2TimestampUtil.string2Time("2019-07-28 18:49:25");
         } catch (ParseException e) {
             log.error("【时间设定异常】",e.getMessage());
         }

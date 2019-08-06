@@ -7,9 +7,10 @@ import java.util.Random;
 public class RandomUtil {
 
     /**
-     * 用于生成随机的地理位置
+     * 用于生成随机的地理位置，这是带括号的
      * @return
      */
+    @Deprecated
     public static String genUniqueLocation(){
         Random random = new Random() ;
         //正负号生成

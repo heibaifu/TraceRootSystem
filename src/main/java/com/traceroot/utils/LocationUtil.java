@@ -14,8 +14,8 @@ public class LocationUtil {
         //经度 Longitude 简写Lng 纬度 Latitude 简写Lat
         double Lng, Lat;
         String[] strings = location.split(",");
-        Lng = Double.parseDouble(strings[0].substring(1)); //拿取经度
-        Lat = Double.parseDouble(strings[1].substring(0,strings[1].length()-1)); //拿取纬度
+        Lng = Double.parseDouble(strings[0]); //拿取经度
+        Lat = Double.parseDouble(strings[1]); //拿取纬度
         return new DoubleLocation(Lng,Lat);
     }
 
@@ -26,7 +26,7 @@ public class LocationUtil {
      */
     public static String doubleLocation2String(DoubleLocation location){
         //经度 Longitude 纬度 Latitude
-        String result = "(" + location.getLongitude() +"," + location.getLatitude() + ")";
+        String result = location.getLongitude() +"," + location.getLatitude();
         return result;
     }
 
@@ -34,15 +34,16 @@ public class LocationUtil {
     /**
      * 将经纬度坐标的字符串表示转化为前端需要的格式类型返回
      * 根据前端需求去掉括号
-     * @param location
+     * @param location (精度,纬度)，带正负号
      * @return "精度,纬度"
      */
+    @Deprecated
     public static String string2DTOstring(String location){
         //经度 Longitude 简写Lng 纬度 Latitude 简写Lat
         double Lng, Lat;
         String[] strings = location.split(",");
-        Lng = Double.parseDouble(strings[0].substring(1)); //拿取经度
-        Lat = Double.parseDouble(strings[1].substring(0,strings[1].length()-1)); //拿取纬度
+        Lng = Double.parseDouble(strings[0]); //拿取经度
+        Lat = Double.parseDouble(strings[1]); //拿取纬度
         String result = Lng+ ","+ Lat;
         return result;
     }
@@ -61,24 +62,19 @@ public class LocationUtil {
 
         String result;
 
-        //例子："(+116.3%,+39.9%)"
+        //例子："116.3%,-39.9%"
 
         //拿出经度小数点前的位数
         String[] split = lngString.split("\\.");
         String substring = split[1].substring(0, accuracyDegree);
         //拼接精度
-        if(lng > 0)
-            result = "(+" + split[0] + "." + substring + "%" + ",";
-        else
-            result = "(" + split[0] + "." + substring + "%" + ",";
+        result = split[0] + "." + substring + "%" + ",";
 
         //重复上一部，拿纬度数据
         split = latString.split("\\.");
         substring = split[1].substring(0, accuracyDegree);
-        if(lat > 0)
-            result = result + "+" + split[0] + "." + substring + "%" + ")";
-        else
-            result = result +  split[0] + "." + substring + "%" + ")";
+
+        result = result +  split[0] + "." + substring + "%";
 
         return result;
     }

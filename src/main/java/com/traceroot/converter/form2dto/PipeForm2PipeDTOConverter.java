@@ -16,8 +16,8 @@ public class PipeForm2PipeDTOConverter {
         PipeDTO pipeDTO = new PipeDTO();
 
         pipeDTO.setPipeId(pipeForm.getPipeId());
-        pipeDTO.setSource("(" + pipeForm.getSource() + ")");
-        pipeDTO.setDestination("(" + pipeForm.getDestination() + ")");
+        pipeDTO.setSource(pipeForm.getSource());
+        pipeDTO.setDestination(pipeForm.getDestination());
 
         /*if (pipeForm.getCreateTime() != null) {
             pipeDTO.setCreateTime(String2TimestampUtil.string2Time(pipeForm.getCreateTime()));

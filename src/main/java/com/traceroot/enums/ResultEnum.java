@@ -31,7 +31,9 @@ public enum  ResultEnum {
 
     SAVE_FAIL(12,"保存失败"),
 
-    PIPE_SEGMENT_AlREADY_EXIST(13,"管道段已经存在")
+    PIPE_SEGMENT_AlREADY_EXIST(13,"管道段已经存在"),
+
+    NO_SURROUND_BOAT_FOUND(14,"周围不存在船只")
 
 
     ;

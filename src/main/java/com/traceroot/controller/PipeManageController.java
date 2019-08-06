@@ -84,7 +84,7 @@ public class PipeManageController {
     @GetMapping("/findsensor")
     public ModelAndView pipelineSensorMsg(@RequestParam(value = "sensorlocation",required = false)String sensorLocation,
                                           Map<String,Object>map){
-        PipelineSensorDTO pipelineSensorDTO= sensorService.selectByLocation("("+sensorLocation+")");
+        PipelineSensorDTO pipelineSensorDTO= sensorService.selectByLocation(sensorLocation);
         if (pipelineSensorDTO==null){
             log.error("【查找传感器】传感器不存在，sensorLocation={}",sensorLocation);
             throw new PipeException(ResultEnum.SENSOR_NOT_EXIST);
