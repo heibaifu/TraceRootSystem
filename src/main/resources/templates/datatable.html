@@ -5,7 +5,7 @@
     <title>Thymeleaf快速入门-Hello Thymeleaf</title>
     <script>
         function f() {
-            var pipestartdata = document.pipesegment1.pipe_start.innerHTML;
+            var pipestartdata = document.pipesegment1.p.pipe.pipe_start.innerHTML;
             var pipeenddata = document.pipesegment1.pipe_end.innerHTML;
             var _parentWin = window.parent;
             _parentWin.pipesegment.pipesegmentend.value = pipeenddata;
@@ -28,8 +28,8 @@
         <th>管道段终点</th>
     </tr>
     </thead>
-    <tbody>
-    <tr th:each="pipe:${pipeSegmentList}">
+    <tbody name="p">
+    <tr name="pipe" th:each="pipe:${pipeSegmentList}">
         <td id="pipe_id" name="pipe_id" th:text="${pipe.pipeId}"></td>
         <td id="pipe_start" name="pipe_start" th:text="${pipe.start}">123465498</td>
         <td id="pipe_end" name="pipe_end" th:text="${pipe.end}"></td>
