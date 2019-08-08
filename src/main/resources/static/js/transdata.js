@@ -1,9 +1,10 @@
 
-if(document.getElementById("pipe.start") != null){
+
     var pipestartdata = document.getElementById('pipe.start').innerHTML;
-    document.getElementById('pipesegmentstart').value= pipestartdata;
-}
+    var pipeenddata = document.getElementById("pipe.end").innerHTML;
 
 
-var pipeenddata = document.getElementById("pipe.end").innerHTML;
-document.getElementById("pipesegmentend").value= pipeenddata;
+
+    var _parentWin = window.parent
+    _parentWin.pipesegment.pipesegmentend.value = pipeenddata;
+    _parentWin.pipesegment.pipesegmentstart.value = pipestartdata;
