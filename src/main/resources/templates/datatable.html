@@ -3,13 +3,7 @@
 <head>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
     <title>Thymeleaf快速入门-Hello Thymeleaf</title>
-    <script>
-        var pipestartdata = document.pipesegment1.pipe_start.innerHTML;
-        var pipeenddata = document.pipesegment1.pipe_end.innerHTML;
-        var _parentWin = window.parent
-        _parentWin.pipesegment.pipesegmentend.value = pipeenddata;
-        _parentWin.pipesegment.pipesegmentstart.value = pipestartdata;
-    </script>
+
     <style>
         .hidde{
             display: none;
@@ -29,7 +23,7 @@
     <tbody>
     <tr th:each="pipe:${pipeSegmentList}">
         <td id="pipe_id" name="pipe_id" th:text="${pipe.pipeId}"></td>
-        <td id="pipe_start" name="pipe_start" th:text="${pipe.start}"></td>
+        <td id="pipe_start" name="pipe_start" th:text="${pipe.start}">123465498</td>
         <td id="pipe_end" name="pipe_end" th:text="${pipe.end}"></td>
     </tr>
     </tbody>
@@ -57,9 +51,15 @@
 </table>
 
 
+<script>
+    var pipestartdata = document.pipesegment1.pipe_start.innerHTML;
+    var pipeenddata = document.pipesegment1.pipe_end.innerHTML;
+    var _parentWin = window.parent;
+    _parentWin.pipesegment.pipesegmentend.value = pipeenddata;
+    _parentWin.pipesegment.pipesegmentstart.value = pipestartdata;
+</script>
 
 
-<script src="/traceroot/js/transdata.js"></script>
 </body>
 
 </html>
