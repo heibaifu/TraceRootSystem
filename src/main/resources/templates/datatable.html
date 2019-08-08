@@ -4,8 +4,8 @@
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
     <title>Thymeleaf快速入门-Hello Thymeleaf</title>
     <script>
-        var pipestartdata = document.getElementById('pipe.start').innerHTML;
-        var pipeenddata = document.getElementById("pipe.end").innerHTML;
+        var pipestartdata = document.pipesegment1.pipe_start.innerHTML;
+        var pipeenddata = document.pipesegment1.pipe_end.innerHTML;
         var _parentWin = window.parent
         _parentWin.pipesegment.pipesegmentend.value = pipeenddata;
         _parentWin.pipesegment.pipesegmentstart.value = pipestartdata;
@@ -18,7 +18,7 @@
     </style>
 </head>
 <body>
-<table id="pipesegment" class="hidde">
+<table id="pipesegment1" name="pipesegment1" class="hidde">
     <thead>
     <tr>
         <th>管道段id</th>
@@ -28,14 +28,14 @@
     </thead>
     <tbody>
     <tr th:each="pipe:${pipeSegmentList}">
-        <td id="pipe.id" th:text="${pipe.pipeId}"></td>
-        <td id="pipe.start" th:text="${pipe.start}"></td>
-        <td id="pipe.end" th:text="${pipe.end}"></td>
+        <td id="pipe_id" name="pipe_id" th:text="${pipe.pipeId}"></td>
+        <td id="pipe_start" name="pipe_start" th:text="${pipe.start}"></td>
+        <td id="pipe_end" name="pipe_end" th:text="${pipe.end}"></td>
     </tr>
     </tbody>
 </table>
 
-<table id="sensor">
+<table id="sensor" name="sensor">
     <thead>
     <tr>
         <th>传感器id</th>
@@ -47,11 +47,11 @@
     </thead>
     <tbody>
     <tr th:each="sensor:${sensorDTOList}">
-        <td id="sensor.id" th:text="${sensor.sensorId}"></td>
-        <td id="sensor.location" th:text="${sensor.location}"></td>
-        <td id="sensor.type" th:text="${sensor.typeId}"></td>
-        <td id="sensor.state" th:text="${sensor.presentStatus}"></td>
-        <td id="sensor.value" th:text="${sensor.presentValue}"></td>
+        <td id="sensor_id" name="sensor_id" th:text="${sensor.sensorId}"></td>
+        <td id="sensor_location" name="sensor_location" th:text="${sensor.location}"></td>
+        <td id="sensor_type" name="sensor_type" th:text="${sensor.typeId}"></td>
+        <td id="sensor_state" name="sensor_state" th:text="${sensor.presentStatus}"></td>
+        <td id="sensor_value" name="sensor_value" th:text="${sensor.presentValue}"></td>
     </tr>
     </tbody>
 </table>
