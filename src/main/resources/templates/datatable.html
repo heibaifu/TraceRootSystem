@@ -3,7 +3,15 @@
 <head>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
     <title>Thymeleaf快速入门-Hello Thymeleaf</title>
-
+    <script>
+        function f() {
+            var pipestartdata = document.pipesegment1.pipe_start.innerHTML;
+            var pipeenddata = document.pipesegment1.pipe_end.innerHTML;
+            var _parentWin = window.parent;
+            _parentWin.pipesegment.pipesegmentend.value = pipeenddata;
+            _parentWin.pipesegment.pipesegmentstart.value = pipestartdata;
+        }
+    </script>
     <style>
         .hidde{
             display: none;
@@ -11,7 +19,7 @@
 
     </style>
 </head>
-<body>
+<body onload="f()">
 <table id="pipesegment1" name="pipesegment1" class="hidde">
     <thead>
     <tr>
@@ -51,13 +59,7 @@
 </table>
 
 
-<script>
-    var pipestartdata = document.pipesegment1.pipe_start.innerHTML;
-    var pipeenddata = document.pipesegment1.pipe_end.innerHTML;
-    var _parentWin = window.parent;
-    _parentWin.pipesegment.pipesegmentend.value = pipeenddata;
-    _parentWin.pipesegment.pipesegmentstart.value = pipestartdata;
-</script>
+
 
 
 </body>
