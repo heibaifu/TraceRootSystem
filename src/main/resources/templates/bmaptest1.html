@@ -8,11 +8,13 @@
 
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
 
+    <meta http-equiv="X-UA-Compatible" content="ie=edge" />
+
     <title>bmaptest</title>
 
-
-
     <link href="/traceroot/css/style.css" rel="stylesheet" type="text/css">
+
+    <link href="https://cdn.bootcss.com/font-awesome/5.8.0/css/all.css" rel="stylesheet" />
 
     <script type="text/javascript" src="http://api.map.baidu.com/api?v=3.0&ak=nBKX588I9lDCyaKBip9bQTpmeeCidwL3">
 
@@ -30,17 +32,67 @@
 
     <script type="text/javascript" src="/traceroot/js/jquery-3.3.1.js"></script>
 
+    <script src="/traceroot/js/transdata.js"></script>
+
+    <script>
+        function getvalue()
+    {
+        var pare=window.opener;
+        if(pare!=null)
+        {
+
+            var start=new Array();
+            var end=new Array();
+            var update=new Array();
+            var creat=new Array();
+            var sensorid=new Array();
+            var sensorlocation=new Array();
+            var sensortype=new Array();
+            var sensorstate=new Array();
+            var sensorvalue=new Array();
+            var sensorupdate=new Array();
+            var sensorcreat=new Array();
+            var tablepipesegment=pare.document.getElementById("pipesegment1");
+            var tablesensor=pare.document.getElementById("sensor1");
+
+           for (i = 0; i < tablepipesegment.rows.length -1; i++) {
+                start[i] = tablepipesegment.rows[i+1].cells[1];
+                end[i] = tablepipesegment.rows[i+1].cells[2];
+                update[i] = tablepipesegment.rows[i+1].cells[3];
+                creat[i] = tablepipesegment.rows[i+1].cells[4];
+                if (end[i] != null) {
+
+                    drawpipe(start[i], end[i]);
+
+                }
+            }
+
+
+            for (j = 0; j <  tablesensor.rows.length -1; j++) {
+                sensorid[j] = tablesensor.rows[j+1].cells[0];
+                sensorlocation[j] = tablesensor.rows[j+1].cells[1];
+                sensortype[j]= tablesensor.rows[j+1].cells[2];
+                sensorstate[j]= tablesensor.rows[j+1].cells[3];
+                sensorvalue[j]= tablesensor.rows[j+1].cells[4];
+                sensorupdate[j]= tablesensor.rows[j+1].cells[5];
+                sensorcreat[j]= tablesensor.rows[j+1].cells[6];
+                if (sensorlocation[j] != null) {
+                    drawsensor(sensorid[j],sensorlocation[j],sensortype[j],sensorstate[j],sensorvalue[j],sensorupdate[j],sensorcreat[j]);
+
+                }
+            }
 
 
 
 
+        }
+    }
+    </script>
+    </head>
 
 
-</head>
 
-
-
-<body>
+<body onload="getvalue()" >
 
 <div style="position:relative; width:100%; height:100%;" id="container"></div>
 
@@ -169,8 +221,7 @@
             </tr>
 
         </table>
-
-
+        <input type="button" onclick="jump()" value="跳转">
 
     </div>
 
@@ -187,7 +238,7 @@
 
             <tr  >
                 <td>更新时间</td>
-                <td><input type="text" name="pipesegmentstart" id="pipesegmentstart" />
+                <td><input type="text"   name="pipesegmentstart" id="pipesegmentstart" />
                 </td>
             </tr>
             <tr >
@@ -200,7 +251,12 @@
 
 </div>
 
-<iframe src="/traceroot/pipe/datatable"></iframe>
+<div id="button">
+    <button style="font-size:24px">新建 <i class="fa fa-plus-square" onclick="addp()"></i></button>
+    <button style="font-size:24px">删除 <i class="fa fa-minus-square" onclick="delp()"></i></button>
+</div>
+
+<div id="r-result"></div>
 
 <script type="text/javascript">
 
@@ -274,216 +330,227 @@
 
 <script type="text/javascript">	 //管道参数数据显示
 
-var x=new Array();   //管道参数数据
+function x(infoWindow) {
+    var x = new Array();   //管道参数数据
 
-x[0]=[0.5];
+    document.getElementById("r-result").innerHTML = "信息窗口的内容是：<br />" + infoWindow.getContent();
 
-x[1]=[0.9];
+    var sensordata = infoWindow.getContent();
 
+    var sensorvalue =sensordata.split("；");
 
+    var senid = sensorvalue[0].split("：");
 
+    var location  = sensorvalue[1].split("：");
 
+    var pos  = location[1].split(",");
 
-echarts.init(document.getElementById('liquid1')).setOption ({
+    var updatet=sensorvalue[5].split("：");
 
+    var creatt=sensorvalue[6].split("：");
 
+    var svalue=sensorvalue[4].split("：");
 
-    series: {
+    document.getElementById('lng').value = pos[0];
 
-        type: 'liquidFill',
+    document.getElementById('lat').value = pos[1];
 
-        data: x[0],
+    document.getElementById('id').value = senid[1];
 
-        name: "线路负载",
+    document.getElementById("pipesegmentstart").value=updatet[1];
 
-        label:{
+    document.getElementById("pipesegmentend").value=creatt[1];
 
+    var s = parseFloat(svalue[1]);
 
+    x[0] = [s];
 
-            position: ['50%', '50%'],
+    x[1] = [0.9];
 
-            formatter: '{a}\n{b}\n{c}',
+    x[2] = [0.5];
 
-            fontSize: 20
-
-
-
-        },
-
-        outline: {
-
-            borderDistance: 0,
-
-            itemStyle: {
-
-                borderWidth: 5,
-
-                borderColor: '#333'
+    x[3] = [0.4];
 
 
-
-            }
-
-        }
-
-    }
+    echarts.init(document.getElementById('liquid1')).setOption({
 
 
+        series: {
 
-});
+            type: 'liquidFill',
 
-echarts.init(document.getElementById('liquid2')).setOption ({
+            data: x[0],
 
+            name: "线路负载",
 
-
-    series: {
-
-        type: 'liquidFill',
-
-        data: x[1],
-
-        name: "温度相对值",
-
-        label:{
+            label: {
 
 
+                position: ['50%', '50%'],
 
-            position: ['50%', '50%'],
+                formatter: '{a}\n{b}\n{c}',
 
-            formatter: '{a}\n\n{c}',			//{a} refers to series name, {b} to data name, and {c} to data value.
-
-            fontSize: 20
-
+                fontSize: 20
 
 
-        },
+            },
 
-        outline: {
+            outline: {
 
-            borderDistance: 0,
+                borderDistance: 0,
 
-            itemStyle: {
+                itemStyle: {
 
-                borderWidth: 5,
+                    borderWidth: 5,
 
-                borderColor: '#333'
+                    borderColor: '#333'
 
 
+                }
 
             }
 
         }
 
-    }
+
+    });
+
+    echarts.init(document.getElementById('liquid2')).setOption({
 
 
+        series: {
 
-});
+            type: 'liquidFill',
 
-echarts.init(document.getElementById('liquid3')).setOption ({
+            data: x[1],
 
+            name: "温度相对值",
 
-
-    series: {
-
-        type: 'liquidFill',
-
-        data: x[1],
-
-        name: "温度相对值",
-
-        label:{
+            label: {
 
 
+                position: ['50%', '50%'],
 
-            position: ['50%', '50%'],
+                formatter: '{a}\n\n{c}',			//{a} refers to series name, {b} to data name, and {c} to data value.
 
-            formatter: '{a}\n\n{c}',			//{a} refers to series name, {b} to data name, and {c} to data value.
-
-            fontSize: 20
-
+                fontSize: 20
 
 
-        },
+            },
 
-        outline: {
+            outline: {
 
-            borderDistance: 0,
+                borderDistance: 0,
 
-            itemStyle: {
+                itemStyle: {
 
-                borderWidth: 5,
+                    borderWidth: 5,
 
-                borderColor: '#333'
+                    borderColor: '#333'
 
 
+                }
 
             }
 
         }
 
-    }
+
+    });
+
+    echarts.init(document.getElementById('liquid3')).setOption({
 
 
+        series: {
 
-});
+            type: 'liquidFill',
 
-echarts.init(document.getElementById('liquid4')).setOption ({
+            data: x[2],
 
+            name: "温度相对值",
 
-
-    series: {
-
-        type: 'liquidFill',
-
-        data: x[1],
-
-        name: "温度相对值",
-
-        label:{
+            label: {
 
 
+                position: ['50%', '50%'],
 
-            position: ['50%', '50%'],
+                formatter: '{a}\n\n{c}',			//{a} refers to series name, {b} to data name, and {c} to data value.
 
-            formatter: '{a}\n\n{c}',			//{a} refers to series name, {b} to data name, and {c} to data value.
-
-            fontSize: 20
-
+                fontSize: 20
 
 
-        },
+            },
 
-        outline: {
+            outline: {
 
-            borderDistance: 0,
+                borderDistance: 0,
 
-            itemStyle: {
+                itemStyle: {
 
-                borderWidth: 5,
+                    borderWidth: 5,
 
-                borderColor: '#333'
+                    borderColor: '#333'
 
 
+                }
 
             }
 
         }
 
-    }
+
+    });
+
+    echarts.init(document.getElementById('liquid4')).setOption({
 
 
+        series: {
 
-});
+            type: 'liquidFill',
 
-setTimeout(function () {					//之后数据传输时要将此替换（为了模拟数据到来）
+            data: x[3],
 
-        changec(x);
+            name: "温度相对值",
 
-    },1000
+            label: {
 
-)
 
+                position: ['50%', '50%'],
+
+                formatter: '{a}\n\n{c}',			//{a} refers to series name, {b} to data name, and {c} to data value.
+
+                fontSize: 20
+
+
+            },
+
+            outline: {
+
+                borderDistance: 0,
+
+                itemStyle: {
+
+                    borderWidth: 5,
+
+                    borderColor: '#333'
+
+
+                }
+
+            }
+
+        }
+
+
+    });
+
+    setTimeout(function () {					//之后数据传输时要将此替换（为了模拟数据到来）
+
+            changec(x);
+
+        }, 1000
+    )
+}
 </script>
 
 <script type="text/javascript"> 			//百度地图设置
@@ -547,81 +614,111 @@ map.addOverlay(marker);
 
 }*/
 
+/*function addp() {
+
+    map.addEventListener("click",function(e){
+        var r=confirm("起点设置为!" +e.point.lng + "," + e.point.lat);
+        if (r==true){
+
+        }
+        else{
+
+        }
+    });
+
+}*/
+
+/*function delp(){
+
+    var delid=prompt("请输入删除管道段的id","124");
+    if (delid!=null && delid!=""){
+
+    }
+}
+*/
+function jump(){
+    var jumps = new BMap.Point(document.getElementById('lng').value, document.getElementById('lat').value);
+    var r=confirm("是否添加标记");
+    map.panTo(jumps);
+    if (r==true){
+        var marker = new BMap.Marker(jumps);
+        map.addOverlay(marker);
+    }
+}
+
 //点击地图时间处理
 
-function showInfo() {
-
+function showinfo() {
     var pos = circle.getCenter();
 
     document.getElementById('lng').value = pos.lng;
 
     document.getElementById('lat').value = pos.lat;
 
-    var opts = {
-        width : 200,     // 信息窗口宽度
-        height: 100,     // 信息窗口高度
-        title : "传感器信息" , // 信息窗口标题
-        enableMessage:true,//设置允许信息窗发送短息
-        message:"亲耐滴，晚上一起吃个饭吧？戳下面的链接看下地址喔~"
-    }
-    var infoWindow = new BMap.InfoWindow("地址：北京市东城区王府井大街88号乐天银泰百货八层", opts);  // 创建信息窗口对象
-
-    //var infoWindow = new BMap.InfoWindow("位置：" + [[${sensorlocation}]] + "状态:" + [[${sensorstatus}]] , opts);
-    //预留给弹窗显示信息用
-
-    map.openInfoWindow(infoWindow,point); //开启信息窗口
+    var points1 = new BMap.Point(pos.lng, pos.lat);
 
 }
 
-//从处添加前后端传感器的数据交互，给后台管道id，返回数据
+function showInfos(sensorid,sensorlocation,sensortype,sensorstatus,sensorvalue,sensorupdate,sensorcreat) {
 
-/*  markersArray.push(m);
+    var pos = sensorlocation.innerHTML.split(",");
 
-    clearOverlays();
+    document.getElementById('lng').value = pos[0];
 
-  map.addOverlay(m);*/
+    document.getElementById('lat').value = pos[1];
 
-var marker1 = new BMap.Marker(new BMap.Point(116.404, 39.915));			//加载单个点
+    var points1 = new BMap.Point(pos[0], pos[1]);
 
-var circle = new BMap.Circle(point,500,{strokeColor:"blue", strokeWeight:2, strokeOpacity:0,fillOpacity:0}); //创建圆
-
-var polyline = new BMap.Polyline([
-
-    new BMap.Point(116.399, 39.910),
-
-    new BMap.Point(116.405, 39.920),
-
-    new BMap.Point(116.425, 39.900)
-
-], {strokeColor:"blue", strokeWeight:2, strokeOpacity:0.5});   //创建折线
-
-
-
-map.addOverlay(marker1);
-
-map.addOverlay(polyline);          //增加折线
-
-map.addOverlay(circle);
-
-
-
-circle.addEventListener("click", showInfo);			//获取鼠标点击位置的经纬度信息
-
-
-
-/*
-for (var i = 0; i < pipestartdata.size; i++) {
-        var ss = pipestartdata[i].split(",");
-        var ee = pipeenddata[i].split(",");
-        var points1 = new BMap.Point((ss[0],ss[1]));
-        var points2 = new BMap.Point((ee[0],ee[1]));
-        var pipeline = new BMap.Polyline([
-           points1,
-            points2
-        ], {strokeColor:"blue", strokeWeight:2, strokeOpacity:0.5});   //创建折线
-            map.addOverlay(pipeline);
+    var opts = {
+        width : 200,     // 信息窗口宽度
+        height: 150,     // 信息窗口高度
+        title : "传感器信息" , // 信息窗口标题
+        enableMessage:true,//设置允许信息窗发送短息
+        enableCloseOnClick:false,
+        message:"1234321~"
     }
-*/
+
+    var infoWindow = new BMap.InfoWindow( "id ：" + sensorid.innerHTML  +"； 位置 ：" + sensorlocation.innerHTML + "； 状态 ：" +sensorstatus.innerHTML + "； 种类 ：" + sensortype.innerHTML + "； 数值：" + sensorvalue.innerHTML +
+    "； 更新时间： " + sensorupdate.innerHTML + "； 创建时间：" + sensorcreat.innerHTML , opts);
+    //预留给弹窗显示信息用
+
+    map.openInfoWindow(infoWindow,points1); //开启信息窗口
+
+    infoWindow.addEventListener("open",x( infoWindow));
+
+}
+
+function drawpipe(start,end) {
+
+    var ss = start.innerHTML.split(",");
+    var ee = end.innerHTML.split(",");
+    var points1 = new BMap.Point(ss[0], ss[1]);
+    var points2 = new BMap.Point(ee[0], ee[1]);
+    var pipeline = new BMap.Polyline([
+        points1,
+        points2
+    ], {strokeColor: "blue", strokeWeight: 2, strokeOpacity: 0.5});   //创建折线
+    map.addOverlay(pipeline);
+
+}
+
+function drawsensor(id,location,type,state,value,update,creat) {
+
+     var sen = location.innerHTML.split(",");
+
+    var sens = new BMap.Point(sen[0],sen[1]);
+
+    var marker = new BMap.Marker(new BMap.Point(sen[0],sen[1]));			//加载单个点
+
+    var circle1 = new BMap.Circle(sens,500,{strokeColor:"blue", strokeWeight:2, strokeOpacity:0,fillOpacity:0}); //创建圆
+
+    map.addOverlay(marker);
+
+    map.addOverlay(circle1);
+
+    circle1.addEventListener("click", showInfos(id,location,type,state,value,update,creat));
+
+}
 </script>
 
 <script th:inline="javascript">
@@ -714,7 +811,7 @@ for (var i = 0; i < pipestartdata.size; i++) {
 
 </script>
 
-<script src="/traceroot/js/transdata.js"></script>
+
 
 </body>
 

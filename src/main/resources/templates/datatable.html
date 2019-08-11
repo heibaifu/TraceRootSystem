@@ -4,40 +4,38 @@
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
     <title>Thymeleaf快速入门-Hello Thymeleaf</title>
     <script>
-        function f() {
-            var pipestartdata = document.pipesegment1.p.pipe.pipe_start.innerHTML;
-            var pipeenddata = document.pipesegment1.pipe_end.innerHTML;
-            var _parentWin = window.parent;
-            _parentWin.pipesegment.pipesegmentend.value = pipeenddata;
-            _parentWin.pipesegment.pipesegmentstart.value = pipestartdata;
-        }
-    </script>
-    <style>
-        .hidde{
-            display: none;
+
+        function f()
+        {
+            window.open('/traceroot/pipe');
         }
 
-    </style>
+    </script>
+
 </head>
 <body onload="f()">
-<table id="pipesegment1" name="pipesegment1" class="hidde">
+<table id="pipesegment1" name="pipesegment1">
     <thead>
     <tr>
         <th>管道段id</th>
         <th>管道段起点</th>
         <th>管道段终点</th>
+        <th>管道段更新时间</th>
+        <th>管道段创建时间</th>
     </tr>
     </thead>
-    <tbody name="p">
-    <tr name="pipe" th:each="pipe:${pipeSegmentList}">
-        <td id="pipe_id" name="pipe_id" th:text="${pipe.pipeId}"></td>
-        <td id="pipe_start" name="pipe_start" th:text="${pipe.start}">123465498</td>
+    <tbody id="p" name="p">
+    <tr id="pipe" name="pipe" th:each="pipe:${pipeSegmentList}">
+        <td id="pipe_id" name="pipe_id" th:text="${pipe.segmentId}"></td>
+        <td id="pipe_start" name="pipe_start" th:text="${pipe.start}"></td>
         <td id="pipe_end" name="pipe_end" th:text="${pipe.end}"></td>
+        <td id="pipe_update" name="pipe_update" th:text="${pipe.updateTime}"></td>
+        <td id="pipe_creat" name="pipe_creat" th:text="${pipe.createTime}"></td>
     </tr>
     </tbody>
 </table>
 
-<table id="sensor" name="sensor">
+<table id="sensor1" name="sensor1">
     <thead>
     <tr>
         <th>传感器id</th>
@@ -45,6 +43,8 @@
         <th>传感器种类</th>
         <th>传感器状态</th>
         <th>传感器数值</th>
+        <th>传感器更新时间</th>
+        <th>传感器创建时间</th>
     </tr>
     </thead>
     <tbody>
@@ -54,12 +54,13 @@
         <td id="sensor_type" name="sensor_type" th:text="${sensor.typeId}"></td>
         <td id="sensor_state" name="sensor_state" th:text="${sensor.presentStatus}"></td>
         <td id="sensor_value" name="sensor_value" th:text="${sensor.presentValue}"></td>
-    </tr>
+        <td id="sensor_update" name="sensor_update" th:text="${sensor.updateTime}"></td>
+        <td id="sensor_creat" name="sensor_creat" th:text="${sensor.createTime}"></td>
+</tr>
+
+
     </tbody>
 </table>
-
-
-
 
 
 </body>
