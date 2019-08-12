@@ -81,10 +81,6 @@
 
                 }
             }
-
-
-
-
         }
     }
     </script>
@@ -333,8 +329,6 @@
 function x(infoWindow) {
     var x = new Array();   //管道参数数据
 
-    document.getElementById("r-result").innerHTML = "信息窗口的内容是：<br />" + infoWindow.getContent();
-
     var sensordata = infoWindow.getContent();
 
     var sensorvalue =sensordata.split("；");
@@ -351,6 +345,8 @@ function x(infoWindow) {
 
     var svalue=sensorvalue[4].split("：");
 
+    var stype=sensorvalue[3].split("：");
+
     document.getElementById('lng').value = pos[0];
 
     document.getElementById('lat').value = pos[1];
@@ -363,13 +359,44 @@ function x(infoWindow) {
 
     var s = parseFloat(svalue[1]);
 
-    x[0] = [s];
+    var st = parseFloat(stype[1]);
 
-    x[1] = [0.9];
+    switch (st) {
+        case 2926155 :
+            x[0] = [s];
+            x[1] = [0];
+            x[2] = [0];
+            x[3] = [0];
+            break;
+        case 2926378 :
+            x[0] = [0];
+            x[1] = [s];
+            x[2] = [0];
+            x[3] = [0];
+            break;
+        case 7752109 :
+            x[0] = [0];
+            x[1] = [0];
+            x[2] = [s];
+            x[3] = [0];
+            break;
+        default :
+            x[0] = [0];
+            x[1] = [0];
+            x[2] = [0];
+            x[3] = [0.4];
+            break;
 
-    x[2] = [0.5];
+    }
 
-    x[3] = [0.4];
+
+
+
+
+
+
+
+
 
 
     echarts.init(document.getElementById('liquid1')).setOption({
@@ -548,7 +575,7 @@ function x(infoWindow) {
 
             changec(x);
 
-        }, 1000
+        }, 100
     )
 }
 </script>
@@ -648,26 +675,13 @@ function jump(){
 
 //点击地图时间处理
 
-function showinfo() {
-    var pos = circle.getCenter();
+function showInfos(content,e) {
 
-    document.getElementById('lng').value = pos.lng;
+    var p = e.target;
 
-    document.getElementById('lat').value = pos.lat;
+    var point = new BMap.Point(p.getPosition().lng, p.getPosition().lat);
 
-    var points1 = new BMap.Point(pos.lng, pos.lat);
-
-}
-
-function showInfos(sensorid,sensorlocation,sensortype,sensorstatus,sensorvalue,sensorupdate,sensorcreat) {
-
-    var pos = sensorlocation.innerHTML.split(",");
-
-    document.getElementById('lng').value = pos[0];
-
-    document.getElementById('lat').value = pos[1];
-
-    var points1 = new BMap.Point(pos[0], pos[1]);
+    //var points1 = new BMap.Point(pos[0], pos[1]);
 
     var opts = {
         width : 200,     // 信息窗口宽度
@@ -678,11 +692,12 @@ function showInfos(sensorid,sensorlocation,sensortype,sensorstatus,sensorvalue,s
         message:"1234321~"
     }
 
-    var infoWindow = new BMap.InfoWindow( "id ：" + sensorid.innerHTML  +"； 位置 ：" + sensorlocation.innerHTML + "； 状态 ：" +sensorstatus.innerHTML + "； 种类 ：" + sensortype.innerHTML + "； 数值：" + sensorvalue.innerHTML +
-    "； 更新时间： " + sensorupdate.innerHTML + "； 创建时间：" + sensorcreat.innerHTML , opts);
+
+
+    var infoWindow = new BMap.InfoWindow(content, opts);
     //预留给弹窗显示信息用
 
-    map.openInfoWindow(infoWindow,points1); //开启信息窗口
+    map.openInfoWindow(infoWindow,point); //开启信息窗口
 
     infoWindow.addEventListener("open",x( infoWindow));
 
@@ -704,19 +719,25 @@ function drawpipe(start,end) {
 
 function drawsensor(id,location,type,state,value,update,creat) {
 
-     var sen = location.innerHTML.split(",");
+    var sen = location.innerHTML.split(",");
 
-    var sens = new BMap.Point(sen[0],sen[1]);
+    var sens = new BMap.Point(sen[0], sen[1]);
 
-    var marker = new BMap.Marker(new BMap.Point(sen[0],sen[1]));			//加载单个点
+    var marker = new BMap.Marker(new BMap.Point(sen[0], sen[1]));			//加载单个点
 
-    var circle1 = new BMap.Circle(sens,500,{strokeColor:"blue", strokeWeight:2, strokeOpacity:0,fillOpacity:0}); //创建圆
+    var circle1 = new BMap.Circle(sens, 500, {strokeColor: "blue", strokeWeight: 2, strokeOpacity: 0, fillOpacity: 0}); //创建圆
 
     map.addOverlay(marker);
 
     map.addOverlay(circle1);
 
-    circle1.addEventListener("click", showInfos(id,location,type,state,value,update,creat));
+    var content = "id ：" + id.innerHTML + "； 位置 ：" + location.innerHTML + "； 状态 ：" + state.innerHTML + "； 种类 ：" + type.innerHTML + "； 数值 ：" + value.innerHTML +
+        "； 更新时间： " + update.innerHTML + "； 创建时间：" + creat.innerHTML;
+    addClickHandler(content,marker);
+}
+function addClickHandler(content,marker){
+    marker.addEventListener("click", function(e){
+        showInfos(content,e)});
 
 }
 </script>
@@ -762,8 +783,6 @@ function drawsensor(id,location,type,state,value,update,creat) {
                 point = new BMap.Point(119.861811,38.611712);
 
                 map.panTo(point);
-
-
 
                 break;
 
