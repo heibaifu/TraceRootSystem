@@ -11,6 +11,7 @@ import java.util.List;
 
 @Data
 public class BoatDTO {
+
     private String boatId;
 
     /*船只类型*/
@@ -32,7 +33,7 @@ public class BoatDTO {
     private Date updateTime;
 
     /*该船对应的船只航线*/
-    List<BoatTrace> boatTraces;
+    List<BoatTraceDTO> boatTraces;
 
     //todo 看之后的需求是否需要在页面显示状态信息，而不是一个code
     /*public BoatStatusEnum getboatStatusEnum(){

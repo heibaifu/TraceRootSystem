@@ -1,6 +1,7 @@
 package com.traceroot.service.impl;
 
 import com.traceroot.dataobject.BoatTrace;
+import com.traceroot.dto.BoatTraceDTO;
 import com.traceroot.enums.BoatStatusEnum;
 import com.traceroot.repository.BoatTraceRepository;
 import com.traceroot.utils.RandomUtil;
@@ -27,9 +28,9 @@ public class BoatTraceServiceImplTest {
     @Autowired
     private BoatTraceServiceImpl traceService;
 
-    private String BOATID = "0673058";
+    private String BOATID = "0641976";
 
-    private String TRACEID = "5191791";
+    private String TRACEID = "2004773";
 
 
     private Timestamp startTime;
@@ -38,14 +39,14 @@ public class BoatTraceServiceImplTest {
 
     @Test
     public void selectByTraceId() {
-        BoatTrace trace = traceService.selectByTraceId(TRACEID);
-        Assert.assertEquals(trace.getTraceId(),TRACEID);
+        BoatTraceDTO boatTraceDTO = traceService.selectByTraceId(TRACEID);
+        Assert.assertEquals(boatTraceDTO.getTraceId(),TRACEID);
     }
 
     @Test
     public void selectByBoatId() {
-        List<BoatTrace> traces = traceService.selectByBoatId(BOATID);
-        Assert.assertNotEquals(0,traces.size());
+        List<BoatTraceDTO> traceDTOList = traceService.selectByBoatId(BOATID);
+        Assert.assertNotEquals(0,traceDTOList.size());
     }
 
     @Test
@@ -56,8 +57,8 @@ public class BoatTraceServiceImplTest {
         } catch (ParseException e) {
             log.error("【时间设定异常】",e.getMessage());
         }
-        List<BoatTrace> boatTraces = traceService.selectByRecordTimeBetween(startTime, endTime);
-        Assert.assertNotEquals(0,boatTraces.size());
+        List<BoatTraceDTO> traceDTOList = traceService.selectByRecordTimeBetween(startTime, endTime);
+        Assert.assertNotEquals(0,traceDTOList.size());
     }
 
     @Test
@@ -68,14 +69,14 @@ public class BoatTraceServiceImplTest {
         } catch (ParseException e) {
             log.error("【时间设定异常】",e.getMessage());
         }
-        List<BoatTrace> boatTraces = traceService.selectByBoatIdAndRecordTimeBetween(BOATID,startTime, endTime);
-        Assert.assertNotEquals(0,boatTraces.size());
+        List<BoatTraceDTO> boatTraceDTOS = traceService.selectByBoatIdAndRecordTimeBetween(BOATID, startTime, endTime);
+        Assert.assertNotEquals(0,boatTraceDTOS.size());
     }
 
     @Test
     public void insert() {
-        BoatTrace trace = new BoatTrace(RandomUtil.genUniqueId(),BOATID,RandomUtil.genUniqueLocation(), BoatStatusEnum.NOMAL.getCode().toString());
-        BoatTrace result = traceService.insert(trace);
+        BoatTraceDTO boatTraceDTO = new BoatTraceDTO(RandomUtil.genUniqueId(), BOATID, RandomUtil.genUniqueLocation(), BoatStatusEnum.NOMAL.getCode().toString());
+        BoatTrace result = traceService.insert(boatTraceDTO);
         Assert.assertNotNull(result);
     }
 
@@ -83,16 +84,16 @@ public class BoatTraceServiceImplTest {
     public void deleteByBoatId() {
         TRACEID = "8335303";
         traceService.deleteByTraceId(TRACEID);
-        BoatTrace trace = traceService.selectByTraceId(TRACEID);
-        Assert.assertEquals(trace,null);
+        BoatTraceDTO traceDTO = traceService.selectByTraceId(TRACEID);
+        Assert.assertEquals(traceDTO,null);
     }
 
     @Test
     public void deleteByTraceId() {
         BOATID = "0995923";
         traceService.deleteByBoatId(BOATID);
-        List<BoatTrace> boatTraces = traceService.selectByBoatId(BOATID);
-        Assert.assertEquals(0,boatTraces.size());
+        List<BoatTraceDTO> boatTraceDTOS = traceService.selectByBoatId(BOATID);
+        Assert.assertEquals(0,boatTraceDTOS.size());
     }
 
 
@@ -100,13 +101,13 @@ public class BoatTraceServiceImplTest {
     public void selectByRecordTimeBetweenAndRecordLocationIsLikeOrderByRecordTimeDesc() {
         try {
             startTime = String2TimestampUtil.string2Time("2019-07-25 17:10:08");
-            endTime = String2TimestampUtil.string2Time("2019-07-27 21:31:56");
+            endTime = String2TimestampUtil.string2Time("2019-07-29 21:31:56");
         } catch (ParseException e) {
             log.error("【时间设定异常】",e.getMessage());
         }
-        List<BoatTrace> boatTraceList = traceService
-                .selectByRecordTimeBetweenAndRecordLocationIsLikeOrderByRecordTimeDesc(startTime, endTime, "(+116.3%,+39.9%)");
-        /*List<BoatTrace> boatTraceList = traceService.selectByLocationIsLikeOrderByRecordTimeDesc("(+116.3%,+39.9%)");*/
-        Assert.assertNotEquals(0,boatTraceList.size());
+        List<BoatTraceDTO> boatTraceDTOS = traceService
+                .selectByRecordTimeAndRecordLocation(startTime, endTime, "116.3%,39.9%");
+        /*List<BoatTrace> boatTraceList = traceService.selectByLocationIsLikeOrderByRecordTimeDesc("116.3%,39.9%");*/
+        Assert.assertNotEquals(0,boatTraceDTOS.size());
     }
 }

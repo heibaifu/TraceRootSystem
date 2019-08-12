@@ -33,7 +33,9 @@ public enum  ResultEnum {
 
     PIPE_SEGMENT_AlREADY_EXIST(13,"管道段已经存在"),
 
-    NO_SURROUND_BOAT_FOUND(14,"周围不存在船只")
+    NO_SURROUND_BOAT_FOUND(14,"周围不存在船只"),
+
+    BOAT_TRACE_NOT_EXIST(15,"船只轨迹不存在");
 
 
     ;

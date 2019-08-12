@@ -2,6 +2,7 @@ package com.traceroot.utils;
 
 import com.traceroot.dataobject.BoatTrace;
 import com.traceroot.dataobject.PipelineSegment;
+import com.traceroot.dto.BoatTraceDTO;
 import com.traceroot.service.impl.BoatTraceServiceImpl;
 import com.traceroot.service.impl.PipelineSegmentServiceImpl;
 import org.junit.Assert;
@@ -32,11 +33,11 @@ public class MathUtilTest {
         DoubleLocation startLine1 = LocationUtil.string2doubleLocation(testSegment.getStart());
         DoubleLocation endLine1 = LocationUtil.string2doubleLocation(testSegment.getEnd());
 
-        List<BoatTrace> boatTraceList = traceService.selectByBoatId("0673058");
+        List<BoatTraceDTO> boatTraceDTOS = traceService.selectByBoatId("0673058");
 
-        BoatTrace testTraceStart = boatTraceList.get(0);
+        BoatTraceDTO testTraceStart = boatTraceDTOS.get(0);
         DoubleLocation startLine2 = LocationUtil.string2doubleLocation(testTraceStart.getRecordLocation());
-        BoatTrace testTraceEnd  = boatTraceList.get(1);
+        BoatTraceDTO testTraceEnd  = boatTraceDTOS.get(1);
         DoubleLocation endLine2 = LocationUtil.string2doubleLocation(testTraceEnd.getRecordLocation());
 
         boolean result = MathUtil.intersection(startLine1, endLine1, startLine2, endLine2);

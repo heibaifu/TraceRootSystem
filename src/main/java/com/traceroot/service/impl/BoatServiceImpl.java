@@ -5,6 +5,7 @@ import com.traceroot.dataobject.Boat;
 import com.traceroot.dataobject.BoatTrace;
 import com.traceroot.dataobject.PipelineSegment;
 import com.traceroot.dto.BoatDTO;
+import com.traceroot.dto.BoatTraceDTO;
 import com.traceroot.enums.ResultEnum;
 import com.traceroot.exception.BoatException;
 import com.traceroot.repository.BoatRepository;
@@ -39,8 +40,8 @@ public class BoatServiceImpl implements BoatService {
         Boat boat=repository.findByBoatId(boatId);
         BoatDTO boatDTO= Boat2BoatDTOConverter.convert(boat);
 
-        List<BoatTrace> boatTraces=traceService.selectByBoatId(boatId);
-        boatDTO.setBoatTraces(boatTraces);
+        List<BoatTraceDTO> boatTraceDTOS=traceService.selectByBoatId(boatId);
+        boatDTO.setBoatTraces(boatTraceDTOS);
 
         return boatDTO;
     }
@@ -110,8 +111,8 @@ public class BoatServiceImpl implements BoatService {
         BoatDTO result = Boat2BoatDTOConverter.convert(repository.save(boat));
 
         //新建一条轨迹信息
-        BoatTrace boatTrace = new BoatTrace(RandomUtil.genUniqueId(),boatDTO.getBoatId(),boatDTO.getPresentLocation(),boatDTO.getStatus());
-        traceService.insert(boatTrace);
+        BoatTraceDTO boatTraceDTO = new BoatTraceDTO(RandomUtil.genUniqueId(),boatDTO.getBoatId(),boatDTO.getPresentLocation(),boatDTO.getStatus());
+        traceService.insert(boatTraceDTO);
 
         return result;
     }
