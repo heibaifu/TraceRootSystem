@@ -53,11 +53,14 @@
             var sensorupdate=new Array();
             var sensorcreat=new Array();
             var badnodeid=new Array();
-            var badnodelocation=new Array();
+            var badnodestart=new Array();
+            var badnodeend=new Array();
             var tablepipesegment=pare.document.getElementById("pipesegment1");
             var tablesensor=pare.document.getElementById("sensor1");
             var tablebadnode=pare.document.getElementById("badnode");
-
+            chartdata1=tablepipesegment.rows.length-tablebadnode.rows.length;
+            chartdata2=tablebadnode.rows.length -1;
+            showchart(chartdata1,chartdata2);
            for (i = 0; i < tablepipesegment.rows.length -1; i++) {
                 start[i] = tablepipesegment.rows[i+1].cells[1];
                 end[i] = tablepipesegment.rows[i+1].cells[2];
@@ -84,8 +87,21 @@
 
                 }
             }
+
+            for (i = 0; i < tablebadnode.rows.length -1; i++) {
+                badnodeid[i] = tablebadnode.rows[i+1].cells[0];
+                badnodestart[i] = tablebadnode.rows[i+1].cells[1];
+                badnodeend[i] = tablebadnode.rows[i+1].cells[2];
+                if (badnodeend[i] != null) {
+
+                    drawbadnode(badnodeid[i],badnodestart[i], badnodeend[i]);
+
+                }
+            }
+
         }
     }
+
     </script>
     </head>
 
@@ -139,6 +155,8 @@
 
         <li onclick=change(0)>管道线路管理</li>
 
+        <li onclick="change(6)">船只线路管理</li>
+
         <li onclick=change(1)>渤海</li>
 
         <li onclick=change(2)>黄海</li>
@@ -174,8 +192,6 @@
     <p>告警管道id</p>
 
     <div id="dragon" class="dragon">
-
-        <p>aaa</p>
 
         <!--根据告警管道的个数决定显示多少个p-->
 
@@ -261,70 +277,70 @@
 
     // 基于准备好的dom，初始化echarts实例
 
-    echarts.init(document.getElementById('echarts')).setOption({
+    function showchart(chartdata1,chartdata2) {
 
-        title: {
+        echarts.init(document.getElementById('echarts')).setOption({
 
-            text: 'ECharts test'
+            title: {
 
-        },
+                text: '管道情况统计'
 
-        tooltip: {},
+            },
 
-        legend: {
+            tooltip: {},
 
-            data:['销量']
+            legend: {
 
-        },
+                data: ['销量']
 
-        xAxis: {
+            },
 
-            data: ["正常管道","告警管道"],
+            xAxis: {
 
-            axisLine:{
+                data: ["正常管道", "告警管道"],
 
-                lineStyle:{
+                axisLine: {
 
-                    color:'yellow',					 //设置坐标轴字体颜色
+                    lineStyle: {
 
-                }
+                        color: 'yellow',					 //设置坐标轴字体颜色
 
-            }
-
-        },
-
-        yAxis: {
-
-
-
-            axisLine:{
-
-                lineStyle:{
-
-                    color:'yellow',					 //设置坐标轴字体颜色
+                    }
 
                 }
 
-            }
+            },
 
-        },
+            yAxis: {
 
 
+                axisLine: {
 
-        series: [{
+                    lineStyle: {
 
-            name: '管道',
+                        color: 'yellow',					 //设置坐标轴字体颜色
 
-            type: 'bar',
+                    }
 
-            itemStyle:{ normal:{color:'blue'}},							 //设置柱状图颜色
+                }
 
-            data: [20,5]												//此处需要告警管道的个数
+            },
 
-        }]
 
-    });
+            series: [{
 
+                name: '管道',
+
+                type: 'bar',
+
+                itemStyle: {normal: {color: 'blue'}},							 //设置柱状图颜色
+
+                data: [chartdata1, chartdata2]												//此处需要告警管道的个数
+
+            }]
+
+        });
+    }
 </script>
 
 <script type="text/javascript">	 //管道参数数据显示
@@ -582,37 +598,6 @@ map.addEventListener("tilesloaded",function(){
 
 });   //loading结束
 
-
-
-
-
-/*function clearOverlays() {
-
-if (markersArray) {
-
-  for (i in markersArray) {
-
-    map.removeOverlay(markersArray[i])
-
-  }
-
-}
-
-}
-
-//地图上标注
-
-function addMarker(point1) {
-
-var marker = new BMap.Marker(point1);
-
-markersArray.push(marker);
-
-clearOverlays();
-
-map.addOverlay(marker);
-
-}*/
 /*
 function addp() {
 
@@ -648,6 +633,14 @@ function jump(){
     }
 }
 
+function tojump(ss,ee){
+    var jumps=new BMap.Point(ss[0]*0.5+ee[0]*0.5, ss[1]*0.5+ee[1]*0.5);
+    map.panTo(jumps);
+    var marker = new BMap.Marker(jumps);
+    map.addOverlay(marker);
+    marker.setAnimation(BMAP_ANIMATION_BOUNCE);
+}
+
 //点击地图时间处理
 
 function showInfos(content,e) {
@@ -667,14 +660,12 @@ function showInfos(content,e) {
         message:"1234321~"
     }
 
-
-
     var infoWindow = new BMap.InfoWindow(content, opts);
     //预留给弹窗显示信息用
 
     map.openInfoWindow(infoWindow,point); //开启信息窗口
 
-    infoWindow.addEventListener("open",x( infoWindow));
+    infoWindow.addEventListener("open",x(infoWindow));
 
 }
 
@@ -689,6 +680,39 @@ function drawpipe(start,end) {
         points2
     ], {strokeColor: "blue", strokeWeight: 2, strokeOpacity: 0.5});   //创建折线
     map.addOverlay(pipeline);
+
+}
+
+function drawbadnode(id,start,end) {
+
+    var ss = start.innerHTML.split(",");
+    var ee = end.innerHTML.split(",");
+    var points1 = new BMap.Point(ss[0], ss[1]);
+    var points2 = new BMap.Point(ee[0], ee[1]);
+    var pipeline = new BMap.Polyline([
+        points1,
+        points2
+    ], {strokeColor: "red", strokeWeight: 2, strokeOpacity: 0.5});   //创建折线
+
+    map.addOverlay(pipeline);
+
+    var para=document.createElement("p");
+
+    var badnoid=id.innerHTML;
+
+    var node=document.createTextNode(badnoid);
+
+    para.appendChild(node);
+
+    para.onclick = function() {            //element.onclick后面直接跟的函数不能有参数
+        //每次点击都会画一个标签（小bug）
+        tojump(ss, ee);
+    }
+
+    var element=document.getElementById("dragon");
+
+    element.appendChild(para);
+
 
 }
 
@@ -717,30 +741,6 @@ function addClickHandler(content,marker){
 }
 </script>
 
-<script th:inline="javascript">
-
-    //写一个循环体，根据告警点数的多少决定加多少个p
-
-    //for(var i=0;i<badnode.length;i++){
-
-    var para=document.createElement("p");
-
-    var badnodeid=  [[${badnodeid}]];
-
-    console.log(badnodeid);
-
-    var node=document.createTextNode(badnodeid);
-
-    para.appendChild(node);
-
-    var element=document.getElementById("dragon");
-
-    element.appendChild(para);
-
-
-
-</script>
-
 <script>
 
     function change(n)
@@ -752,6 +752,12 @@ function addClickHandler(content,marker){
         switch(n)
 
         {
+
+            case 0:
+
+                showchart(chartdata1,chartdata2);
+
+                break;
 
             case 1:
 
@@ -792,6 +798,41 @@ function addClickHandler(content,marker){
                 map.panTo(point);
 
                 break;
+
+            case 6:
+
+                // 基于准备好的dom，初始化echarts实例
+
+                echarts.init(document.getElementById('echarts')).setOption({
+
+
+                    title: {
+                        text: '当前管道船只穿越统计',
+                        x: 'center'
+                    },
+                    series: [
+                        {
+                            name: '船只类型',
+                            type: 'pie',
+                            data: [
+                                { value: 35, name: '大型船只' },
+                                { value: 101, name: '中型船只' },
+                                { value: 234, name: '小型船只' },
+                                { value: 13, name: '特大型船只' }
+                            ],
+                            label: {
+                                normal: {
+                                    show: true,
+                                    formatter: '{b}:{c}' + '\n\r' + '({d}%)'
+                                }
+                            }
+
+                        }
+                    ]
+                });
+
+            break;
+
 
             default:
 

@@ -65,8 +65,9 @@
 <table id="badnode" name="badnode">
     <thead>
     <tr>
-        <th>传感器id</th>
-        <th>传感器位置</th>
+        <th>故障管道段id</th>
+        <th>故障管道段起点位置</th>
+        <th>故障管道段终点位置</th>
     <!--    <th>传感器种类</th>
         <th>传感器状态</th>
         <th>传感器数值</th>
@@ -78,7 +79,8 @@
     <tbody>
     <tr th:each="badnodeid:${warningSegments}">
         <td id="badnode_id" name="badnode_id" th:text="${badnodeid.segmentId}"></td>
-        <td id="badnode_location" name="badnode_location" th:text="${badnodeid.start}"></td>
+        <td id="badnode_start" name="badnode_start" th:text="${badnodeid.start}"></td>
+        <td id="badnode_end" name="badnode_end" th:text="${badnodeid.end}"></td>
        <!-- <td id="badnode_type" name="badnode_type" th:text="${badnodeid.typeId}"></td>
         <td id="badnode_state" name="badnode_state" th:text="${badnodeid.presentStatus}"></td>
         <td id="badnode_value" name="badnode_value" th:text="${badnodeid.presentValue}"></td>
