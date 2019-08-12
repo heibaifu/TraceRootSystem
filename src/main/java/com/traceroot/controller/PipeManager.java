@@ -1,6 +1,5 @@
 package com.traceroot.controller;
 
-import com.traceroot.vo.ResultVO;
 import com.traceroot.converter.form2dto.PipeForm2PipeDTOConverter;
 import com.traceroot.converter.form2dto.PipeSegmentForm2PipeSegmentDTOConverter;
 import com.traceroot.converter.form2dto.PipelineSensorForm2SensorDTOConverter;
@@ -19,6 +18,7 @@ import com.traceroot.service.impl.PipelineSensorServiceImpl;
 import com.traceroot.service.impl.PipelineServiceImpl;
 import com.traceroot.utils.RandomUtil;
 import com.traceroot.utils.ResultVOUtil;
+import com.traceroot.vo.ResultVO;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -29,13 +29,12 @@ import org.springframework.web.servlet.ModelAndView;
 
 import javax.validation.Valid;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 
 @Controller
 @RequestMapping("/pipe")
 @Slf4j
-public class PipeManageController {
+public class PipeManager {
 
     @Autowired
     PipelineServiceImpl pipelineService;
@@ -46,32 +45,6 @@ public class PipeManageController {
     @Autowired
     PipelineSensorServiceImpl sensorService;
 
-    @GetMapping()
-    public ModelAndView pipeIndex(Map<String, Object> map) {
-        return new ModelAndView("bmaptest1.html", map);
-    }
-
-
-    @GetMapping("/datatable")
-    public ModelAndView datatableInsert(
-            /*@RequestParam(value = "badnodeid", defaultValue = "5") Integer badnodeid*/
-            Map<String, Object> map) {
-
-        List<PipeSegmentDTO> pipeSegmentDTOList = segmentService.selectAll();
-
-        List<PipelineSensorDTO> sensorDTOList = sensorService.selectAll();
-
-        List<PipeSegmentDTO> warningSegments=segmentService.selectByWarning();
-
-        map.put("warningSegments", warningSegments);
-
-        map.put("pipeSegmentList", pipeSegmentDTOList);
-
-        map.put("sensorDTOList", sensorDTOList);
-
-        return new ModelAndView("datatable.html", map);
-    }
-
     /**
      * 根据传感器坐标查找传感器
      * @param sensorLocation
@@ -80,7 +53,7 @@ public class PipeManageController {
      */
     @GetMapping("/findsensor")
     public ModelAndView pipelineSensorMsg(@RequestParam(value = "sensorlocation",required = false)String sensorLocation,
-                                          Map<String,Object>map){
+                                          Map<String,Object> map){
         PipelineSensorDTO pipelineSensorDTO= sensorService.selectByLocation(sensorLocation);
         if (pipelineSensorDTO==null){
             log.error("【查找传感器】传感器不存在，sensorLocation={}",sensorLocation);
@@ -137,7 +110,7 @@ public class PipeManageController {
     @PostMapping("/savesegment")
     @ResponseBody
     public ResultVO<Map<String,String>> saveSegment(@Valid PipeSegmentForm segmentForm,
-                                                 BindingResult bindingResult){
+                                                    BindingResult bindingResult){
         if (bindingResult.hasErrors()){
             log.error("【保存管道段】参数不正确，pipeForm={}",segmentForm);
             throw new PipeException(ResultEnum.PARAM_ERROR.getCode()
@@ -213,7 +186,7 @@ public class PipeManageController {
         //先判断传感器ID是否存在以分清是更新还是新增
         PipelineSensorDTO pipelineSensorDTO=new PipelineSensorDTO();
         PipelineSensorDTO result=new PipelineSensorDTO();
-        if (pipelineSensorForm.getSensorId()==null||StringUtils.isEmpty(pipelineSensorForm.getSensorId())){
+        if (pipelineSensorForm.getSensorId()==null|| StringUtils.isEmpty(pipelineSensorForm.getSensorId())){
 
             pipelineSensorForm.setSensorId(RandomUtil.genUniqueId());
             pipelineSensorDTO= PipelineSensorForm2SensorDTOConverter.convert(pipelineSensorForm);
@@ -249,6 +222,5 @@ public class PipeManageController {
 
         return ResultVOUtil.success(map);
     }
-
 
 }
