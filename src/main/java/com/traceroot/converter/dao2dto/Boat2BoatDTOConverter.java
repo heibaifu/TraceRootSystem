@@ -9,6 +9,7 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 public class Boat2BoatDTOConverter {
+
     public static BoatDTO convert(Boat boat){
 
         BoatDTO boatDTO = new BoatDTO() ;

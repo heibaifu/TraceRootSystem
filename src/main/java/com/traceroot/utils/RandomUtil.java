@@ -10,33 +10,32 @@ public class RandomUtil {
      * 用于生成随机的地理位置，这是带括号的
      * @return
      */
-    @Deprecated
     public static String genUniqueLocation(){
         Random random = new Random() ;
         //正负号生成
         Integer signLng = random.nextInt(2);
         Integer signLat = random.nextInt(2);
-        String signLongtitude;
-        String signLatitude;
+        Integer signLongtitude;
+        Integer signLatitude;
         if (signLng == 0){
-            signLongtitude = "-";
+            signLongtitude = 1;
         }else{
-            signLongtitude = "+";
+            signLongtitude = -1;
         }
         if (signLat == 0){
-            signLatitude = "-";
+            signLatitude = 1;
         }else{
-            signLatitude = "+";
+            signLatitude = -1;
         }
         //经度生成
         Integer intlongtitude = random.nextInt(180);
         //纬度生成
         Integer intlatitude = random.nextInt(90);;
 
-        String longtitude = new String("(" + signLongtitude+ intlongtitude + "." + System.currentTimeMillis()).substring(0,10);
-        String latitude = new String("," + signLatitude + intlatitude + "." + System.currentTimeMillis()).substring(0,10);;
+        String longtitude = new String(signLongtitude * intlongtitude + "." + System.currentTimeMillis()).substring(0,10);
+        String latitude = new String(signLatitude * intlatitude + "." + System.currentTimeMillis()).substring(0,10);;
 
-        return longtitude + latitude + ")";
+        return longtitude + "," + latitude;
     }
 
     /**
