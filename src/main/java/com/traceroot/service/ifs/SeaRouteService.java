@@ -1,6 +1,7 @@
 package com.traceroot.service.ifs;
 
 import com.traceroot.dataobject.SeaRoute;
+import com.traceroot.dto.SeaRouteDTO;
 
 import java.util.List;
 
@@ -11,13 +12,15 @@ public interface SeaRouteService {
 
     //todo 按照航线的起点或终点筛选航线
 
-    SeaRoute insert(SeaRoute seaRoute);
+    SeaRouteDTO insert(SeaRouteDTO seaRouteDTO);
 
-    SeaRoute update(SeaRoute seaRoute);
+/*
+    SeaRouteDTO update(SeaRouteDTO seaRouteDTO);
+*/
 
-    SeaRoute selectByRouteId(String routeId);
+    SeaRouteDTO selectByRouteId(String routeId);
 
-    List<SeaRoute> selectByStatus(String status);
+    List<SeaRouteDTO> selectByStatus(String status);
 
     void deleteByRouteId(String routeId);
 
