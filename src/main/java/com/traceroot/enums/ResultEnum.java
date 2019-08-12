@@ -35,7 +35,9 @@ public enum  ResultEnum {
 
     NO_SURROUND_BOAT_FOUND(14,"周围不存在船只"),
 
-    BOAT_TRACE_NOT_EXIST(15,"船只轨迹不存在");
+    BOAT_TRACE_NOT_EXIST(15,"船只轨迹不存在"),
+
+    TIME_FORMAT_ERROR(16,"时间格式错误");
 
 
     ;
