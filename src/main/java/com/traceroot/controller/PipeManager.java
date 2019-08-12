@@ -75,7 +75,7 @@ public class PipeManager {
                                                  BindingResult bindingResult){
         if (bindingResult.hasErrors()){
             log.error("【保存管道】参数不正确，pipeForm={}",pipeForm);
-            throw new PipeException(ResultEnum.PARAM_ERROR.getCode()
+            ResultVOUtil.error(ResultEnum.PARAM_ERROR.getCode()
                     ,bindingResult.getFieldError().getDefaultMessage());
         }
 
@@ -91,7 +91,7 @@ public class PipeManager {
         Pipeline result = pipelineService.save(pipeDTO);
         if (result == null){
             log.error("【保存管道】保存失败，result={}",result);
-            throw new PipeException(ResultEnum.SAVE_FAIL);
+            ResultVOUtil.error(ResultEnum.SAVE_FAIL.getCode(),ResultEnum.SAVE_FAIL.getMessage());
         }
 
         Map<String,String> map = new HashMap<>();
@@ -113,7 +113,7 @@ public class PipeManager {
                                                     BindingResult bindingResult){
         if (bindingResult.hasErrors()){
             log.error("【保存管道段】参数不正确，pipeForm={}",segmentForm);
-            throw new PipeException(ResultEnum.PARAM_ERROR.getCode()
+            ResultVOUtil.error(ResultEnum.PARAM_ERROR.getCode()
                     ,bindingResult.getFieldError().getDefaultMessage());
         }
 
@@ -127,7 +127,7 @@ public class PipeManager {
         }
         if (result == null){
             log.error("【保存管道段】保存失败，result={}",result);
-            throw new PipeException(ResultEnum.SAVE_FAIL);
+            ResultVOUtil.error(ResultEnum.SAVE_FAIL.getCode(),ResultEnum.SAVE_FAIL.getMessage());
         }
 
         Map<String,String> map = new HashMap<>();
@@ -180,7 +180,7 @@ public class PipeManager {
                                                     BindingResult bindingResult){
         if (bindingResult.hasErrors()){
             log.error("【保存传感器】参数不正确，pipelineSensorForm={}",pipelineSensorForm);
-            throw new PipeException(ResultEnum.PARAM_ERROR.getCode(),bindingResult.getFieldError().getDefaultMessage());
+            ResultVOUtil.error(ResultEnum.PARAM_ERROR.getCode(),bindingResult.getFieldError().getDefaultMessage());
         }
 
         //先判断传感器ID是否存在以分清是更新还是新增
@@ -199,7 +199,7 @@ public class PipeManager {
 
         if (result == null){
             log.error("【保存传感器】保存失败，result={}",result);
-            throw new PipeException(ResultEnum.SAVE_FAIL);
+            ResultVOUtil.error(ResultEnum.SAVE_FAIL.getCode(),ResultEnum.SAVE_FAIL.getMessage());
         }
 
         Map<String,String> map = new HashMap<>();
