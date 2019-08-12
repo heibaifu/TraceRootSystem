@@ -52,8 +52,11 @@
             var sensorvalue=new Array();
             var sensorupdate=new Array();
             var sensorcreat=new Array();
+            var badnodeid=new Array();
+            var badnodelocation=new Array();
             var tablepipesegment=pare.document.getElementById("pipesegment1");
             var tablesensor=pare.document.getElementById("sensor1");
+            var tablebadnode=pare.document.getElementById("badnode");
 
            for (i = 0; i < tablepipesegment.rows.length -1; i++) {
                 start[i] = tablepipesegment.rows[i+1].cells[1];
@@ -389,18 +392,7 @@ function x(infoWindow) {
 
     }
 
-
-
-
-
-
-
-
-
-
-
     echarts.init(document.getElementById('liquid1')).setOption({
-
 
         series: {
 
@@ -412,13 +404,11 @@ function x(infoWindow) {
 
             label: {
 
-
                 position: ['50%', '50%'],
 
                 formatter: '{a}\n{b}\n{c}',
 
                 fontSize: 20
-
 
             },
 
@@ -432,18 +422,15 @@ function x(infoWindow) {
 
                     borderColor: '#333'
 
-
                 }
 
             }
 
         }
 
-
     });
 
     echarts.init(document.getElementById('liquid2')).setOption({
-
 
         series: {
 
@@ -455,13 +442,11 @@ function x(infoWindow) {
 
             label: {
 
-
                 position: ['50%', '50%'],
 
                 formatter: '{a}\n\n{c}',			//{a} refers to series name, {b} to data name, and {c} to data value.
 
                 fontSize: 20
-
 
             },
 
@@ -475,18 +460,15 @@ function x(infoWindow) {
 
                     borderColor: '#333'
 
-
                 }
 
             }
 
         }
 
-
     });
 
     echarts.init(document.getElementById('liquid3')).setOption({
-
 
         series: {
 
@@ -498,13 +480,11 @@ function x(infoWindow) {
 
             label: {
 
-
                 position: ['50%', '50%'],
 
                 formatter: '{a}\n\n{c}',			//{a} refers to series name, {b} to data name, and {c} to data value.
 
                 fontSize: 20
-
 
             },
 
@@ -518,18 +498,15 @@ function x(infoWindow) {
 
                     borderColor: '#333'
 
-
                 }
 
             }
 
         }
 
-
     });
 
     echarts.init(document.getElementById('liquid4')).setOption({
-
 
         series: {
 
@@ -541,13 +518,11 @@ function x(infoWindow) {
 
             label: {
 
-
                 position: ['50%', '50%'],
 
                 formatter: '{a}\n\n{c}',			//{a} refers to series name, {b} to data name, and {c} to data value.
 
                 fontSize: 20
-
 
             },
 
@@ -561,13 +536,11 @@ function x(infoWindow) {
 
                     borderColor: '#333'
 
-
                 }
 
             }
 
         }
-
 
     });
 
@@ -640,21 +613,23 @@ clearOverlays();
 map.addOverlay(marker);
 
 }*/
-
-/*function addp() {
+/*
+function addp() {
 
     map.addEventListener("click",function(e){
         var r=confirm("起点设置为!" +e.point.lng + "," + e.point.lat);
         if (r==true){
+            var final=prompt("请输入加入管道段的终点","116.000,39.600");
+            if (final!=null && final!=""){
 
-        }
+        }}
         else{
 
         }
     });
 
-}*/
-
+}
+*/
 /*function delp(){
 
     var delid=prompt("请输入删除管道段的id","124");

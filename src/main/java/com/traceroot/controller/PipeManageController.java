@@ -61,12 +61,9 @@ public class PipeManageController {
 
         List<PipelineSensorDTO> sensorDTOList = sensorService.selectAll();
 
-        /*List<PipeSegmentDTO> warningSegments=segmentService.selectByWarning();
-        String[] badnodeid=new String[warningSegments.size()];
-        for (int i=0;i<warningSegments.size();i++){
-            badnodeid[i]=warningSegments.get(i).getSegmentId();
-        }
-        map.put("badnodeid", badnodeid);*/
+        List<PipeSegmentDTO> warningSegments=segmentService.selectByWarning();
+
+        map.put("warningSegments", warningSegments);
 
         map.put("pipeSegmentList", pipeSegmentDTOList);
 

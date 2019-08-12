@@ -62,7 +62,34 @@
     </tbody>
 </table>
 
+<table id="badnode" name="badnode">
+    <thead>
+    <tr>
+        <th>传感器id</th>
+        <th>传感器位置</th>
+    <!--    <th>传感器种类</th>
+        <th>传感器状态</th>
+        <th>传感器数值</th>
+        <th>传感器更新时间</th>
+        <th>传感器创建时间</th>
+        -->
+    </tr>
+    </thead>
+    <tbody>
+    <tr th:each="badnodeid:${warningSegments}">
+        <td id="badnode_id" name="badnode_id" th:text="${badnodeid.segmentId}"></td>
+        <td id="badnode_location" name="badnode_location" th:text="${badnodeid.start}"></td>
+       <!-- <td id="badnode_type" name="badnode_type" th:text="${badnodeid.typeId}"></td>
+        <td id="badnode_state" name="badnode_state" th:text="${badnodeid.presentStatus}"></td>
+        <td id="badnode_value" name="badnode_value" th:text="${badnodeid.presentValue}"></td>
+        <td id="badnode_update" name="badnode_update" th:text="${badnodeid.updateTime}"></td>
+        <td id="badnode_creat" name="badnode_creat" th:text="${badnodeid.createTime}"></td>
+        -->
+    </tr>
 
+
+    </tbody>
+</table>
 </body>
 
 </html>
