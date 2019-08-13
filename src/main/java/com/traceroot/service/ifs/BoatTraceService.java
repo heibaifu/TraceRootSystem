@@ -1,25 +1,28 @@
 package com.traceroot.service.ifs;
 
 import com.traceroot.dataobject.BoatTrace;
+import com.traceroot.dto.BoatTraceDTO;
 
 import java.util.Date;
 import java.util.List;
 
 public interface BoatTraceService {
 
-    BoatTrace selectByTraceId (String traceId);
+    BoatTraceDTO selectByTraceId (String traceId);
 
-    List<BoatTrace> selectByBoatId (String boatId);
+    List<BoatTraceDTO> selectByBoatId (String boatId);
 
-    List<BoatTrace> selectByRecordTimeBetween(Date startTime, Date endTime);
+    List<BoatTraceDTO> selectByRecordTimeBetween(Date startTime, Date endTime);
 
-    List<BoatTrace> selectByBoatIdAndRecordTimeBetween(String traceId, Date startTime, Date endTime);
+    List<BoatTraceDTO> selectByBoatIdAndRecordTimeBetween(String traceId, Date startTime, Date endTime);
 
     List<BoatTrace> selectByRecordTimeBetweenAndRecordLocationIsLikeOrderByRecordTimeDesc(Date startTime, Date endTime,String location);
 
-    List<BoatTrace> selectByLocationIsLikeOrderByRecordTimeDesc(String location);
+    List<BoatTraceDTO> selectByRecordTimeAndRecordLocation(Date startTime, Date endTime,String location);
 
-    BoatTrace insert (BoatTrace boatTrace);
+    List<BoatTraceDTO> selectByLocationIsLikeOrderByRecordTimeDesc(String location);
+
+    BoatTrace insert (BoatTraceDTO boatTrace);
 
     void deleteByBoatId (String boatId);
 

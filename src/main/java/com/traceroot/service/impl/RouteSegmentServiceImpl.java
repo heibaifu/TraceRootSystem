@@ -1,6 +1,8 @@
 package com.traceroot.service.impl;
 
+import com.traceroot.converter.dao2dto.RouteSegment2RouteSegmentDTO;
 import com.traceroot.dataobject.RouteSegment;
+import com.traceroot.dto.RouteSegmentDTO;
 import com.traceroot.enums.ResultEnum;
 import com.traceroot.exception.RouteException;
 import com.traceroot.repository.RouteSegmentRepository;
@@ -23,8 +25,13 @@ public class RouteSegmentServiceImpl implements RouteSegmentService {
      * @return
      */
     @Override
-    public RouteSegment selectBySegmentId(String segmentId) {
-        return repository.findBySegmentId(segmentId);
+    public RouteSegmentDTO selectBySegmentId(String segmentId) {
+
+        RouteSegment routeSegment=repository.findBySegmentId(segmentId);
+
+        RouteSegmentDTO routeSegmentDTO= RouteSegment2RouteSegmentDTO.convert(routeSegment);
+
+        return routeSegmentDTO;
     }
 
     /**
@@ -33,8 +40,12 @@ public class RouteSegmentServiceImpl implements RouteSegmentService {
      * @return
      */
     @Override
-    public List<RouteSegment> selectByRouteId(String routeId) {
-        return repository.findByRouteId(routeId);
+    public List<RouteSegmentDTO> selectByRouteId(String routeId) {
+
+        List<RouteSegment> routeSegmentList=repository.findByRouteId(routeId);
+        List<RouteSegmentDTO> routeSegmentDTOS=RouteSegment2RouteSegmentDTO.convert(routeSegmentList);
+
+        return routeSegmentDTOS;
     }
 
     /**
@@ -43,8 +54,11 @@ public class RouteSegmentServiceImpl implements RouteSegmentService {
      * @return
      */
     @Override
-    public List<RouteSegment> selectByRouteIdOrderBySegmentSerialNumberAsc(String routeId) {
-        return repository.findByRouteIdOrderBySegmentSerialNumberAsc(routeId);
+    public List<RouteSegmentDTO> selectByRouteIdOrderBySegmentSerialNumberAsc(String routeId) {
+
+        List<RouteSegment> routeSegmentList=repository.findByRouteIdOrderBySegmentSerialNumberAsc(routeId);
+        List<RouteSegmentDTO> routeSegmentDTOS=RouteSegment2RouteSegmentDTO.convert(routeSegmentList);
+        return routeSegmentDTOS;
     }
 
     /**
@@ -54,21 +68,26 @@ public class RouteSegmentServiceImpl implements RouteSegmentService {
      * @return
      */
     @Override
-    public List<RouteSegment> findByRouteIdAndSegmentSerialNumberAfter(String routeId, Integer serialNumber) {
+    public List<RouteSegmentDTO> findByRouteIdAndSegmentSerialNumberAfter(String routeId, Integer serialNumber) {
 
-        return repository.findByRouteIdAndSegmentSerialNumberAfterOrderBySegmentSerialNumberAsc(routeId,serialNumber);
+        List<RouteSegment> routeSegmentList=repository.findByRouteIdAndSegmentSerialNumberAfterOrderBySegmentSerialNumberAsc(routeId,serialNumber);
+        List<RouteSegmentDTO> routeSegmentDTOS=RouteSegment2RouteSegmentDTO.convert(routeSegmentList);
+
+        return routeSegmentDTOS;
     }
 
     /**
      * 插入数据
-     * @param segment
+     * @param segmentDTO
      * @return
      */
     @Override
-    public RouteSegment insert(RouteSegment segment) {
-        Integer number = repository.countRouteSegmentByRouteId(segment.getRouteId())+1;
-        segment.setSegmentSerialNumber(number);
-        return repository.save(segment);
+    public RouteSegmentDTO insert(RouteSegmentDTO segmentDTO) {
+        RouteSegment routeSegment=new RouteSegment();
+        Integer number = repository.countRouteSegmentByRouteId(routeSegment.getRouteId())+1;
+        routeSegment.setSegmentSerialNumber(number);
+        RouteSegmentDTO routeSegmentDTO=RouteSegment2RouteSegmentDTO.convert(repository.save(routeSegment));
+        return routeSegmentDTO;
     }
 
     /**
@@ -76,7 +95,7 @@ public class RouteSegmentServiceImpl implements RouteSegmentService {
      * @param segment
      * @return
      */
-    @Override
+    /*@Override
     @Transactional
     public RouteSegment update(RouteSegment segment) {
         RouteSegment result = repository.findBySegmentId(segment.getSegmentId());
@@ -84,7 +103,7 @@ public class RouteSegmentServiceImpl implements RouteSegmentService {
             return repository.save(segment);
         else
             throw new RouteException(ResultEnum.ROUTE_SEGMENT_NOT_EXIST);
-    }
+    }*/
 
     /**
      * 按照航线段id删除

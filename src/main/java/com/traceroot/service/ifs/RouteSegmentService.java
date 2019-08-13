@@ -1,22 +1,25 @@
 package com.traceroot.service.ifs;
 
 import com.traceroot.dataobject.RouteSegment;
+import com.traceroot.dto.RouteSegmentDTO;
 
 import java.util.List;
 
 public interface RouteSegmentService {
 
-    RouteSegment selectBySegmentId(String segmentId);
+    RouteSegmentDTO selectBySegmentId(String segmentId);
 
-    List<RouteSegment> selectByRouteId(String routeId);
+    List<RouteSegmentDTO> selectByRouteId(String routeId);
 
-    List<RouteSegment> selectByRouteIdOrderBySegmentSerialNumberAsc(String routeId);
+    List<RouteSegmentDTO> selectByRouteIdOrderBySegmentSerialNumberAsc(String routeId);
 
-    List<RouteSegment> findByRouteIdAndSegmentSerialNumberAfter(String routeId,Integer serialNumber);
+    List<RouteSegmentDTO> findByRouteIdAndSegmentSerialNumberAfter(String routeId,Integer serialNumber);
 
-    RouteSegment insert(RouteSegment segment);
+    RouteSegmentDTO insert(RouteSegmentDTO segmentDTO);
 
+/*
     RouteSegment update(RouteSegment segment);
+*/
 
     void deleteBySegmentId(String segmentId);
 
