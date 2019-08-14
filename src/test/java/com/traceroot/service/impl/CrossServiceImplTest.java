@@ -12,10 +12,7 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit4.SpringRunner;
 
 import java.text.ParseException;
-import java.util.Date;
-import java.util.List;
-import java.util.Map;
-import java.util.TreeMap;
+import java.util.*;
 
 import static org.junit.Assert.*;
 
@@ -51,7 +48,7 @@ public class CrossServiceImplTest {
         } catch (ParseException e) {
             log.error("【时间设定异常】",e.getMessage());
         }
-        TreeMap<Integer, List<String>> map = service.selectByPassingPipelineSegment("123", startTime, endTime, 1);
+        NavigableMap<Integer, List<String>> map = service.selectByPassingPipelineSegment("123", startTime, endTime, 1);
         Assert.assertNotEquals(0,map.size());
     }
 }

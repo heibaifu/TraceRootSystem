@@ -53,7 +53,7 @@ public class CrossServiceImpl implements CrossService {
         //搜索数据库
         List<BoatTrace> boatTraces = traceService.selectByRecordTimeBetweenAndRecordLocationIsLikeOrderByRecordTimeDesc(startTime, endTime, fuzzyMatchingExpr);
         if (boatTraces.size()==0){
-            throw new BoatException(ResultEnum.NO_SURROUND_BOAT_FOUND);
+            return  null;
         }
 
         //找出boatTraces里轨迹所对应的所有的boatId
@@ -91,10 +91,10 @@ public class CrossServiceImpl implements CrossService {
     /**
      * 给定时间区间，按是否穿越管道查询船只
      * @param segmentId
-     * @return TreeMap<Integer,List<String>> 以穿越次数为key的、根据key排序的有序映射，value为相同穿越次数的船只号List
+     * @return NavigableMap<Integer,List<String>> 由树集倒叙而来，以穿越次数为key的、根据key降序排序的有序映射，value为相同穿越次数的船只号List
      */
     @Override
-    public TreeMap<Integer,List<String>> selectByPassingPipelineSegment(String segmentId,Date startTime,Date endTime,Integer accuracyDegree) {
+    public NavigableMap<Integer,List<String>> selectByPassingPipelineSegment(String segmentId,Date startTime,Date endTime,Integer accuracyDegree) {
 
         //1.查找这段管道的坐标
         PipelineSegment pipelineSegment = segmentService.selectBySegmentId(segmentId);
@@ -107,6 +107,10 @@ public class CrossServiceImpl implements CrossService {
 
         //2.查找在这段时间内经过管道的船只
         Map<String, List<BoatTrace>> boatListMap = findBoatNearSegmentDuringTime(segmentId, startTime, endTime,accuracyDegree);
+        if (boatListMap == null){
+            NavigableMap<Integer, List<String>> mapZero = new TreeMap<>();
+            return mapZero;
+        }
         List<String> boatIdList = new ArrayList<>();
         boatListMap.forEach((t,v)-> boatIdList.add(t));
 
@@ -139,7 +143,10 @@ public class CrossServiceImpl implements CrossService {
                 }
             }
         }
-        return result;
+
+        NavigableMap<Integer, List<String>> map = result.descendingMap();
+
+        return map;
     }
 
 

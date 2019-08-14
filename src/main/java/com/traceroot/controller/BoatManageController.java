@@ -1,8 +1,10 @@
 package com.traceroot.controller;
 
+import com.traceroot.dataobject.BoatTrace;
 import com.traceroot.dto.BoatTraceDTO;
 import com.traceroot.enums.ResultEnum;
 import com.traceroot.exception.BoatException;
+import com.traceroot.service.ifs.CrossService;
 import com.traceroot.service.impl.BoatTraceServiceImpl;
 import com.traceroot.utils.ResultVOUtil;
 import com.traceroot.utils.String2TimestampUtil;
@@ -19,6 +21,8 @@ import org.springframework.web.servlet.ModelAndView;
 import java.text.ParseException;
 import java.util.List;
 import java.util.Map;
+import java.util.NavigableMap;
+import java.util.TreeMap;
 
 @Controller
 @RequestMapping("/boat")
@@ -27,6 +31,9 @@ public class BoatManageController {
 
     @Autowired
     BoatTraceServiceImpl traceService;
+
+    @Autowired
+    CrossService crossService;
 
     /**
      * 按照船只id查找trace
@@ -66,6 +73,39 @@ public class BoatManageController {
             return ResultVOUtil.error(ResultEnum.BOAT_TRACE_NOT_EXIST.getCode(),ResultEnum.BOAT_TRACE_NOT_EXIST.getMessage());
         }
         return ResultVOUtil.success(traceDTOList);
+    }
+
+    /**
+     *
+     * @param segmentId
+     * @param startTime
+     * @param endTime
+     * @param accuracyDegree
+     * @return
+     */
+    @ResponseBody
+    @GetMapping("/findwarningBoat")
+    public ResultVO<List<BoatTraceDTO>> findWarningBoatNearSegmentDuringTime(@RequestParam(value = "segmentid",required = true)String segmentId,
+                                                                             @RequestParam(value = "starttime",required = false)String startTime,
+                                                                             @RequestParam(value = "endtime",required = false)String endTime,
+                                                                             @RequestParam(value = "accuracydegree",required = false,defaultValue = "1")Integer accuracyDegree){
+        if (endTime == null){
+            endTime = String.valueOf(System.currentTimeMillis());
+        } else if (endTime.isEmpty()){
+            endTime = String.valueOf(System.currentTimeMillis());
+        }
+        NavigableMap<Integer, List<String>> map = null;
+        try {
+            map = crossService.selectByPassingPipelineSegment(segmentId, String2TimestampUtil.string2Time(startTime), String2TimestampUtil.string2Time(endTime), accuracyDegree);
+        } catch (ParseException e) {
+            log.error("【时间设定异常或格式错误】,startTime={},endTime={}",e.getMessage());
+            return ResultVOUtil.error(ResultEnum.TIME_FORMAT_ERROR.getCode(),ResultEnum.TIME_FORMAT_ERROR.getMessage());
+        }
+        if (map.size()==0){
+            log.error("【查找船只轨迹】该时间、精度区间内船只不存在，starttime={},endtime={},accuracydegree={}",startTime,endTime,accuracyDegree);
+            return ResultVOUtil.error(ResultEnum.NO_SURROUND_BOAT_FOUND.getCode(),ResultEnum.NO_SURROUND_BOAT_FOUND.getMessage());
+        }
+        return ResultVOUtil.success(map);
     }
 
 }
