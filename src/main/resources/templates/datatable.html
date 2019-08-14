@@ -92,6 +92,32 @@
 
     </tbody>
 </table>
+
+<table id="boat1" name="boat1">
+    <thead>
+    <tr>
+        <th>船只id</th>
+        <th>当前位置</th>
+        <th>船只种类</th>
+        <th>船只状态</th>
+        <th>船只更新时间</th>
+        <th>船只创建时间</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr th:each="boat:${boatDTOList}">
+        <td id="boat_id" name="boat_id" th:text="${boat.boatId}"></td>
+        <td id="boat_location" name="boat_location" th:text="${boat.presentLocation}"></td>
+        <td id="boat_type" name="boat_type" th:text="${boat.type}"></td>
+        <td id="boat_state" name="boat_state" th:text="${boat.status}"></td>
+        <td id="boat_update" name="boat_update" th:text="${boat.updateTime}"></td>
+        <td id="boat_creat" name="boat_creat" th:text="${boat.createTime}"></td>
+    </tr>
+
+
+    </tbody>
+</table>
+
 </body>
 
 </html>

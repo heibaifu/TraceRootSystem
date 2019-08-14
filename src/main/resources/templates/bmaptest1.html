@@ -55,11 +55,19 @@
             var badnodeid=new Array();
             var badnodestart=new Array();
             var badnodeend=new Array();
+            var boatid=new Array();
+            var boatlocation=new Array();
+            var boattype=new Array();
+            var boatstate=new Array();
+            var boatupdate=new Array();
+            var boatcreat=new Array();
             var tablepipesegment=pare.document.getElementById("pipesegment1");
             var tablesensor=pare.document.getElementById("sensor1");
             var tablebadnode=pare.document.getElementById("badnode");
+            var tableboat=pare.document.getElementById("boat1");
             chartdata1=tablepipesegment.rows.length-tablebadnode.rows.length;
             chartdata2=tablebadnode.rows.length -1;
+
             showchart(chartdata1,chartdata2);
            for (i = 0; i < tablepipesegment.rows.length -1; i++) {
                 start[i] = tablepipesegment.rows[i+1].cells[1];
@@ -68,7 +76,7 @@
                 creat[i] = tablepipesegment.rows[i+1].cells[4];
                 if (end[i] != null) {
 
-                    drawpipe(start[i], end[i]);
+                    drawpipe(start[i], end[i],-1);
 
                 }
             }
@@ -99,10 +107,79 @@
                 }
             }
 
+            for (j = 0; j <  tableboat.rows.length -1; j++) {
+                boatid[j] = tableboat.rows[j+1].cells[0];
+                boatlocation[j] = tableboat.rows[j+1].cells[1];
+                boattype[j]= tableboat.rows[j+1].cells[2];
+                boatstate[j]= tableboat.rows[j+1].cells[3];
+                boatupdate[j]= tableboat.rows[j+1].cells[4];
+                boatcreat[j]= tableboat.rows[j+1].cells[5];
+                if (sensorlocation[j] != null) {
+                    drawboat( boatid[j],boatlocation[j],boattype[j],boatstate[j],boatupdate[j],boatcreat[j]);
+
+                }
+            }
+
         }
     }
 
     </script>
+
+    <script type="text/javascript">
+        function finder() {
+            var allOverlay = map.getOverlays();
+            for (var i = 0; i < allOverlay.length ; i++) {
+                if (allOverlay[i].toString()=="[object Polyline]") {
+                    if (allOverlay[i].getStrokeStyle() == "dashed")
+                        map.removeOverlay(allOverlay[i]);
+                }
+            }
+
+                find();
+            }
+
+
+            function find() {
+                /*修改标签的元素内容*/
+
+                document.getElementById("find").innerHTML = "查找中";
+                /*获取标签的值*/
+                var id = $("#id").val();
+                var data = {
+                    'boatid': id
+                };
+                /* ajax请求*/
+                $.ajax({
+                    type: "GET",                  // 请求方式
+                    url: "/traceroot/boat/findbyboatid",       // 发送请求的地址
+                    data: data,                    // 请求参数
+                    async: true,                   // 异步请求
+                    cache: false,                  // 缓存
+                    dataType: "json",              // 返回的数据类型
+                    /*请求成功的回调函数*/
+                    success: function (result) {
+                        if (result.code == 0) {
+                            var location = new Array;
+                            var ids = result.data[0].boatId;
+                            var startt = new Array;
+                            for (var i = 0; i < result.data.length - 1; i++) {
+                                startt[i] = result.data[i].recordTime;
+                                startt[i+1] = result.data[i+1].recordTime;
+                                location[i] = result.data[i].recordLocation;
+                                location[i + 1] = result.data[i + 1].recordLocation;
+                                drawvoyage(ids,location[i], location[i + 1],startt[i],startt[i+1]);
+                            }
+                        }
+                    },
+                    /*请求失败的回调函数*/
+                    error: function (XMLHttpRequest, textStatus, errorThrown) {
+
+                    }
+                });
+            }
+
+    </script>
+
     </head>
 
 
@@ -227,7 +304,7 @@
 
             <tr>
 
-                <td >管道id</td>
+                <td >id</td>
 
                 <td><input type="text" name="id" id="id" value=""/>
 
@@ -237,6 +314,7 @@
 
         </table>
         <input type="button" onclick="jump()" value="跳转">
+        <input type="button" id="find" onclick="finder()" value="查找路径">
 
     </div>
 
@@ -341,6 +419,36 @@
 
         });
     }
+function showchart2() {
+    echarts.init(document.getElementById('echarts')).setOption({
+
+
+        title: {
+            text: '当前管道船只穿越统计',
+            x: 'center'
+        },
+        series: [
+            {
+                name: '船只类型',
+                type: 'pie',
+                data: [
+                    {value: 35, name: '大型船只'},
+                    {value: 101, name: '中型船只'},
+                    {value: 234, name: '小型船只'},
+                    {value: 13, name: '特大型船只'}
+                ],
+                label: {
+                    normal: {
+                        show: true,
+                        formatter: '{b}:{c}' + '\n\r' + '({d}%)'
+                    }
+                }
+
+            }
+        ]
+    });
+}
+
 </script>
 
 <script type="text/javascript">	 //管道参数数据显示
@@ -350,7 +458,7 @@ function x(infoWindow) {
 
     var sensordata = infoWindow.getContent();
 
-    var sensorvalue =sensordata.split("；");
+    var sensorvalue = sensordata.split("；");
 
     var senid = sensorvalue[0].split("：");
 
@@ -643,45 +751,149 @@ function tojump(ss,ee){
 
 //点击地图时间处理
 
-function showInfos(content,e) {
+function showInfos(content,e,t) {
 
     var p = e.target;
 
     var point = new BMap.Point(p.getPosition().lng, p.getPosition().lat);
 
     //var points1 = new BMap.Point(pos[0], pos[1]);
+    if (t == 1) {
 
     var opts = {
-        width : 200,     // 信息窗口宽度
+        width: 200,     // 信息窗口宽度
         height: 150,     // 信息窗口高度
-        title : "传感器信息" , // 信息窗口标题
-        enableMessage:true,//设置允许信息窗发送短息
-        enableCloseOnClick:false,
-        message:"1234321~"
-    }
+        title: "传感器信息", // 信息窗口标题
+        enableMessage: true,//设置允许信息窗发送短息
+        enableCloseOnClick: false,
+        message: "1234321~"
+    };
 
     var infoWindow = new BMap.InfoWindow(content, opts);
     //预留给弹窗显示信息用
 
-    map.openInfoWindow(infoWindow,point); //开启信息窗口
+    map.openInfoWindow(infoWindow, point); //开启信息窗口
 
-    infoWindow.addEventListener("open",x(infoWindow));
+
+        infoWindow.addEventListener("open", x(infoWindow));
+
+    }
+    else{
+        var opts = {
+            width: 200,     // 信息窗口宽度
+            height: 150,     // 信息窗口高度
+            title: "船只信息", // 信息窗口标题
+            enableMessage: true,//设置允许信息窗发送短息
+            enableCloseOnClick: false,
+            message: "1234321~"
+        };
+
+        var infoWindow = new BMap.InfoWindow(content, opts);
+        //预留给弹窗显示信息用
+
+        map.openInfoWindow(infoWindow, point); //开启信息窗口
+
+        var boatvalue = content.split("；");
+
+        var bid = boatvalue[0].split("：");
+
+        var lo = boatvalue[1].split("：");
+
+        var pos =lo[1].split(",");
+
+        document.getElementById('id').value = bid[1];
+
+        document.getElementById('lng').value = pos[0];
+
+        document.getElementById('lat').value = pos[1];
+
+    }
+}
+
+function showvoya(content,t){
+    var opts = {
+        width: 200,     // 信息窗口宽度
+        height: 200,     // 信息窗口高度
+        title: "轨迹信息", // 信息窗口标题
+        enableMessage: true,//设置允许信息窗发送短息
+        enableCloseOnClick: false,
+        message: "1234321~"
+    };
+
+    var infoWindow = new BMap.InfoWindow(content, opts);
+    //预留给弹窗显示信息用
+
+    map.openInfoWindow(infoWindow, t); //开启信息窗口
 
 }
 
-function drawpipe(start,end) {
 
-    var ss = start.innerHTML.split(",");
-    var ee = end.innerHTML.split(",");
-    var points1 = new BMap.Point(ss[0], ss[1]);
-    var points2 = new BMap.Point(ee[0], ee[1]);
-    var pipeline = new BMap.Polyline([
+
+function addClickHandler(content,marker,t){
+    if (t == 1) {
+        marker.addEventListener("click", function(e){
+            showInfos(content,e,1)});
+    }   else {
+        marker.addEventListener("click", function(e){
+            showInfos(content,e,0)});
+    }
+
+}
+
+function addClickHandlerv(content,voyageline,showvl){
+
+        voyageline.addEventListener("click", function(){
+            showvoya(content,showvl);})
+}
+
+
+/*function addClickHandlerv(voyageline) {               //点击轨迹删除该轨迹
+
+    voyageline.addEventListener("click", function(){
+
+        map.removeOverlay(voyageline);
+
+    });
+
+}
+*/
+
+
+function drawpipe(start,end,t) {
+    if (t == -1) {
+        var ss = start.innerHTML.split(",");
+        var ee = end.innerHTML.split(",");
+        var points1 = new BMap.Point(ss[0], ss[1]);
+        var points2 = new BMap.Point(ee[0], ee[1]);
+
+
+        var pipeline = new BMap.Polyline([
+            points1,
+            points2
+        ], {strokeColor: "blue", strokeStyle: "solid", strokeWeight: 5, strokeOpacity: 0.5});   //创建折线
+        map.addOverlay(pipeline);
+    }
+}
+function drawvoyage(ids,start,end,update,creat)
+{
+    ss = start.split(",");
+    ee = end.split(",");
+    points1 = new BMap.Point(ss[0], ss[1]);
+    points2 = new BMap.Point(ee[0], ee[1]);
+    var showvl = new BMap.Point(ss[0]*0.5+ee[0]*0.5, ss[1]*0.5+ee[1]*0.5);
+    var voyageline = new BMap.Polyline([
         points1,
         points2
-    ], {strokeColor: "blue", strokeWeight: 2, strokeOpacity: 0.5});   //创建折线
-    map.addOverlay(pipeline);
+    ], {strokeColor: "green",strokeStyle: "dashed", strokeWeight: 8, strokeOpacity: 0.5});   //创建折线
+
+    var content = "船只id ：" + ids + "； 起点位置 ：" + start +"； 终点位置 ：" + end +
+        "； 出发时间： " + update + "； 到达时间：" + creat;
+    addClickHandlerv(content,voyageline,showvl);
+
+    map.addOverlay(voyageline);
 
 }
+
 
 function drawbadnode(id,start,end) {
 
@@ -692,7 +904,7 @@ function drawbadnode(id,start,end) {
     var pipeline = new BMap.Polyline([
         points1,
         points2
-    ], {strokeColor: "red", strokeWeight: 2, strokeOpacity: 0.5});   //创建折线
+    ], {strokeColor: "red", strokeWeight: 5, strokeOpacity: 0.5});   //创建折线
 
     map.addOverlay(pipeline);
 
@@ -713,32 +925,39 @@ function drawbadnode(id,start,end) {
 
     element.appendChild(para);
 
-
 }
 
 function drawsensor(id,location,type,state,value,update,creat) {
 
     var sen = location.innerHTML.split(",");
 
-    var sens = new BMap.Point(sen[0], sen[1]);
+    var myIcon = new BMap.Icon("/traceroot/image/chuanganqic.png", new BMap.Size(32,32));
 
-    var marker = new BMap.Marker(new BMap.Point(sen[0], sen[1]));			//加载单个点
-
-    var circle1 = new BMap.Circle(sens, 500, {strokeColor: "blue", strokeWeight: 2, strokeOpacity: 0, fillOpacity: 0}); //创建圆
+    var marker = new BMap.Marker(new BMap.Point(sen[0], sen[1]),{icon:myIcon});			//加载单个点
 
     map.addOverlay(marker);
 
-    map.addOverlay(circle1);
-
     var content = "id ：" + id.innerHTML + "； 位置 ：" + location.innerHTML + "； 状态 ：" + state.innerHTML + "； 种类 ：" + type.innerHTML + "； 数值 ：" + value.innerHTML +
         "； 更新时间： " + update.innerHTML + "； 创建时间：" + creat.innerHTML;
-    addClickHandler(content,marker);
+    addClickHandler(content,marker,1);
 }
-function addClickHandler(content,marker){
-    marker.addEventListener("click", function(e){
-        showInfos(content,e)});
 
+
+function drawboat(id,location,type,state,update,creat) {
+
+    var sen = location.innerHTML.split(",");
+
+    var myIcon = new BMap.Icon("/traceroot/image/boat.png", new BMap.Size(32,32));
+
+    var marker = new BMap.Marker(new BMap.Point(sen[0], sen[1]),{icon:myIcon});			//加载单个点
+
+    map.addOverlay(marker);
+
+    var content = "id ：" + id.innerHTML + "； 位置 ：" + location.innerHTML + "； 状态 ：" + state.innerHTML + "； 种类 ：" + type.innerHTML +
+        "； 更新时间： " + update.innerHTML + "； 创建时间：" + creat.innerHTML;
+    addClickHandler(content,marker,0);
 }
+
 </script>
 
 <script>
@@ -761,7 +980,7 @@ function addClickHandler(content,marker){
 
             case 1:
 
-                point = new BMap.Point(119.861811,38.611712);
+                var point = new BMap.Point(119.861811,38.611712);
 
                 map.panTo(point);
 
@@ -769,7 +988,7 @@ function addClickHandler(content,marker){
 
             case 2:
 
-                point = new BMap.Point(120.611501,34.976702);
+                var point = new BMap.Point(120.611501,34.976702);
 
                 map.panTo(point);
 
@@ -777,7 +996,7 @@ function addClickHandler(content,marker){
 
             case 3:
 
-                point = new BMap.Point(122.197347,28.116691);
+                var point = new BMap.Point(122.197347,28.116691);
 
                 map.panTo(point);
 
@@ -801,38 +1020,9 @@ function addClickHandler(content,marker){
 
             case 6:
 
-                // 基于准备好的dom，初始化echarts实例
+                showchart2();
 
-                echarts.init(document.getElementById('echarts')).setOption({
-
-
-                    title: {
-                        text: '当前管道船只穿越统计',
-                        x: 'center'
-                    },
-                    series: [
-                        {
-                            name: '船只类型',
-                            type: 'pie',
-                            data: [
-                                { value: 35, name: '大型船只' },
-                                { value: 101, name: '中型船只' },
-                                { value: 234, name: '小型船只' },
-                                { value: 13, name: '特大型船只' }
-                            ],
-                            label: {
-                                normal: {
-                                    show: true,
-                                    formatter: '{b}:{c}' + '\n\r' + '({d}%)'
-                                }
-                            }
-
-                        }
-                    ]
-                });
-
-            break;
-
+                break;
 
             default:
 

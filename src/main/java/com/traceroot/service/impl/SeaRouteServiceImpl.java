@@ -1,11 +1,14 @@
 package com.traceroot.service.impl;
 
+import com.traceroot.converter.dao2dto.SeaRoute2SeaRouteDTO;
 import com.traceroot.dataobject.SeaRoute;
+import com.traceroot.dto.SeaRouteDTO;
 import com.traceroot.enums.ResultEnum;
 import com.traceroot.exception.RouteException;
 import com.traceroot.repository.SeaRouteRepository;
 import com.traceroot.service.ifs.SeaRouteService;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -18,34 +21,44 @@ public class SeaRouteServiceImpl implements SeaRouteService {
     @Autowired
     private SeaRouteRepository repository;
 
-    @Override
-    public SeaRoute insert(SeaRoute seaRoute) {
+    @Autowired
+    private RouteSegmentServiceImpl routeSegmentService;
 
-        return repository.save(seaRoute);
+    @Override
+    public SeaRouteDTO insert(SeaRouteDTO seaRouteDTO) {
+        SeaRoute seaRoute=new SeaRoute();
+        BeanUtils.copyProperties(seaRouteDTO,seaRoute);
+        SeaRouteDTO result= SeaRoute2SeaRouteDTO.convert(repository.save(seaRoute));
+        return result;
     }
 
-    @Override
-    public SeaRoute update(SeaRoute seaRoute) {
+    /*@Override
+    public SeaRouteDTO update(SeaRouteDTO seaRouteDTO) {
         SeaRoute result= repository.findByRouteId(seaRoute.getRouteId());
         if (result==null){
             throw new RouteException(ResultEnum.SEA_ROUTE_NOT_EXIST);
         }
         return repository.save(seaRoute);
-    }
+    }*/
 
     @Override
-    public SeaRoute selectByRouteId(String routeId) {
-        SeaRoute result= repository.findByRouteId(routeId);
-        if (result==null){
+    public SeaRouteDTO selectByRouteId(String routeId) {
+        SeaRoute seaRoute= repository.findByRouteId(routeId);
+        if (seaRoute==null){
             throw new RouteException(ResultEnum.SEA_ROUTE_NOT_EXIST);
         }
-        return result;
+
+        SeaRouteDTO seaRouteDTO=SeaRoute2SeaRouteDTO.convert(seaRoute);
+        seaRouteDTO.setRouteSegments(routeSegmentService.selectByRouteId(routeId));
+
+        return seaRouteDTO;
     }
 
     @Override
-    public List<SeaRoute> selectByStatus(String status) {
+    public List<SeaRouteDTO> selectByStatus(String status) {
 
-        return repository.findByStatus(status);
+        List<SeaRouteDTO> seaRouteDTOS=SeaRoute2SeaRouteDTO.convert(repository.findByStatus(status));
+        return seaRouteDTOS;
     }
 
     @Override
