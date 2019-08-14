@@ -76,6 +76,12 @@ public class RouteSegmentServiceImpl implements RouteSegmentService {
         return routeSegmentDTOS;
     }
 
+    @Override
+    public List<RouteSegmentDTO> selectAll() {
+        List<RouteSegmentDTO> routeSegmentDTOS=RouteSegment2RouteSegmentDTO.convert(repository.findAll());
+        return routeSegmentDTOS;
+    }
+
     /**
      * 插入数据
      * @param segmentDTO

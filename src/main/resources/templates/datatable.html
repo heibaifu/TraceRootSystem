@@ -39,6 +39,7 @@
     <thead>
     <tr>
         <th>传感器id</th>
+        <th>传感器管道段id</th>
         <th>传感器位置</th>
         <th>传感器种类</th>
         <th>传感器状态</th>
@@ -50,6 +51,7 @@
     <tbody>
     <tr th:each="sensor:${sensorDTOList}">
         <td id="sensor_id" name="sensor_id" th:text="${sensor.sensorId}"></td>
+        <td id="sensor_segmentid" name="sensor_segmentid" th:text="${sensor.segmentId}"></td>
         <td id="sensor_location" name="sensor_location" th:text="${sensor.location}"></td>
         <td id="sensor_type" name="sensor_type" th:text="${sensor.typeId}"></td>
         <td id="sensor_state" name="sensor_state" th:text="${sensor.presentStatus}"></td>
@@ -57,8 +59,6 @@
         <td id="sensor_update" name="sensor_update" th:text="${sensor.updateTime}"></td>
         <td id="sensor_creat" name="sensor_creat" th:text="${sensor.createTime}"></td>
 </tr>
-
-
     </tbody>
 </table>
 
@@ -113,8 +113,6 @@
         <td id="boat_update" name="boat_update" th:text="${boat.updateTime}"></td>
         <td id="boat_creat" name="boat_creat" th:text="${boat.createTime}"></td>
     </tr>
-
-
     </tbody>
 </table>
 

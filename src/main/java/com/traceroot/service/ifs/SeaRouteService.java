@@ -22,6 +22,8 @@ public interface SeaRouteService {
 
     List<SeaRouteDTO> selectByStatus(String status);
 
+    List<SeaRouteDTO> selectAll();
+
     void deleteByRouteId(String routeId);
 
     void deleteByStatus(String status);

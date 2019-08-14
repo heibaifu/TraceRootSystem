@@ -62,6 +62,14 @@ public class SeaRouteServiceImpl implements SeaRouteService {
     }
 
     @Override
+    public List<SeaRouteDTO> selectAll() {
+
+        List<SeaRouteDTO> seaRouteDTOS=SeaRoute2SeaRouteDTO.convert(repository.findAll());
+
+        return seaRouteDTOS;
+    }
+
+    @Override
     public void deleteByRouteId(String routeId) {
         SeaRoute seaRoute = repository.findByRouteId(routeId);
         if (seaRoute==null){
