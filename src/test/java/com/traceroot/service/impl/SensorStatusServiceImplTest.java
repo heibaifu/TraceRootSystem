@@ -2,9 +2,8 @@ package com.traceroot.service.impl;
 
 import com.traceroot.dataobject.SensorStatus;
 import com.traceroot.enums.SensorStatusEnum;
-import com.traceroot.repository.SensorStatusRepository;
 import com.traceroot.utils.RandomUtil;
-import com.traceroot.utils.String2TimestampUtil;
+import com.traceroot.utils.TimeUtil;
 import lombok.extern.slf4j.Slf4j;
 import org.junit.Assert;
 import org.junit.Test;
@@ -15,10 +14,7 @@ import org.springframework.test.context.junit4.SpringRunner;
 
 import java.sql.Timestamp;
 import java.text.ParseException;
-import java.util.Date;
 import java.util.List;
-
-import static org.junit.Assert.*;
 
 @RunWith(SpringRunner.class)
 @SpringBootTest
@@ -52,8 +48,8 @@ public class SensorStatusServiceImplTest {
     @Test
     public void selectByRecordTimeBetween() {
         try {
-            startTime = String2TimestampUtil.string2Time("2019-07-24 20:25:05");
-            endTime = String2TimestampUtil.string2Time("2019-07-24 20:27:51");
+            startTime = TimeUtil.string2Timestamp("2019-07-24 20:25:05");
+            endTime = TimeUtil.string2Timestamp("2019-07-24 20:27:51");
         } catch (ParseException e) {
            log.error("【时间设定异常】",e.getMessage());
         }
@@ -64,8 +60,8 @@ public class SensorStatusServiceImplTest {
     @Test
     public void selectBySensorIdAndRecordTimeBetween() {
         try {
-            startTime = String2TimestampUtil.string2Time("2019-07-24 20:25:05");
-            endTime = String2TimestampUtil.string2Time("2019-07-24 20:27:51");
+            startTime = TimeUtil.string2Timestamp("2019-07-24 20:25:05");
+            endTime = TimeUtil.string2Timestamp("2019-07-24 20:27:51");
         } catch (ParseException e) {
             log.error("【时间设定异常】",e.getMessage());
         }

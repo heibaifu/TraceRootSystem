@@ -1,13 +1,12 @@
 package com.traceroot.controller;
 
-import com.traceroot.dataobject.BoatTrace;
 import com.traceroot.dto.BoatTraceDTO;
 import com.traceroot.enums.ResultEnum;
 import com.traceroot.exception.BoatException;
 import com.traceroot.service.ifs.CrossService;
 import com.traceroot.service.impl.BoatTraceServiceImpl;
 import com.traceroot.utils.ResultVOUtil;
-import com.traceroot.utils.String2TimestampUtil;
+import com.traceroot.utils.TimeUtil;
 import com.traceroot.vo.ResultVO;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,13 +15,10 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
-import org.springframework.web.servlet.ModelAndView;
 
 import java.text.ParseException;
-import java.util.List;
-import java.util.Map;
-import java.util.NavigableMap;
-import java.util.TreeMap;
+import java.text.SimpleDateFormat;
+import java.util.*;
 
 @Controller
 @RequestMapping("/boat")
@@ -63,7 +59,7 @@ public class BoatManageController {
                                                                    @RequestParam(value = "endtime",required = true)String endTime){
         List<BoatTraceDTO> traceDTOList = null;
         try {
-            traceDTOList = traceService.selectByRecordTimeBetween(String2TimestampUtil.string2Time(startTime),String2TimestampUtil.string2Time(endTime));
+            traceDTOList = traceService.selectByRecordTimeBetween(TimeUtil.string2Timestamp(startTime), TimeUtil.string2Timestamp(endTime));
         } catch (ParseException e) {
             log.error("【时间设定异常】",e.getMessage());
             return ResultVOUtil.error(ResultEnum.TIME_FORMAT_ERROR.getCode(),ResultEnum.TIME_FORMAT_ERROR.getMessage());
@@ -76,7 +72,7 @@ public class BoatManageController {
     }
 
     /**
-     *
+     * 查找在指定时间指定经纬度范围内，穿越指定管道段的船只及其穿越次数
      * @param segmentId
      * @param startTime
      * @param endTime
@@ -89,16 +85,17 @@ public class BoatManageController {
                                                                              @RequestParam(value = "starttime",required = false)String startTime,
                                                                              @RequestParam(value = "endtime",required = false)String endTime,
                                                                              @RequestParam(value = "accuracydegree",required = false,defaultValue = "1")Integer accuracyDegree){
-        if (endTime == null){
-            endTime = String.valueOf(System.currentTimeMillis());
-        } else if (endTime.isEmpty()){
-            endTime = String.valueOf(System.currentTimeMillis());
+        if (endTime == null || endTime.isEmpty()){
+            endTime = TimeUtil.presentTime();
+        }
+        if (startTime == null || startTime.isEmpty()){
+            startTime = TimeUtil.getPastDate(3);
         }
         NavigableMap<Integer, List<String>> map = null;
         try {
-            map = crossService.selectByPassingPipelineSegment(segmentId, String2TimestampUtil.string2Time(startTime), String2TimestampUtil.string2Time(endTime), accuracyDegree);
+            map = crossService.selectByPassingPipelineSegment(segmentId, TimeUtil.string2Timestamp(startTime), TimeUtil.string2Timestamp(endTime), accuracyDegree);
         } catch (ParseException e) {
-            log.error("【时间设定异常或格式错误】,startTime={},endTime={}",e.getMessage());
+            log.error("【时间设定异常或格式错误】,startTime={},endTime={}",startTime,endTime);
             return ResultVOUtil.error(ResultEnum.TIME_FORMAT_ERROR.getCode(),ResultEnum.TIME_FORMAT_ERROR.getMessage());
         }
         if (map.size()==0){

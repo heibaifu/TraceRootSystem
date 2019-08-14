@@ -3,10 +3,11 @@ package com.traceroot.utils;
 import java.sql.Timestamp;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.Locale;
 
-public class String2TimestampUtil {
+public class TimeUtil {
 
     /**
      * 将字符串类型的日期转换为一个timestamp
@@ -14,7 +15,7 @@ public class String2TimestampUtil {
      * @return
      * @throws java.text.ParseException
      */
-    public final static Timestamp string2Time(String dateString)
+    public final static Timestamp string2Timestamp(String dateString)
             throws java.text.ParseException {
         DateFormat dateFormat;
 //        dateFormat = new SimpleDateFormat("yyyy-MM-dd kk:mm:ss.SSS", Locale.ENGLISH);
@@ -23,6 +24,29 @@ public class String2TimestampUtil {
         Date timeDate = dateFormat.parse(dateString);   //util类型
         Timestamp dateTime = new java.sql.Timestamp(timeDate.getTime());    //Timestamp类型,timeDate.getTime()返回一个long型
         return dateTime;
+    }
+
+    /**
+     * 获取当前系统时间
+     * @return
+     */
+    public final static String presentTime(){
+        SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");//设置日期格式
+        return String.valueOf(df.format(new Date()));
+    }
+
+    /**
+     * 获取过去第几天的日期
+     * @param past
+     * @return
+     */
+    public static String getPastDate(int past) {
+        Calendar calendar = Calendar.getInstance();
+        calendar.set(Calendar.DAY_OF_YEAR, calendar.get(Calendar.DAY_OF_YEAR) - past);
+        Date today = calendar.getTime();
+        SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+        String result = format.format(today);
+        return result;
     }
 
 }
