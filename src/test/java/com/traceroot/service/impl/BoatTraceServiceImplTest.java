@@ -3,9 +3,8 @@ package com.traceroot.service.impl;
 import com.traceroot.dataobject.BoatTrace;
 import com.traceroot.dto.BoatTraceDTO;
 import com.traceroot.enums.BoatStatusEnum;
-import com.traceroot.repository.BoatTraceRepository;
 import com.traceroot.utils.RandomUtil;
-import com.traceroot.utils.String2TimestampUtil;
+import com.traceroot.utils.TimeUtil;
 import lombok.extern.slf4j.Slf4j;
 import org.junit.Assert;
 import org.junit.Test;
@@ -17,8 +16,6 @@ import org.springframework.test.context.junit4.SpringRunner;
 import java.sql.Timestamp;
 import java.text.ParseException;
 import java.util.List;
-
-import static org.junit.Assert.*;
 
 @RunWith(SpringRunner.class)
 @SpringBootTest
@@ -52,8 +49,8 @@ public class BoatTraceServiceImplTest {
     @Test
     public void selectByRecordTimeBetween() {
         try {
-            startTime = String2TimestampUtil.string2Time("2019-07-24 22:15:21");
-            endTime = String2TimestampUtil.string2Time("2019-07-24 22:16:05");
+            startTime = TimeUtil.string2Timestamp("2019-07-24 22:15:21");
+            endTime = TimeUtil.string2Timestamp("2019-07-24 22:16:05");
         } catch (ParseException e) {
             log.error("【时间设定异常】",e.getMessage());
         }
@@ -64,8 +61,8 @@ public class BoatTraceServiceImplTest {
     @Test
     public void selectByBoatIdAndRecordTimeBetween() {
         try {
-            startTime = String2TimestampUtil.string2Time("2019-07-24 22:15:50");
-            endTime = String2TimestampUtil.string2Time("2019-07-24 22:16:34");
+            startTime = TimeUtil.string2Timestamp("2019-07-24 22:15:50");
+            endTime = TimeUtil.string2Timestamp("2019-07-24 22:16:34");
         } catch (ParseException e) {
             log.error("【时间设定异常】",e.getMessage());
         }
@@ -100,8 +97,8 @@ public class BoatTraceServiceImplTest {
     @Test
     public void selectByRecordTimeBetweenAndRecordLocationIsLikeOrderByRecordTimeDesc() {
         try {
-            startTime = String2TimestampUtil.string2Time("2019-07-25 17:10:08");
-            endTime = String2TimestampUtil.string2Time("2019-07-29 21:31:56");
+            startTime = TimeUtil.string2Timestamp("2019-07-25 17:10:08");
+            endTime = TimeUtil.string2Timestamp("2019-07-29 21:31:56");
         } catch (ParseException e) {
             log.error("【时间设定异常】",e.getMessage());
         }

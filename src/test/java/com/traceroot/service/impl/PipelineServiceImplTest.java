@@ -4,7 +4,6 @@ import com.traceroot.dataobject.Pipeline;
 import com.traceroot.dto.PipeDTO;
 import com.traceroot.exception.PipeException;
 import com.traceroot.utils.RandomUtil;
-import com.traceroot.utils.String2TimestampUtil;
 import lombok.extern.slf4j.Slf4j;
 import org.junit.Assert;
 import org.junit.Test;
@@ -39,8 +38,7 @@ public class PipelineServiceImplTest {
 
     @Test
     public void save() throws Exception{
-        //PipeDTO pipeDTO = new PipeDTO(RandomUtil.genUniqueId(),RandomUtil.genUniqueLocation(),RandomUtil.genUniqueLocation()/*, String2TimestampUtil.string2Time("2019-08-04 11:11:11")*/);
-        PipeDTO pipeDTO = new PipeDTO("10002","119.106219,37.910437","121.465672,37.53779"/*, String2TimestampUtil.string2Time("2019-08-04 11:11:11")*/);
+        PipeDTO pipeDTO = new PipeDTO(RandomUtil.genUniqueId(),RandomUtil.genUniqueLocation(),RandomUtil.genUniqueLocation()/*, TimeUtil.string2Timestamp("2019-08-04 11:11:11")*/);
         Pipeline result = pipelineService.save(pipeDTO);
         Assert.assertNotNull(result);
     }

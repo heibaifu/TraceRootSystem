@@ -16,5 +16,5 @@ public class BoatForm {
     private String status;
 
     /*船只航线id号*/
-    private String routeId;
+    /*private String routeId;*/
 }
