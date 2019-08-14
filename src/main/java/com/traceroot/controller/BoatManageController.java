@@ -1,9 +1,15 @@
 package com.traceroot.controller;
 
+import com.traceroot.converter.form2dto.BoatForm2BoatDTOConverter;
+import com.traceroot.dto.BoatDTO;
 import com.traceroot.dto.BoatTraceDTO;
 import com.traceroot.enums.ResultEnum;
 import com.traceroot.exception.BoatException;
+import com.traceroot.form.BoatForm;
+import com.traceroot.form.PipelineSensorForm;
+import com.traceroot.service.ifs.BoatService;
 import com.traceroot.service.ifs.CrossService;
+import com.traceroot.service.impl.BoatServiceImpl;
 import com.traceroot.service.impl.BoatTraceServiceImpl;
 import com.traceroot.utils.ResultVOUtil;
 import com.traceroot.utils.TimeUtil;
@@ -11,11 +17,10 @@ import com.traceroot.vo.ResultVO;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.validation.BindingResult;
+import org.springframework.web.bind.annotation.*;
 
+import javax.validation.Valid;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.*;
@@ -30,6 +35,9 @@ public class BoatManageController {
 
     @Autowired
     CrossService crossService;
+
+    @Autowired
+    BoatService boatService;
 
     /**
      * 按照船只id查找trace
@@ -103,6 +111,25 @@ public class BoatManageController {
             return ResultVOUtil.error(ResultEnum.NO_SURROUND_BOAT_FOUND.getCode(),ResultEnum.NO_SURROUND_BOAT_FOUND.getMessage());
         }
         return ResultVOUtil.success(map);
+    }
+
+    /**
+     * 船只接口
+     * @param boatForm
+     * @param bindingResult
+     * @return
+     */
+    @PostMapping("/saveboat")
+    @ResponseBody
+    public ResultVO<String> saveBoat (@Valid BoatForm boatForm,
+                                      BindingResult bindingResult){
+        if (bindingResult.hasErrors()){
+            log.error("【保存船只】参数不正确，boatForm={}",boatForm);
+            ResultVOUtil.error(ResultEnum.PARAM_ERROR.getCode(),bindingResult.getFieldError().getDefaultMessage());
+        }
+        BoatDTO boatDTO = BoatForm2BoatDTOConverter.convert(boatForm);
+        boatService.save(boatDTO);
+        return ResultVOUtil.success(boatDTO.getBoatId());
     }
 
 }
