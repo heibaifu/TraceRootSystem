@@ -166,6 +166,24 @@ body{
 	font-family: "宋体";
 	
 }
+
+.pipesegs{
+	height: 20%;
+	left: 100%;
+	position: absolute;
+	overflow: auto;
+	top: 0%;
+	display: none;
+	background: rgba(0,0,0,.5);
+}
+
+#pipecontrol:hover > .pipesegs {
+	width:20%;
+	display: block;
+	padding: 5px;
+
+}
+
 .dragon{
 	height: 80%;
 	left: 20%;
