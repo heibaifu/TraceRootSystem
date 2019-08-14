@@ -39,7 +39,8 @@ public class PipelineServiceImplTest {
 
     @Test
     public void save() throws Exception{
-        PipeDTO pipeDTO = new PipeDTO(RandomUtil.genUniqueId(),RandomUtil.genUniqueLocation(),RandomUtil.genUniqueLocation()/*, String2TimestampUtil.string2Time("2019-08-04 11:11:11")*/);
+        //PipeDTO pipeDTO = new PipeDTO(RandomUtil.genUniqueId(),RandomUtil.genUniqueLocation(),RandomUtil.genUniqueLocation()/*, String2TimestampUtil.string2Time("2019-08-04 11:11:11")*/);
+        PipeDTO pipeDTO = new PipeDTO("10002","119.106219,37.910437","121.465672,37.53779"/*, String2TimestampUtil.string2Time("2019-08-04 11:11:11")*/);
         Pipeline result = pipelineService.save(pipeDTO);
         Assert.assertNotNull(result);
     }

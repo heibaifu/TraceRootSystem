@@ -56,7 +56,7 @@ public class PipelineSensorServiceImplTest {
     @Test
     public void save() throws Exception{
 
-        PipelineSensor sensor = new PipelineSensor(RandomUtil.genUniqueId(),SEGMENTID,PIPEID,SENSORTYPE,RandomUtil.genUniqueLocation(),SensorStatusEnum.ABNORMAL.getCode());
+        PipelineSensor sensor = new PipelineSensor("204","2004","10002","2926155","121.373183,37.766238",SensorStatusEnum.ABNORMAL.getCode());
         PipelineSensorDTO pipelineSensorDTO= PipelineSensor2SensorDTOConverter.convert(sensor);
         PipelineSensorDTO result = service.save(pipelineSensorDTO);
         Assert.assertNotNull(result);

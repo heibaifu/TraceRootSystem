@@ -48,7 +48,7 @@ public class PipelineSegmentServiceImplTest {
 
     @Test
     public void insert() {
-        PipeSegmentDTO pipeSegmentDTO = new PipeSegmentDTO("7002954", PipeID, null, RandomUtil.genUniqueLocation(), RandomUtil.genUniqueLocation(), null);
+        PipeSegmentDTO pipeSegmentDTO = new PipeSegmentDTO("2004", "10002", null, "121.267183,38.062677", "121.465672,37.53779", null);
         PipelineSegment result = segmentService.insert(pipeSegmentDTO);
         Assert.assertNotNull(result);
     }
