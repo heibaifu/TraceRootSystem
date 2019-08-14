@@ -40,7 +40,7 @@ public class TimeUtil {
      * @param past
      * @return
      */
-    public static String getPastDate(int past) {
+    public static String getPastDateBeforePresent(int past) {
         Calendar calendar = Calendar.getInstance();
         calendar.set(Calendar.DAY_OF_YEAR, calendar.get(Calendar.DAY_OF_YEAR) - past);
         Date today = calendar.getTime();
@@ -49,4 +49,20 @@ public class TimeUtil {
         return result;
     }
 
+
+    /**
+     * 获取指定时间前几天的时间
+     * @param thatDay
+     * @param day
+     * @return
+     */
+    public static String getPastDateBeforeThatDay(Date thatDay, int day) {
+        Calendar now = Calendar.getInstance();
+        now.setTime(thatDay);
+        now.set(Calendar.DATE, now.get(Calendar.DATE) - day);//+后 -前
+        Date resultTime = now.getTime();
+        SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+        String result = format.format(resultTime);
+        return result;
+    }
 }

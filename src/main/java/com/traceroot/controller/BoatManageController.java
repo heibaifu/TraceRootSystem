@@ -98,7 +98,15 @@ public class BoatManageController {
             endTime = TimeUtil.presentTime();
         }
         if (startTime == null || startTime.isEmpty()){
-            startTime = TimeUtil.getPastDate(3);
+            startTime = TimeUtil.getPastDateBeforePresent(3);
+        }
+        if (endTime != null && startTime == null){
+            try {
+                startTime = TimeUtil.getPastDateBeforeThatDay(TimeUtil.string2Timestamp(endTime),3);
+            } catch (ParseException e) {
+                log.error("【时间设定异常或格式错误】,endTime={}",endTime);
+                return ResultVOUtil.error(ResultEnum.TIME_FORMAT_ERROR.getCode(),ResultEnum.TIME_FORMAT_ERROR.getMessage());
+            }
         }
         NavigableMap<Integer, List<String>> map = null;
         try {
