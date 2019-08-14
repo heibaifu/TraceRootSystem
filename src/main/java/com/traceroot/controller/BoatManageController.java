@@ -3,6 +3,7 @@ package com.traceroot.controller;
 import com.traceroot.converter.form2dto.BoatForm2BoatDTOConverter;
 import com.traceroot.dto.BoatDTO;
 import com.traceroot.dto.BoatTraceDTO;
+import com.traceroot.dto.ThreateningBoatDTO;
 import com.traceroot.enums.ResultEnum;
 import com.traceroot.exception.BoatException;
 import com.traceroot.form.BoatForm;
@@ -110,7 +111,19 @@ public class BoatManageController {
             log.error("【查找船只轨迹】该时间、精度区间内船只不存在，starttime={},endtime={},accuracydegree={}",startTime,endTime,accuracyDegree);
             return ResultVOUtil.error(ResultEnum.NO_SURROUND_BOAT_FOUND.getCode(),ResultEnum.NO_SURROUND_BOAT_FOUND.getMessage());
         }
-        return ResultVOUtil.success(map);
+
+        List<ThreateningBoatDTO> resultList = new ArrayList<>();
+
+        map.forEach((key, value)->
+            value.forEach(e -> {
+                ThreateningBoatDTO threateningBoatDTO = new ThreateningBoatDTO();
+                threateningBoatDTO.setBoatId(e);
+                threateningBoatDTO.setTraverseTime(key);
+                resultList.add(threateningBoatDTO);}
+                )
+        );
+
+        return ResultVOUtil.success(resultList);
     }
 
     /**
