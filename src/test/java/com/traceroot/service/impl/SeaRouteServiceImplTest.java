@@ -67,4 +67,11 @@ public class SeaRouteServiceImplTest {
 
         seaRouteService.deleteByStatus(SeaRouteStatusEnum.CANCLE.getCode());
     }
+
+    @Test
+    public void selectAll() {
+        List<SeaRouteDTO>seaRouteDTOS=seaRouteService.selectAll();
+        Assert.assertNotEquals(0,seaRouteDTOS.size());
+
+    }
 }

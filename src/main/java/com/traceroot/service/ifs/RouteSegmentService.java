@@ -15,6 +15,8 @@ public interface RouteSegmentService {
 
     List<RouteSegmentDTO> findByRouteIdAndSegmentSerialNumberAfter(String routeId,Integer serialNumber);
 
+    List<RouteSegmentDTO> selectAll();
+
     RouteSegmentDTO insert(RouteSegmentDTO segmentDTO);
 
 /*

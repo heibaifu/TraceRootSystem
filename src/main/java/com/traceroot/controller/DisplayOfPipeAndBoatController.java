@@ -1,7 +1,10 @@
 package com.traceroot.controller;
 
-import com.traceroot.dto.BoatDTO;
+import com.traceroot.dataobject.RouteSegment;
+import com.traceroot.dto.*;
 import com.traceroot.service.ifs.BoatService;
+import com.traceroot.service.ifs.RouteSegmentService;
+import com.traceroot.service.ifs.SeaRouteService;
 import com.traceroot.service.impl.*;
 import com.traceroot.vo.ResultVO;
 import com.traceroot.converter.form2dto.PipeForm2PipeDTOConverter;
@@ -9,9 +12,6 @@ import com.traceroot.converter.form2dto.PipeSegmentForm2PipeSegmentDTOConverter;
 import com.traceroot.converter.form2dto.PipelineSensorForm2SensorDTOConverter;
 import com.traceroot.dataobject.Pipeline;
 import com.traceroot.dataobject.PipelineSegment;
-import com.traceroot.dto.PipeDTO;
-import com.traceroot.dto.PipeSegmentDTO;
-import com.traceroot.dto.PipelineSensorDTO;
 import com.traceroot.enums.ResultEnum;
 import com.traceroot.exception.PipeException;
 import com.traceroot.form.PipeForm;
@@ -49,6 +49,12 @@ public class DisplayOfPipeAndBoatController {
     @Autowired
     BoatServiceImpl boatService;
 
+    @Autowired
+    SeaRouteService seaRouteService;
+
+    @Autowired
+    private RouteSegmentService routeSegmentService;
+
 
     @GetMapping()
     public ModelAndView pipeIndex(Map<String, Object> map) {
@@ -69,6 +75,8 @@ public class DisplayOfPipeAndBoatController {
 
         List<BoatDTO> boatDTOList = boatService.selectAllBoat();
 
+        List<RouteSegmentDTO>routeSegmentDTOS=routeSegmentService.selectAll();
+
         map.put("warningSegments", warningSegments);
 
         map.put("pipeSegmentList", pipeSegmentDTOList);
@@ -76,6 +84,8 @@ public class DisplayOfPipeAndBoatController {
         map.put("sensorDTOList", sensorDTOList);
 
         map.put("boatDTOList", boatDTOList);
+
+        map.put("routeSegmentDTOS",routeSegmentDTOS); //船只航线段
 
         return new ModelAndView("datatable.html", map);
     }

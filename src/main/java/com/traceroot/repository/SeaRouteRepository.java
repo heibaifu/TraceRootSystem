@@ -13,4 +13,6 @@ public interface SeaRouteRepository extends JpaRepository<SeaRoute,String> {
     //按航线状态查找
     List<SeaRoute> findByStatus(String status);
 
+
+
 }
