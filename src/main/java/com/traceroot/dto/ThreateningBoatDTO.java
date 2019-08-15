@@ -9,4 +9,6 @@ public class ThreateningBoatDTO {
 
     private Integer traverseTime;
 
+    private String presentLocation;
+
 }

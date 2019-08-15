@@ -96,17 +96,20 @@ public class BoatManageController {
                                                                              @RequestParam(value = "accuracydegree",required = false,defaultValue = "1")Integer accuracyDegree){
         if (endTime == null || endTime.isEmpty()){
             endTime = TimeUtil.presentTime();
-        }
-        if (startTime == null || startTime.isEmpty()){
-            startTime = TimeUtil.getPastDateBeforePresent(3);
+//            log.warn("into 1");
         }
         if (endTime != null && startTime == null){
             try {
                 startTime = TimeUtil.getPastDateBeforeThatDay(TimeUtil.string2Timestamp(endTime),3);
+//                log.warn("into 3");
             } catch (ParseException e) {
                 log.error("【时间设定异常或格式错误】,endTime={}",endTime);
                 return ResultVOUtil.error(ResultEnum.TIME_FORMAT_ERROR.getCode(),ResultEnum.TIME_FORMAT_ERROR.getMessage());
             }
+        }
+        if (startTime == null || startTime.isEmpty()){
+            startTime = TimeUtil.getPastDateBeforePresent(3);
+//            log.warn("into 2");
         }
         NavigableMap<Integer, List<String>> map = null;
         try {
@@ -127,6 +130,7 @@ public class BoatManageController {
                 ThreateningBoatDTO threateningBoatDTO = new ThreateningBoatDTO();
                 threateningBoatDTO.setBoatId(e);
                 threateningBoatDTO.setTraverseTime(key);
+                threateningBoatDTO.setPresentLocation(boatService.selectByBoatId(e).getPresentLocation());
                 resultList.add(threateningBoatDTO);}
                 )
         );
