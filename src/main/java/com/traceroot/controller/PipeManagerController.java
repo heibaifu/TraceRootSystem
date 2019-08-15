@@ -38,7 +38,7 @@ import java.util.Map;
 @Controller
 @RequestMapping("/pipe")
 @Slf4j
-public class PipeManager {
+public class PipeManagerController {
 
     @Autowired
     PipelineServiceImpl pipelineService;
@@ -177,7 +177,7 @@ public class PipeManager {
     }
 
     /**
-     *
+     * 根据管道段id返回传感器
      * @param segmentId
      * @return
      */
@@ -185,6 +185,10 @@ public class PipeManager {
     @ResponseBody
     public ResultVO<List<SensorVO>> findSensorBySegmentId (@RequestParam(value = "segmentid",required = true)String segmentId){
 
+        PipelineSegment segment = segmentService.selectBySegmentId(segmentId);
+        if (segment == null){
+            return ResultVOUtil.error(ResultEnum.PIPE_SEGMENT_NOT_EXIST.getCode(),ResultEnum.PIPE_SEGMENT_NOT_EXIST.getMessage());
+        }
         List<PipelineSensorDTO> sensorDTOList = sensorService.selectBySegmentId(segmentId);
         List<SensorVO> sensorVOList = new ArrayList<>();
         sensorDTOList.forEach(element -> {

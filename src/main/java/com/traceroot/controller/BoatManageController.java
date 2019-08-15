@@ -48,7 +48,7 @@ public class BoatManageController {
         List<BoatTraceDTO> traceDTOList = traceService.selectByBoatId(boatId);
         if (traceDTOList.size()==0){
             log.error("【查找船只轨迹】船只轨迹不存在，boatid={}",boatId);
-            throw new BoatException(ResultEnum.BOAT_TRACE_NOT_EXIST);
+            return ResultVOUtil.error(ResultEnum.BOAT_TRACE_NOT_EXIST.getCode(),ResultEnum.BOAT_TRACE_NOT_EXIST.getMessage());
         }
         return ResultVOUtil.success(traceDTOList);
     }

@@ -20,7 +20,7 @@ public interface PipelineSegmentService {
 
     PipelineSegment update(PipeSegmentDTO pipeSegmentDTO);
 
-    List<PipelineSegment> findByPipeIdAndSegmentSerialNumberAfter(String pipeId,Integer serialNumber);
+    List<PipelineSegment> selectByPipeIdAndSegmentSerialNumberAfter(String pipeId, Integer serialNumber);
 
     void deleteBySegmentId(String segmentId);
 

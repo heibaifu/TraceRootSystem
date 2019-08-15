@@ -118,7 +118,7 @@ public class PipelineSegmentServiceImpl implements PipelineSegmentService {
 
     //查找在serialNumber之后的部分
     @Override
-    public List<PipelineSegment> findByPipeIdAndSegmentSerialNumberAfter(String pipeId, Integer serialNumber) {
+    public List<PipelineSegment> selectByPipeIdAndSegmentSerialNumberAfter(String pipeId, Integer serialNumber) {
 
         return repository.findByPipeIdAndSegmentSerialNumberAfterOrderBySegmentSerialNumber(pipeId, serialNumber);
     }

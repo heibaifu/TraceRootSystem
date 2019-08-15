@@ -1,19 +1,20 @@
 package com.traceroot.service.ifs;
 
 import com.traceroot.dataobject.SensorType;
+import com.traceroot.dto.SensorTypeDTO;
 
 /**
  * 传感器种类表，实现增删改查
  */
 public interface SensorTypeService {
 
-    SensorType save(SensorType sensorType);
+    SensorTypeDTO save(SensorTypeDTO sensorTypeDTO);
 
-    SensorType selectByTypeId(String typeId);
+    SensorTypeDTO selectByTypeId(String typeId);
 
-    SensorType selectByTypeName(String typeName);
+    SensorTypeDTO selectByTypeName(String typeName);
 
-    SensorType updateByTypeId(String typeId, String updateName);
+/*    SensorType updateByTypeId(String typeId, String updateName);*/
 
     void deleteByTypeId(String typeId);
 
