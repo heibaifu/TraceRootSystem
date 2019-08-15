@@ -13,12 +13,14 @@ import com.traceroot.exception.PipeException;
 import com.traceroot.form.PipeForm;
 import com.traceroot.form.PipeSegmentForm;
 import com.traceroot.form.PipelineSensorForm;
+import com.traceroot.service.ifs.SensorTypeService;
 import com.traceroot.service.impl.PipelineSegmentServiceImpl;
 import com.traceroot.service.impl.PipelineSensorServiceImpl;
 import com.traceroot.service.impl.PipelineServiceImpl;
 import com.traceroot.utils.RandomUtil;
 import com.traceroot.utils.ResultVOUtil;
 import com.traceroot.vo.ResultVO;
+import com.traceroot.vo.SensorVO;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -28,7 +30,9 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 
 import javax.validation.Valid;
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 @Controller
@@ -45,23 +49,8 @@ public class PipeManager {
     @Autowired
     PipelineSensorServiceImpl sensorService;
 
-    /**
-     * 根据传感器坐标查找传感器
-     * @param sensorLocation
-     * @param map
-     * @return
-     */
-    @GetMapping("/findsensor")
-    public ModelAndView pipelineSensorMsg(@RequestParam(value = "sensorlocation",required = false)String sensorLocation,
-                                          Map<String,Object> map){
-        PipelineSensorDTO pipelineSensorDTO= sensorService.selectByLocation(sensorLocation);
-        if (pipelineSensorDTO==null){
-            log.error("【查找传感器】传感器不存在，sensorLocation={}",sensorLocation);
-            throw new PipeException(ResultEnum.SENSOR_NOT_EXIST);
-        }
-        map.put("pipelineSensor",pipelineSensorDTO);
-        return new ModelAndView("bmaptest1.html", map);
-    }
+    @Autowired
+    SensorTypeService sensorTypeService;
 
     /**
      * 保存管道
@@ -167,6 +156,43 @@ public class PipeManager {
         return ResultVOUtil.success(map);
     }
 
+    /*下面是关于传感器的方法*/
+
+    /**
+     * 根据传感器坐标查找传感器
+     * @param sensorLocation
+     * @param map
+     * @return
+     */
+    @GetMapping("/findsensor")
+    public ModelAndView findSensorByLocation(@RequestParam(value = "sensorlocation",required = false)String sensorLocation,
+                                             Map<String,Object> map){
+        PipelineSensorDTO pipelineSensorDTO= sensorService.selectByLocation(sensorLocation);
+        if (pipelineSensorDTO==null){
+            log.error("【查找传感器】传感器不存在，sensorLocation={}",sensorLocation);
+            throw new PipeException(ResultEnum.SENSOR_NOT_EXIST);
+        }
+        map.put("pipelineSensor",pipelineSensorDTO);
+        return new ModelAndView("bmaptest1.html", map);
+    }
+
+    /**
+     *
+     * @param segmentId
+     * @return
+     */
+    @GetMapping("/sensorwithsegid")
+    @ResponseBody
+    public ResultVO<List<SensorVO>> findSensorBySegmentId (@RequestParam(value = "segmentid",required = true)String segmentId){
+
+        List<PipelineSensorDTO> sensorDTOList = sensorService.selectBySegmentId(segmentId);
+        List<SensorVO> sensorVOList = new ArrayList<>();
+        sensorDTOList.forEach(element -> {
+            SensorVO sensorVO = new SensorVO(element.getTypeId(),element.getPresentValue(),sensorTypeService.selectByTypeId(element.getTypeId()).getTypeName());
+            sensorVOList.add(sensorVO);
+        });
+        return ResultVOUtil.success(sensorVOList);
+    }
 
     /**
      * 管道传感器的新增及更新

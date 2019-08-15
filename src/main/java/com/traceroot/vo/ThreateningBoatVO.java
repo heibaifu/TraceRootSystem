@@ -1,9 +1,9 @@
-package com.traceroot.dto;
+package com.traceroot.vo;
 
 import lombok.Data;
 
 @Data
-public class ThreateningBoatDTO {
+public class ThreateningBoatVO {
 
     private String boatId;
 

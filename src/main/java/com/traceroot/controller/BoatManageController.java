@@ -3,14 +3,12 @@ package com.traceroot.controller;
 import com.traceroot.converter.form2dto.BoatForm2BoatDTOConverter;
 import com.traceroot.dto.BoatDTO;
 import com.traceroot.dto.BoatTraceDTO;
-import com.traceroot.dto.ThreateningBoatDTO;
+import com.traceroot.vo.ThreateningBoatVO;
 import com.traceroot.enums.ResultEnum;
 import com.traceroot.exception.BoatException;
 import com.traceroot.form.BoatForm;
-import com.traceroot.form.PipelineSensorForm;
 import com.traceroot.service.ifs.BoatService;
 import com.traceroot.service.ifs.CrossService;
-import com.traceroot.service.impl.BoatServiceImpl;
 import com.traceroot.service.impl.BoatTraceServiceImpl;
 import com.traceroot.utils.ResultVOUtil;
 import com.traceroot.utils.TimeUtil;
@@ -23,7 +21,6 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
 import java.text.ParseException;
-import java.text.SimpleDateFormat;
 import java.util.*;
 
 @Controller
@@ -123,11 +120,12 @@ public class BoatManageController {
             return ResultVOUtil.error(ResultEnum.NO_SURROUND_BOAT_FOUND.getCode(),ResultEnum.NO_SURROUND_BOAT_FOUND.getMessage());
         }
 
-        List<ThreateningBoatDTO> resultList = new ArrayList<>();
+        //转化成前端所需要的格式
+        List<ThreateningBoatVO> resultList = new ArrayList<>();
 
         map.forEach((key, value)->
             value.forEach(e -> {
-                ThreateningBoatDTO threateningBoatDTO = new ThreateningBoatDTO();
+                ThreateningBoatVO threateningBoatDTO = new ThreateningBoatVO();
                 threateningBoatDTO.setBoatId(e);
                 threateningBoatDTO.setTraverseTime(key);
                 threateningBoatDTO.setPresentLocation(boatService.selectByBoatId(e).getPresentLocation());
