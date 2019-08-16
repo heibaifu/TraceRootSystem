@@ -36,7 +36,6 @@ public class PipelineSensorServiceImpl implements PipelineSensorService {
     }
 
     /*查询传感器列表DTO*/
-    //todo 是否需要给statusList加内容
     @Override
     public List<PipelineSensorDTO> selectBySegmentId(String segmentId) {
 
@@ -83,7 +82,15 @@ public class PipelineSensorServiceImpl implements PipelineSensorService {
         repository.save(result);
 
         //增加一条传感器状态记录
-        SensorStatus sensorStatus = new SensorStatus(RandomUtil.genUniqueId(),result.getSensorId(),result.getPresentStatus());
+        SensorStatus sensorStatus = new SensorStatus();
+        sensorStatus.setStatus(RandomUtil.genUniqueId());
+        sensorStatus.setSensorId(result.getSensorId());
+
+        if (result.getPresentValue()==null) {
+            sensorStatus.setStatus(result.getPresentStatus());
+        }else {
+            sensorStatus.setValue(result.getPresentValue());
+        }
         statusRepository.save(sensorStatus);
 
         return sensorDTO;
@@ -103,10 +110,14 @@ public class PipelineSensorServiceImpl implements PipelineSensorService {
 
         //增加一条传感器状态记录
         SensorStatus sensorStatus = new SensorStatus();
-        sensorStatus.setStatusId(RandomUtil.genUniqueId());
-        sensorStatus.setStatus(pipelineSensorDTO.getPresentStatus());
-        sensorStatus.setSensorId(pipelineSensorDTO.getSensorId());
-        sensorStatus.setValue(pipelineSensorDTO.getPresentValue());
+        sensorStatus.setStatus(RandomUtil.genUniqueId());
+        sensorStatus.setSensorId(result.getSensorId());
+
+        if (result.getPresentValue()==null) {
+            sensorStatus.setStatus(result.getPresentStatus());
+        }else {
+            sensorStatus.setValue(result.getPresentValue());
+        }
         statusRepository.save(sensorStatus);
 
         return pipelineSensorDTO;

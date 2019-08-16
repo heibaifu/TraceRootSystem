@@ -72,9 +72,10 @@ public class SensorStatusServiceImplTest {
     @Test
     public void save() throws Exception{
         SensorStatus sensorStatus=new SensorStatus();
-        sensorStatus.setSensorId(SENSORID);
+        sensorStatus.setSensorId("7337065");
         sensorStatus.setStatusId(RandomUtil.genUniqueId());
-        sensorStatus.setStatus(SensorStatusEnum.NORMAL.getCode());
+        //sensorStatus.setStatus(SensorStatusEnum.NORMAL.getCode());
+        sensorStatus.setValue("1");
         SensorStatus result=statusService.save(sensorStatus);
         Assert.assertNotNull(result);
     }
