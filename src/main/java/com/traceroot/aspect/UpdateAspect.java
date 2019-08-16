@@ -39,7 +39,7 @@ public class UpdateAspect {
         UpdateBoatVO updateBoatVO = new UpdateBoatVO();
         BeanUtils.copyProperties(boatDTO,updateBoatVO);
         if (boatTraces.size()>1){
-            updateBoatVO.setLastLocation(boatTraces.get(1).getRecordLocation());
+            updateBoatVO.setLastLocation(boatTraces.get(boatTraces.size()-1).getRecordLocation());
         }
 
         websocket.sendMessage(updateBoatVO);
