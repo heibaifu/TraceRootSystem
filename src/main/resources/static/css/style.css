@@ -29,6 +29,13 @@ body{
 	top: -20%;
 	
 }
+
+.dis{
+	display: none;
+
+}
+
+
 .middle {
 
 				position: absolute;
@@ -209,3 +216,4 @@ body{
 	 padding: 10px;
 
  }
+
