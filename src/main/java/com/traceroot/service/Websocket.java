@@ -12,7 +12,7 @@ import java.util.concurrent.CopyOnWriteArrayList;
  */
 
 @Component
-@ServerEndpoint("/webSocket")
+@ServerEndpoint(value = "/webSocket",encoders = { ServerEncoder.class })
 @Slf4j
 public class Websocket {
 
@@ -55,11 +55,11 @@ public class Websocket {
         log.info("【websocket消息】受到客户端发来的消息：{}", message);
     }
 
-    public void sendMessage(String message){
+    public void sendMessage(Object o){
         for (Websocket websocket : websocketSet){
-            log.info("【websocket消息】广播消息：{}", message);
             try {
-                websocket.session.getBasicRemote().sendText(message);
+                websocket.session.getBasicRemote().sendObject(o);
+                log.info("【websocket消息】广播成功，消息：{}", o);
             } catch (Exception e){
                 e.printStackTrace();
             }
