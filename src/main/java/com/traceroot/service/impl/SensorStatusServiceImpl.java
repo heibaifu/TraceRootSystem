@@ -1,6 +1,10 @@
 package com.traceroot.service.impl;
 
+import com.traceroot.dataobject.PipelineSensor;
 import com.traceroot.dataobject.SensorStatus;
+import com.traceroot.dataobject.SensorType;
+import com.traceroot.dto.PipelineSensorDTO;
+import com.traceroot.enums.SensorStatusEnum;
 import com.traceroot.exception.PipeException;
 import com.traceroot.enums.ResultEnum;
 import com.traceroot.repository.SensorStatusRepository;
@@ -19,8 +23,27 @@ public class SensorStatusServiceImpl implements SensorStatusService {
     @Autowired
     private SensorStatusRepository repository;
 
+    @Autowired
+    private SensorTypeServiceImpl sensorTypeService;
+
+    @Autowired
+    private PipelineSensorServiceImpl pipelineSensorService;
+
+
     @Override
     public SensorStatus save(SensorStatus status) {
+
+        PipelineSensorDTO pipelineSensorDTO=pipelineSensorService.selectBySensorId(status.getSensorId());
+
+        SensorType sensorType=sensorTypeService.selectByTypeId(pipelineSensorDTO.getTypeId());
+
+        if (status.getValue()!=null){
+            if (Double.valueOf(status.getValue()) >= Double.valueOf(sensorType.getLowestValue())&&Double.valueOf(status.getValue()) <= Double.valueOf(sensorType.getHighestValue())){
+                status.setStatus(SensorStatusEnum.NORMAL.getCode());
+            }else {
+                status.setStatus(SensorStatusEnum.ABNORMAL.getCode());
+            }
+        }
         return repository.save(status);
     }
 

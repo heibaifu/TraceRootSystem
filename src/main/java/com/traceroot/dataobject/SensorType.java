@@ -25,6 +25,10 @@ public class SensorType {
 
     private String typeName;
 
+    private String lowestValue;
+
+    private  String highestValue;
+
     /*创建时间*/
     @CreatedDate
     @Column(name = "create_time", nullable = false,updatable = false)
