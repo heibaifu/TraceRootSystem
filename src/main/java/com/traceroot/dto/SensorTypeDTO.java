@@ -9,4 +9,10 @@ public class SensorTypeDTO {
 
     private String typeName;
 
+    private String lowestValue;
+
+    private  String highestValue;
+
+
+
 }

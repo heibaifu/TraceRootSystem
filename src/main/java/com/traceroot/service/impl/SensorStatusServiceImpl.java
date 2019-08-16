@@ -4,6 +4,7 @@ import com.traceroot.dataobject.PipelineSensor;
 import com.traceroot.dataobject.SensorStatus;
 import com.traceroot.dataobject.SensorType;
 import com.traceroot.dto.PipelineSensorDTO;
+import com.traceroot.dto.SensorTypeDTO;
 import com.traceroot.enums.SensorStatusEnum;
 import com.traceroot.exception.PipeException;
 import com.traceroot.enums.ResultEnum;
@@ -35,10 +36,11 @@ public class SensorStatusServiceImpl implements SensorStatusService {
 
         PipelineSensorDTO pipelineSensorDTO=pipelineSensorService.selectBySensorId(status.getSensorId());
 
-        SensorType sensorType=sensorTypeService.selectByTypeId(pipelineSensorDTO.getTypeId());
+
+        SensorTypeDTO sensorTypeDTO=sensorTypeService.selectByTypeId(pipelineSensorDTO.getTypeId());
 
         if (status.getValue()!=null){
-            if (Double.valueOf(status.getValue()) >= Double.valueOf(sensorType.getLowestValue())&&Double.valueOf(status.getValue()) <= Double.valueOf(sensorType.getHighestValue())){
+            if (Double.valueOf(status.getValue()) >= Double.valueOf(sensorTypeDTO.getLowestValue())&&Double.valueOf(status.getValue()) <= Double.valueOf(sensorTypeDTO.getHighestValue())){
                 status.setStatus(SensorStatusEnum.NORMAL.getCode());
             }else {
                 status.setStatus(SensorStatusEnum.ABNORMAL.getCode());
