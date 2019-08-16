@@ -14,13 +14,13 @@ public class ServerEncoder implements Encoder.Text<UpdateBoatVO> {
 
     @Override
     public void destroy() {
-        // TODO Auto-generated method stub
+
 
     }
 
     @Override
     public void init(EndpointConfig arg0) {
-        // TODO Auto-generated method stub
+
 
     }
 
