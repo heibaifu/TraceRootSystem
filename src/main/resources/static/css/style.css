@@ -184,7 +184,24 @@ body{
 	background: rgba(0,0,0,.5);
 }
 
+.boatss{
+	height: 20%;
+	left: 100%;
+	position: absolute;
+	overflow: auto;
+	top: 0%;
+	display: none;
+	background: rgba(0,0,0,.5);
+}
+
 #pipecontrol:hover > .pipesegs {
+	width:20%;
+	display: block;
+	padding: 5px;
+
+}
+
+#boatcontrol:hover > .boatss {
 	width:20%;
 	display: block;
 	padding: 5px;

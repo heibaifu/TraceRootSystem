@@ -36,97 +36,97 @@
 
     <script>
         function getvalue(){                            //界面初始化
-        var pare=window.opener;
-        if(pare!=null)
-        {
-            var segmentid=new Array();
-            var start=new Array();
-            var end=new Array();
-            var update=new Array();
-            var creat=new Array();
-            var sensorid=new Array();
-            var sensorsegid=new Array();
-            var sensorlocation=new Array();
-            var sensortype=new Array();
-            var sensorstate=new Array();
-            var sensorvalue=new Array();
-            var sensorupdate=new Array();
-            var sensorcreat=new Array();
-            var badnodeid=new Array();
-            var badnodestart=new Array();
-            var badnodeend=new Array();
-            var badnodeupdate=new Array();
-            var badnodecreat=new Array();
-            var boatid=new Array();
-            var boatlocation=new Array();
-            var boattype=new Array();
-            var boatstate=new Array();
-            var boatupdate=new Array();
-            var boatcreat=new Array();
-            var tablepipesegment=pare.document.getElementById("pipesegment1");
-            var tablesensor=pare.document.getElementById("sensor1");
-            var tablebadnode=pare.document.getElementById("badnode");
-            var tableboat=pare.document.getElementById("boat1");
-            chartdata1=tablepipesegment.rows.length-tablebadnode.rows.length;
-            chartdata2=tablebadnode.rows.length -1;
+            var pare=window.opener;
+            if(pare!=null)
+            {
+                var segmentid=new Array();
+                var start=new Array();
+                var end=new Array();
+                var update=new Array();
+                var creat=new Array();
+                var sensorid=new Array();
+                var sensorsegid=new Array();
+                var sensorlocation=new Array();
+                var sensortype=new Array();
+                var sensorstate=new Array();
+                var sensorvalue=new Array();
+                var sensorupdate=new Array();
+                var sensorcreat=new Array();
+                var badnodeid=new Array();
+                var badnodestart=new Array();
+                var badnodeend=new Array();
+                var badnodeupdate=new Array();
+                var badnodecreat=new Array();
+                var boatid=new Array();
+                var boatlocation=new Array();
+                var boattype=new Array();
+                var boatstate=new Array();
+                var boatupdate=new Array();
+                var boatcreat=new Array();
+                var tablepipesegment=pare.document.getElementById("pipesegment1");
+                var tablesensor=pare.document.getElementById("sensor1");
+                var tablebadnode=pare.document.getElementById("badnode");
+                var tableboat=pare.document.getElementById("boat1");
+                chartdata1=tablepipesegment.rows.length-tablebadnode.rows.length;
+                chartdata2=tablebadnode.rows.length -1;
 
-            showchart(chartdata1,chartdata2);
-           for (i = 0; i < tablepipesegment.rows.length -1; i++) {
-                segmentid[i]= tablepipesegment.rows[i+1].cells[0];
-                start[i] = tablepipesegment.rows[i+1].cells[1];
-                end[i] = tablepipesegment.rows[i+1].cells[2];
-                update[i] = tablepipesegment.rows[i+1].cells[3];
-                creat[i] = tablepipesegment.rows[i+1].cells[4];
-                if (end[i] != null) {
+                showchart(chartdata1,chartdata2);
+                for (i = 0; i < tablepipesegment.rows.length -1; i++) {
+                    segmentid[i]= tablepipesegment.rows[i+1].cells[0];
+                    start[i] = tablepipesegment.rows[i+1].cells[1];
+                    end[i] = tablepipesegment.rows[i+1].cells[2];
+                    update[i] = tablepipesegment.rows[i+1].cells[3];
+                    creat[i] = tablepipesegment.rows[i+1].cells[4];
+                    if (end[i] != null) {
 
-                    drawpipe(segmentid[i],start[i], end[i],update[i],creat[i],-1);
+                        drawpipe(segmentid[i],start[i], end[i],update[i],creat[i],-1);
 
+                    }
                 }
-            }
 
-            for (j = 0; j <  tablesensor.rows.length -1; j++) {
-                sensorid[j] = tablesensor.rows[j+1].cells[0];
-                sensorsegid[j] = tablesensor.rows[j+1].cells[1];
-                sensorlocation[j] = tablesensor.rows[j+1].cells[2];
-                sensortype[j]= tablesensor.rows[j+1].cells[3];
-                sensorstate[j]= tablesensor.rows[j+1].cells[4];
-                sensorvalue[j]= tablesensor.rows[j+1].cells[5];
-                sensorupdate[j]= tablesensor.rows[j+1].cells[6];
-                sensorcreat[j]= tablesensor.rows[j+1].cells[7];
-                if (sensorlocation[j] != null) {
-                    drawsensor(sensorid[j],sensorsegid[j],sensorlocation[j],sensortype[j],sensorstate[j],sensorvalue[j],sensorupdate[j],sensorcreat[j]);
+                for (j = 0; j <  tablesensor.rows.length -1; j++) {
+                    sensorid[j] = tablesensor.rows[j+1].cells[0];
+                    sensorsegid[j] = tablesensor.rows[j+1].cells[1];
+                    sensorlocation[j] = tablesensor.rows[j+1].cells[2];
+                    sensortype[j]= tablesensor.rows[j+1].cells[3];
+                    sensorstate[j]= tablesensor.rows[j+1].cells[4];
+                    sensorvalue[j]= tablesensor.rows[j+1].cells[5];
+                    sensorupdate[j]= tablesensor.rows[j+1].cells[6];
+                    sensorcreat[j]= tablesensor.rows[j+1].cells[7];
+                    if (sensorlocation[j] != null) {
+                        drawsensor(sensorid[j],sensorsegid[j],sensorlocation[j],sensortype[j],sensorstate[j],sensorvalue[j],sensorupdate[j],sensorcreat[j]);
 
+                    }
                 }
-            }
 
-            for (i = 0; i < tablebadnode.rows.length -1; i++) {
-                badnodeid[i] = tablebadnode.rows[i+1].cells[0];
-                badnodestart[i] = tablebadnode.rows[i+1].cells[1];
-                badnodeend[i] = tablebadnode.rows[i+1].cells[2];
-                badnodeupdate[i] = tablebadnode.rows[i+1].cells[2];
-                badnodecreat[i] = tablebadnode.rows[i+1].cells[2];
-                if (badnodeend[i] != null) {
+                for (i = 0; i < tablebadnode.rows.length -1; i++) {
+                    badnodeid[i] = tablebadnode.rows[i+1].cells[0];
+                    badnodestart[i] = tablebadnode.rows[i+1].cells[1];
+                    badnodeend[i] = tablebadnode.rows[i+1].cells[2];
+                    badnodeupdate[i] = tablebadnode.rows[i+1].cells[2];
+                    badnodecreat[i] = tablebadnode.rows[i+1].cells[2];
+                    if (badnodeend[i] != null) {
 
-                    drawbadnode(badnodeid[i],badnodestart[i], badnodeend[i],badnodeupdate[i],badnodecreat[i]);
+                        drawbadnode(badnodeid[i],badnodestart[i], badnodeend[i],badnodeupdate[i],badnodecreat[i]);
 
+                    }
                 }
-            }
 
-            for (j = 0; j < tableboat.rows.length-1;j++) {
-                boatid[j] = tableboat.rows[j+1].cells[0];
-                boatlocation[j] = tableboat.rows[j+1].cells[1];
-                boattype[j]= tableboat.rows[j+1].cells[2];
-                boatstate[j]= tableboat.rows[j+1].cells[3];
-                boatupdate[j]= tableboat.rows[j+1].cells[4];
-                boatcreat[j]= tableboat.rows[j+1].cells[5];
-                if (sensorlocation[j] != null) {
-                    drawboat( boatid[j],boatlocation[j],boattype[j],boatstate[j],boatupdate[j],boatcreat[j]);
+                for (j = 0; j < tableboat.rows.length-1;j++) {
+                    boatid[j] = tableboat.rows[j+1].cells[0];
+                    boatlocation[j] = tableboat.rows[j+1].cells[1];
+                    boattype[j]= tableboat.rows[j+1].cells[2];
+                    boatstate[j]= tableboat.rows[j+1].cells[3];
+                    boatupdate[j]= tableboat.rows[j+1].cells[4];
+                    boatcreat[j]= tableboat.rows[j+1].cells[5];
+                    if (sensorlocation[j] != null) {
+                        drawboat( boatid[j],boatlocation[j],boattype[j],boatstate[j],boatupdate[j],boatcreat[j]);
 
+                    }
                 }
-            }
 
+            }
         }
-    }
 
         function fnParent(){
             window.opener.location.reload();//刷新父窗口
@@ -160,8 +160,32 @@
 
         //接收到消息的回调方法
         websocket.onmessage = function(event){
-            // setMessageInnerHTML(event.data);
-            fnParent();
+
+               /*    switch (event) {
+                       case 0:*/
+                           var lo=event.data.lastLocation.split(",")
+                           var longitude=lo[0];
+                           var latitude=lo[1];
+                           var allOverlay = map.getOverlays();             //删除原有的节点
+                           for(var i = 0;i<allOverlay.length;i++) {
+                               if(allOverlay[i].toString()=="[object Marker]"){
+                                   if (allOverlay[i].getPosition().lng == longitude && allOverlay[i].getPosition().lat == latitude)
+                                   {
+                                       map.removeOverlay(allOverlay[i]);
+                                   }
+                               }
+                           }
+                           drawboatf(event.data.boatid,event.data.presentLocation,event.data.type,event.data.status,event.data.updateTime,event.data.createTime);
+                /*           break;
+
+                       case 1:
+                           drawboatf( boatid[j],boatlocation[j],boattype[j],boatstate[j],boatupdate[j],boatcreat[j]);
+                       default:
+
+                           break;
+                   }*/
+
+
         };
 
         //连接关闭的回调方法
@@ -178,10 +202,6 @@
         //将消息显示在网页上
         function setMessageInnerHTML(innerHTML){
 
-
-
-
-
             document.getElementById('r-result').innerHTML += innerHTML + '<br/>';
         }
 
@@ -191,11 +211,11 @@
         }
 
         //发送消息
-   /*     function send(){
-            var message = document.getElementById('text').value;
-            websocket.send(message);
-        }
-        */
+        /*     function send(){
+                 var message = document.getElementById('text').value;
+                 websocket.send(message);
+             }
+             */
         function finder() {
 
             var allOverlay = map.getOverlays();                                       //移除原有的航线
@@ -210,44 +230,44 @@
 
         function find() {
 
-                document.getElementById("find").innerHTML = "查找中";
-                //获取标签的值
-                var id = $("#id").val();
-                var data = {
-                    'boatid': id
-                };
-                // ajax请求
-                $.ajax({
-                    type: "GET",                  // 请求方式
-                    url: "/traceroot/boat/findbyboatid",       // 发送请求的地址
-                    data: data,                    // 请求参数
-                    async: true,                   // 异步请求
-                    cache: false,                  // 缓存
-                    dataType: "json",              // 返回的数据类型
-                    //请求成功的回调函数
-                    success: function (result) {
-                        if (result.code == 0) {
-                            var location = new Array;
-                            var ids = result.data[0].boatId;
-                            var startt = new Array;
-                            for (var i = 0; i < result.data.length - 1; i++) {
-                                startt[i] = result.data[i].recordTime;
-                                startt[i+1] = result.data[i+1].recordTime;
-                                location[i] = result.data[i].recordLocation;
-                                location[i + 1] = result.data[i + 1].recordLocation;
-                                drawvoyage(ids,location[i], location[i + 1],startt[i],startt[i+1]);
-                            }
+            document.getElementById("find").innerHTML = "查找中";
+            //获取标签的值
+            var id = $("#id").val();
+            var data = {
+                'boatid': id
+            };
+            // ajax请求
+            $.ajax({
+                type: "GET",                  // 请求方式
+                url: "/traceroot/boat/findbyboatid",       // 发送请求的地址
+                data: data,                    // 请求参数
+                async: true,                   // 异步请求
+                cache: false,                  // 缓存
+                dataType: "json",              // 返回的数据类型
+                //请求成功的回调函数
+                success: function (result) {
+                    if (result.code == 0) {
+                        var location = new Array;
+                        var ids = result.data[0].boatId;
+                        var startt = new Array;
+                        for (var i = 0; i < result.data.length - 1; i++) {
+                            startt[i] = result.data[i].recordTime;
+                            startt[i+1] = result.data[i+1].recordTime;
+                            location[i] = result.data[i].recordLocation;
+                            location[i + 1] = result.data[i + 1].recordLocation;
+                            drawvoyage(ids,location[i], location[i + 1],startt[i],startt[i+1]);
                         }
-                    },
-                    //请求失败的回调函数
-                    error: function (XMLHttpRequest, textStatus, errorThrown) {
-                        alert("【查找船只轨迹】船只轨迹不存在");//如果有错误抛出异常
-
                     }
-                });
-            }
+                },
+                //请求失败的回调函数
+                error: function (XMLHttpRequest, textStatus, errorThrown) {
+                    alert("【查找船只轨迹】船只轨迹不存在");//如果有错误抛出异常
 
-       function finds() {
+                }
+            });
+        }
+
+        function finds() {
 
             var name=prompt("请输入查询时间区间和查询精度（选填，各参数请用中文逗号隔开）","");
             var d = name.split("，");
@@ -289,7 +309,7 @@
                             threatboattimes[j]=result.data[j].traverseTime;
                             threatboatlocation[j]=result.data[j].presentLocation;
                             drawboate(threatboatid[j],threatboattimes[j],threatboatlocation[j],j);
-                    }}
+                        }}
                     else if (result.code=14)
                         alert("该时间、精度区间内没有发现船只");//如果有错误抛出异常
                 },
@@ -335,12 +355,12 @@
                             showsensor(sensorvalue[i],sensortype[i]);
                         }
 
-                       }
+                    }
 
                 },
 
                 error: function (XMLHttpRequest, textStatus, errorThrown) {
-                                                                                //如果有错误抛出异常
+                    //如果有错误抛出异常
                 }
             });
         }
@@ -348,7 +368,7 @@
 
     </script>
 
-    </head>
+</head>
 
 
 
@@ -408,7 +428,13 @@
 
 
 
-        <li onclick="change(6)">船只线路管理</li>
+        <li id="boatcontrol" onclick="change(6)">船只线路管理
+            <div id="boats" class="boatss">
+
+                <!--根据管道的个数决定显示多少个p-->
+
+            </div>
+        </li>
 
         <li onclick=change(1)>渤海</li>
 
@@ -580,33 +606,33 @@
 
         });
     }
-function showchart2() {
+    function showchart2() {
 
-    echarts.init(document.getElementById('echarts')).setOption({
+        echarts.init(document.getElementById('echarts')).setOption({
 
-        title: {
-            text: '当前管道船只穿越统计',
-            x: 'center'
-        },
-        series: [
-            {
-                name: '船只',
-                type: 'pie',
-                radius: '40%',
-                data: arr
-                ,
-                label: {
-                    normal: {
-                        show: true,
-                        formatter: '{b}:{c}' + '\n\r' + '({d}%)'
+            title: {
+                text: '当前管道船只穿越统计',
+                x: 'center'
+            },
+            series: [
+                {
+                    name: '船只',
+                    type: 'pie',
+                    radius: '40%',
+                    data: arr
+                    ,
+                    label: {
+                        normal: {
+                            show: true,
+                            formatter: '{b}:{c}' + '\n\r' + '({d}%)'
+                        }
                     }
+
                 }
+            ]
+        });
 
-            }
-        ]
-    });
-
-}
+    }
 </script>
 
 <script type="text/javascript">	 //管道、传感器参数数据显示
@@ -683,7 +709,7 @@ function showsensor(sensorvalue,sensortype){
 
 function drawLiquid (){
 
-                //div设置了display:none，echart没有获取到div的宽和高导致初始化失败
+    //div设置了display:none，echart没有获取到div的宽和高导致初始化失败
     $("#liquid1").css({"width":$("#liquid1").width(),"height":$("#liquid1").height()});
     $("#liquid2").css({"width":$("#liquid2").width(),"height":$("#liquid2").height()});
     $("#liquid3").css({"width":$("#liquid3").width(),"height":$("#liquid3").height()});
@@ -919,7 +945,7 @@ function tojump(ss,ee){
     map.panTo(jumps);
     var marker = new BMap.Marker(jumps);
     map.addOverlay(marker);
-   // marker.setAnimation(BMAP_ANIMATION_BOUNCE);
+    // marker.setAnimation(BMAP_ANIMATION_BOUNCE);
 }
 
 //点击地图时间处理
@@ -933,19 +959,19 @@ function showInfos(content,e,t) {
     //var points1 = new BMap.Point(pos[0], pos[1]);
     if (t == 1) {
 
-    var opts = {
-        width: 200,     // 信息窗口宽度
-        height: 200,     // 信息窗口高度
-        title: "传感器信息", // 信息窗口标题
-        enableMessage: true,//设置允许信息窗发送短息
-        enableCloseOnClick: false,
-        message: "1234321~"
-    };
+        var opts = {
+            width: 200,     // 信息窗口宽度
+            height: 200,     // 信息窗口高度
+            title: "传感器信息", // 信息窗口标题
+            enableMessage: true,//设置允许信息窗发送短息
+            enableCloseOnClick: false,
+            message: "1234321~"
+        };
 
-    var infoWindow = new BMap.InfoWindow(content, opts);
-    //预留给弹窗显示信息用
+        var infoWindow = new BMap.InfoWindow(content, opts);
+        //预留给弹窗显示信息用
 
-    map.openInfoWindow(infoWindow, point); //开启信息窗口
+        map.openInfoWindow(infoWindow, point); //开启信息窗口
 
 
         infoWindow.addEventListener("open", xinfo(infoWindow));
@@ -1021,16 +1047,16 @@ function addClickHandler(content,marker,t){
 }
 
 function addClickHandlerv(content,voyageline,showvl,t){
-        if(t==0)
-        {
+    if(t==0)
+    {
         voyageline.addEventListener("click", function(){
             showvoya(content,showvl);
             findsensor();
-            })
-        }
-        else
-            voyageline.addEventListener("click", function(){
-                showvoya(content,showvl);})
+        })
+    }
+    else
+        voyageline.addEventListener("click", function(){
+            showvoya(content,showvl);})
 }
 
 function addClickHandlerb(voyageline,id){
@@ -1124,7 +1150,7 @@ function drawbadnode(id,start,end,update,creat) {
     var showvl = new BMap.Point(ss[0]*0.5+ee[0]*0.5, ss[1]*0.5+ee[1]*0.5);
     map.addOverlay(pipeline);
 
-   // addClickHandlerb(pipeline,id);
+    // addClickHandlerb(pipeline,id);
 
     addClickHandlerv(content,pipeline,showvl,0);
 
@@ -1177,6 +1203,23 @@ function drawsensor(id,segid,location,type,state,value,update,creat) {
 
 }
 
+function drawboatf(id,location,type,state,update,creat) {
+
+    var sen = location.innerHTML.split(",");
+
+    var myIcon = new BMap.Icon("/traceroot/image/boat.png", new BMap.Size(32,32));
+
+    var marker = new BMap.Marker(new BMap.Point(sen[0], sen[1]),{icon:myIcon});			//加载单个点
+
+    map.addOverlay(marker);
+
+    var content = "id ：" + id + "； 位置 ：" + location + "； 状态 ：" + state + "； 种类 ：" + type +
+        "； 更新时间： " + update + "； 创建时间：" + creat;
+
+    addClickHandler(content,marker,0);
+
+}
+
 function drawboat(id,location,type,state,update,creat) {
 
     var sen = location.innerHTML.split(",");
@@ -1191,6 +1234,23 @@ function drawboat(id,location,type,state,update,creat) {
         "； 更新时间： " + update.innerHTML + "； 创建时间：" + creat.innerHTML;
 
     addClickHandler(content,marker,0);
+
+    var para=document.createElement("p");
+
+    var pipesegid=id.innerHTML;
+
+    var node=document.createTextNode(pipesegid);
+
+    para.appendChild(node);
+
+    para.onclick = function() {            //element.onclick后面直接跟的函数不能有参数
+        map.panTo(new BMap.Point(sen[0], sen[1]));
+    };
+
+    var element=document.getElementById("boats");
+
+    element.appendChild(para);
+
 }
 
 function drawboate(id,time,location,i) {
