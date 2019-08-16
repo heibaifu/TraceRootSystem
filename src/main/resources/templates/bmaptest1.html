@@ -14,7 +14,7 @@
 
     <link href="/traceroot/css/style.css" rel="stylesheet" type="text/css">
 
-    <link href="https://cdn.bootcss.com/font-awesome/5.8.0/css/all.css" rel="stylesheet" />
+    <link href="//netdna.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet">
 
     <script type="text/javascript" src="http://api.map.baidu.com/api?v=3.0&ak=nBKX588I9lDCyaKBip9bQTpmeeCidwL3">
 
@@ -35,8 +35,7 @@
     <script src="/traceroot/js/transdata.js"></script>
 
     <script>
-        function getvalue()
-    {
+        function getvalue(){                            //界面初始化
         var pare=window.opener;
         if(pare!=null)
         {
@@ -56,6 +55,8 @@
             var badnodeid=new Array();
             var badnodestart=new Array();
             var badnodeend=new Array();
+            var badnodeupdate=new Array();
+            var badnodecreat=new Array();
             var boatid=new Array();
             var boatlocation=new Array();
             var boattype=new Array();
@@ -102,14 +103,16 @@
                 badnodeid[i] = tablebadnode.rows[i+1].cells[0];
                 badnodestart[i] = tablebadnode.rows[i+1].cells[1];
                 badnodeend[i] = tablebadnode.rows[i+1].cells[2];
+                badnodeupdate[i] = tablebadnode.rows[i+1].cells[2];
+                badnodecreat[i] = tablebadnode.rows[i+1].cells[2];
                 if (badnodeend[i] != null) {
 
-                    drawbadnode(badnodeid[i],badnodestart[i], badnodeend[i]);
+                    drawbadnode(badnodeid[i],badnodestart[i], badnodeend[i],badnodeupdate[i],badnodecreat[i]);
 
                 }
             }
 
-            for (j = 0; j <  tableboat.rows.length -1; j++) {
+            for (j = 0; j < tableboat.rows.length-1;j++) {
                 boatid[j] = tableboat.rows[j+1].cells[0];
                 boatlocation[j] = tableboat.rows[j+1].cells[1];
                 boattype[j]= tableboat.rows[j+1].cells[2];
@@ -125,12 +128,76 @@
         }
     }
 
+        function fnParent(){
+            window.opener.location.reload();//刷新父窗口
+            window.close();
+        }
+        setTimeout('fnParent()',600000);            //十分钟刷新一次
     </script>
 
     <script type="text/javascript">
+
+        var websocket = null;
+
+        //判断当前浏览器是否支持WebSocket
+        if('WebSocket' in window){
+            websocket = new WebSocket("ws://localhost:8080/websocket");
+        }
+        else{
+            alert('Not support websocket')
+        }
+
+        //连接发生错误的回调方法
+        websocket.onerror = function(){
+            setMessageInnerHTML("error");
+
+        };
+
+        //连接成功建立的回调方法
+        websocket.onopen = function(event){
+            setMessageInnerHTML("open");
+        };
+
+        //接收到消息的回调方法
+        websocket.onmessage = function(event){
+            setMessageInnerHTML(event.data);
+        };
+
+        //连接关闭的回调方法
+        websocket.onclose = function(){
+            setMessageInnerHTML("close");
+
+        };
+
+        //监听窗口关闭事件，当窗口关闭时，主动去关闭websocket连接，防止连接还没断开就关闭窗口，server端会抛异常。
+        window.onbeforeunload = function(){
+            websocket.close();
+        };
+
+        //将消息显示在网页上
+        function setMessageInnerHTML(innerHTML){
+
+
+
+
+
+            document.getElementById('r-result').innerHTML += innerHTML + '<br/>';
+        }
+
+        //关闭连接
+        function closeWebSocket(){
+            websocket.close();
+        }
+
+        //发送消息
+   /*     function send(){
+            var message = document.getElementById('text').value;
+            websocket.send(message);
+        }
+        */
         function finder() {
 
-            var allOverlay = map.getOverlays();
+            var allOverlay = map.getOverlays();                                       //移除原有的航线
             for (var i = 0; i < allOverlay.length ; i++) {
                 if (allOverlay[i].toString()=="[object Polyline]") {
                     if (allOverlay[i].getStrokeStyle() == "dashed")
@@ -141,16 +208,14 @@
         }
 
         function find() {
-                /*修改标签的元素内容*/
-
 
                 document.getElementById("find").innerHTML = "查找中";
-                /*获取标签的值*/
+                //获取标签的值
                 var id = $("#id").val();
                 var data = {
                     'boatid': id
                 };
-                /* ajax请求*/
+                // ajax请求
                 $.ajax({
                     type: "GET",                  // 请求方式
                     url: "/traceroot/boat/findbyboatid",       // 发送请求的地址
@@ -158,7 +223,7 @@
                     async: true,                   // 异步请求
                     cache: false,                  // 缓存
                     dataType: "json",              // 返回的数据类型
-                    /*请求成功的回调函数*/
+                    //请求成功的回调函数
                     success: function (result) {
                         if (result.code == 0) {
                             var location = new Array;
@@ -173,7 +238,7 @@
                             }
                         }
                     },
-                    /*请求失败的回调函数*/
+                    //请求失败的回调函数
                     error: function (XMLHttpRequest, textStatus, errorThrown) {
                         alert("【查找船只轨迹】船只轨迹不存在");//如果有错误抛出异常
 
@@ -181,7 +246,7 @@
                 });
             }
 
-       /* function finds() {
+       function finds() {
 
             var name=prompt("请输入查询时间区间和查询精度（选填，各参数请用中文逗号隔开）","");
             var d = name.split("，");
@@ -202,38 +267,83 @@
                 async: true,                   // 异步请求
                 cache: false,                  // 缓存
                 dataType: "json",              // 返回的数据类型
-             /*
+
                 success: function (result) {
                     if (result.code == 0) {
-                        var str = JSON.stringify(result.data);
-                        var ids = new Array;
-                        document.getElementById("pipesegmentstart").value=str[1];
-                        var d = str.split(":");
-                        var cs = 0;
-                        var count = new Array;
-                        var infod = new Array;
-                        var cons = new Array;
-                        for (var i = 0; i < str.length; i++) {
+                        arr= new Array();
+                        var threatboatid=new Array;
+                        var threatboattimes=new Array;
+                        var threatboatlocation=new Array;
 
-
-                            count[i]=d[0];
-                            var drec=d[1];           //.replace(/[\[\]]/g,'');
-                            var drecs=drec.split(",");
-                            cons[i]=drecs.length;
-                            for (j=0; j<drecs.length;j++) {
-                                ids[cs] = drecs[j];
-                                cs=cs+1;
-                            }
+                        for (var i = 0; i < result.data.length; i++) {
+                            arr.push({
+                                name:result.data[i].boatId,
+                                value:result.data[i].traverseTime
+                            })
                         }
-*//*        showchart2(count,ids,cons);
-                    }
+                        showchart2();
+                        for(var j=0;j< result.data.length;j++)
+                        {
+                            threatboatid[j]=result.data[j].boatId;
+                            threatboattimes[j]=result.data[j].traverseTime;
+                            threatboatlocation[j]=result.data[j].presentLocation;
+                            drawboate(threatboatid[j],threatboattimes[j],threatboatlocation[j],j);
+                    }}
+                    else if (result.code=14)
+                        alert("该时间、精度区间内没有发现船只");//如果有错误抛出异常
                 },
 
                 error: function (XMLHttpRequest, textStatus, errorThrown) {
                     alert("【管道段不存在】");//如果有错误抛出异常
                 }
             });
-        }*/
+        }
+
+        function findsensor() {
+
+            var id = $("#id").val();
+            var data = {
+                'segmentid': id
+            };
+
+            $.ajax({
+                type: "GET",                  // 请求方式
+                url: "/traceroot/pipe/sensorwithsegid",       // 发送请求的地址
+                data: data,                    // 请求参数
+                async: true,                   // 异步请求
+                cache: false,                  // 缓存
+                dataType: "json",              // 返回的数据类型
+
+                success: function (result) {
+                    if (result.code == 0) {
+                        var sensortype=new Array;
+                        var sensorvalue=new Array;
+                        var sensorname=new Array;
+                        x[0]=[0];
+                        x[1]=[0];
+                        x[2]=[0];
+                        x[3]=[0];
+                        $('#liquid1').addClass('dis');
+                        $('#liquid2').addClass('dis');
+                        $('#liquid3').addClass('dis');
+                        $('#liquid4').addClass('dis');
+                        for (var i = 0; i < result.data.length; i++) {
+                            sensorvalue[i]= result.data[i].value;
+                            sensortype[i]= result.data[i].type;
+                            sensorname[i]= result.data[i].name;
+                            showsensor(sensorvalue[i],sensortype[i]);
+                        }
+
+                       }
+
+                },
+
+                error: function (XMLHttpRequest, textStatus, errorThrown) {
+                                                                                //如果有错误抛出异常
+                }
+            });
+        }
+
 
     </script>
 
@@ -392,27 +502,11 @@
 
     <div id="liquid4" class="liquid" ></div>
 
-    <div class="liquid" name="pipesegment" id="pipesegment">
-        <table cellspacing="1" cellpadding="2" width="60%" style="color: beige" >
-
-            <tr  >
-                <td>更新时间</td>
-                <td><input type="text"   name="pipesegmentstart" id="pipesegmentstart" />
-                </td>
-            </tr>
-            <tr >
-                <td>创建时间</td>
-                <td><input type="text" name="pipesegmentend" id="pipesegmentend" />
-                </td>
-            </tr>
-        </table>
-    </div>
-
 </div>
 
 <div id="button">
-    <button style="font-size:24px">新建 <i class="fa fa-plus-square" onclick="addp()"></i></button>
-    <button style="font-size:24px">删除 <i class="fa fa-minus-square" onclick="delp()"></i></button>
+    <button style="font-size:24px" onclick="fnParent()" >刷新 <i class="fa fa-refresh"></i></button>
+    <!--<button style="font-size:24px">删除 <i class="fa fa-minus-square" onclick="delp()"></i></button> -->
 </div>
 
 <div id="r-result"></div>
@@ -462,7 +556,7 @@
 
                     lineStyle: {
 
-                        color: 'yellow',					 //设置坐标轴字体颜色
+                        color: 'yellow'					 //设置坐标轴字体颜色
 
                     }
 
@@ -485,28 +579,21 @@
 
         });
     }
-function showchart2(count,ids,cons) {
+function showchart2() {
 
     echarts.init(document.getElementById('echarts')).setOption({
-
 
         title: {
             text: '当前管道船只穿越统计',
             x: 'center'
         },
-        dataset: {
-            source: [
-                ['id号', '穿越次数'],
-                [ids[0], count[0]],
-                [ids[1], count[1]],
-                [ids[2], count[1]]
-
-            ]
-        },
         series: [
             {
                 name: '船只',
                 type: 'pie',
+                radius: '40%',
+                data: arr
+                ,
                 label: {
                     normal: {
                         show: true,
@@ -517,14 +604,24 @@ function showchart2(count,ids,cons) {
             }
         ]
     });
-}
 
+}
 </script>
 
-<script type="text/javascript">	 //管道参数数据显示
+<script type="text/javascript">	 //管道、传感器参数数据显示
 
-function x(infoWindow) {
-    var x = new Array();   //管道参数数据
+x=[];
+x[0]=[0];
+x[1]=[0];
+x[2]=[0];
+x[3]=[0];
+
+function xinfo(infoWindow) {
+
+    x[0]=[0];
+    x[1]=[0];
+    x[2]=[0];
+    x[3]=[0];
 
     var sensordata = infoWindow.getContent();
 
@@ -532,17 +629,13 @@ function x(infoWindow) {
 
     var senid = sensorvalue[0].split("：");
 
-    var location  = sensorvalue[2].split("：");
+    var location = sensorvalue[2].split("：");
 
-    var pos  = location[1].split(",");
+    var pos = location[1].split(",");
 
-    var updatet=sensorvalue[6].split("：");
+    var svalue = sensorvalue[5].split("：");
 
-    var creatt=sensorvalue[7].split("：");
-
-    var svalue=sensorvalue[5].split("：");
-
-    var stype=sensorvalue[4].split("：");
+    var stype = sensorvalue[4].split("：");
 
     document.getElementById('lng').value = pos[0];
 
@@ -550,41 +643,50 @@ function x(infoWindow) {
 
     document.getElementById('id').value = senid[1];
 
-    document.getElementById("pipesegmentstart").value=updatet[1];
+    //showsensor(svalue[1], stype[1]);
 
-    document.getElementById("pipesegmentend").value=creatt[1];
+}
 
-    var s = parseFloat(svalue[1]);
+function showsensor(sensorvalue,sensortype){
 
-    var st = parseFloat(stype[1]);
+    var s = parseFloat(sensorvalue);
+
+    var st = parseFloat(sensortype);
 
     switch (st) {
         case 2926155 :
             x[0] = [s];
-            x[1] = [0];
-            x[2] = [0];
-            x[3] = [0];
+            $('#liquid1').removeClass('dis');
             break;
         case 2926378 :
-            x[0] = [0];
             x[1] = [s];
-            x[2] = [0];
-            x[3] = [0];
+            $('#liquid2').removeClass('dis');
             break;
         case 7752109 :
-            x[0] = [0];
-            x[1] = [0];
             x[2] = [s];
-            x[3] = [0];
+            $('#liquid3').removeClass('dis');
             break;
         default :
             x[0] = [0];
             x[1] = [0];
             x[2] = [0];
-            x[3] = [0.4];
+            x[3] = [0];
+
             break;
 
     }
+
+    drawLiquid();
+
+}
+
+function drawLiquid (){
+
+                //div设置了display:none，echart没有获取到div的宽和高导致初始化失败
+    $("#liquid1").css({"width":$("#liquid1").width(),"height":$("#liquid1").height()});
+    $("#liquid2").css({"width":$("#liquid2").width(),"height":$("#liquid2").height()});
+    $("#liquid3").css({"width":$("#liquid3").width(),"height":$("#liquid3").height()});
+    $("#liquid4").css({"width":$("#liquid4").width(),"height":$("#liquid4").height()});
 
     echarts.init(document.getElementById('liquid1')).setOption({
 
@@ -594,7 +696,7 @@ function x(infoWindow) {
 
             data: x[0],
 
-            name: "线路负载",
+            name: "温度传感器",
 
             label: {
 
@@ -632,7 +734,7 @@ function x(infoWindow) {
 
             data: x[1],
 
-            name: "温度相对值",
+            name: "杂质传感器",
 
             label: {
 
@@ -670,7 +772,7 @@ function x(infoWindow) {
 
             data: x[2],
 
-            name: "温度相对值",
+            name: "管压传感器",
 
             label: {
 
@@ -708,7 +810,7 @@ function x(infoWindow) {
 
             data: x[3],
 
-            name: "温度相对值",
+            name: "传感器",
 
             label: {
 
@@ -845,7 +947,7 @@ function showInfos(content,e,t) {
     map.openInfoWindow(infoWindow, point); //开启信息窗口
 
 
-        infoWindow.addEventListener("open", x(infoWindow));
+        infoWindow.addEventListener("open", xinfo(infoWindow));
 
     }
     else{
@@ -906,8 +1008,6 @@ function showvoya(content,t){
 
 }
 
-
-
 function addClickHandler(content,marker,t){
     if (t == 1) {
         marker.addEventListener("click", function(e){
@@ -919,10 +1019,17 @@ function addClickHandler(content,marker,t){
 
 }
 
-function addClickHandlerv(content,voyageline,showvl){
-
+function addClickHandlerv(content,voyageline,showvl,t){
+        if(t==0)
+        {
         voyageline.addEventListener("click", function(){
-            showvoya(content,showvl);})
+            showvoya(content,showvl);
+            findsensor();
+            })
+        }
+        else
+            voyageline.addEventListener("click", function(){
+                showvoya(content,showvl);})
 }
 
 function addClickHandlerb(voyageline,id){
@@ -931,7 +1038,6 @@ function addClickHandlerb(voyageline,id){
         var senid = id.innerHTML;
         document.getElementById('id').value = senid;})
 }
-
 
 /*function addClickHandlerv(voyageline) {               //点击轨迹删除该轨迹
 
@@ -959,7 +1065,7 @@ function drawpipe(id,start,end,update,creat,t) {
             points2
         ], {strokeColor: "blue", strokeStyle: "solid", strokeWeight: 5, strokeOpacity: 0.5});   //创建折线
 
-        addClickHandlerv(content,pipeline,showvl);
+        addClickHandlerv(content,pipeline,showvl,0);
 
         map.addOverlay(pipeline);
 
@@ -996,14 +1102,13 @@ function drawvoyage(ids,start,end,update,creat)
 
     var content = "船只id ：" + ids + "； 起点位置 ：" + start +"； 终点位置 ：" + end +
         "； 出发时间： " + update + "； 到达时间：" + creat;
-    addClickHandlerv(content,voyageline,showvl);
+    addClickHandlerv(content,voyageline,showvl,1);
 
     map.addOverlay(voyageline);
 
 }
 
-
-function drawbadnode(id,start,end) {
+function drawbadnode(id,start,end,update,creat) {
 
     var ss = start.innerHTML.split(",");
     var ee = end.innerHTML.split(",");
@@ -1013,13 +1118,14 @@ function drawbadnode(id,start,end) {
         points1,
         points2
     ], {strokeColor: "red", strokeWeight: 5, strokeOpacity: 0.5});   //创建折线
-    var content = "管道段id ：" + id.innerHTML + "； 起点位置 ：" + start.innerHTML +"； 终点位置 ：" + end.innerHTML ;
+    var content = "告警管道段id ：" + id.innerHTML + "； 起点位置 ：" + start.innerHTML +"； 终点位置 ：" + end.innerHTML +
+        "； 更新时间： " + update.innerHTML + "； 创建时间：" + creat.innerHTML;
     var showvl = new BMap.Point(ss[0]*0.5+ee[0]*0.5, ss[1]*0.5+ee[1]*0.5);
     map.addOverlay(pipeline);
 
    // addClickHandlerb(pipeline,id);
 
-    addClickHandlerv(content,pipeline,showvl);
+    addClickHandlerv(content,pipeline,showvl,0);
 
     var para=document.createElement("p");
 
@@ -1070,7 +1176,6 @@ function drawsensor(id,segid,location,type,state,value,update,creat) {
 
 }
 
-
 function drawboat(id,location,type,state,update,creat) {
 
     var sen = location.innerHTML.split(",");
@@ -1083,6 +1188,25 @@ function drawboat(id,location,type,state,update,creat) {
 
     var content = "id ：" + id.innerHTML + "； 位置 ：" + location.innerHTML + "； 状态 ：" + state.innerHTML + "； 种类 ：" + type.innerHTML +
         "； 更新时间： " + update.innerHTML + "； 创建时间：" + creat.innerHTML;
+
+    addClickHandler(content,marker,0);
+}
+
+function drawboate(id,time,location,i) {
+
+    var sen = location.split(",");
+
+    if(i==0) {
+        var myIcon = new BMap.Icon("/traceroot/image/boate.png", new BMap.Size(32, 32));
+    }
+    else{
+        var myIcon = new BMap.Icon("/traceroot/image/boatw.png", new BMap.Size(32, 32));
+    }
+    var marker = new BMap.Marker(new BMap.Point(sen[0], sen[1]),{icon:myIcon});			//加载单个点
+
+    map.addOverlay(marker);
+
+    var content = "id ：" + id + "； 位置 ：" + location + "； 穿越次数 ：" +  time;
 
     addClickHandler(content,marker,0);
 }
@@ -1164,8 +1288,6 @@ function drawboat(id,location,type,state,update,creat) {
     }
 
 </script>
-
-
 
 </body>
 
