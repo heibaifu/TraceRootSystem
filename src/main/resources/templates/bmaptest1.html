@@ -35,8 +35,7 @@
     <script src="/traceroot/js/transdata.js"></script>
 
     <script>
-        function getvalue()
-    {
+        function getvalue(){                            //界面初始化
         var pare=window.opener;
         if(pare!=null)
         {
@@ -113,7 +112,7 @@
                 }
             }
 
-            for (j = 0; j <  tableboat.rows.length -1; j++) {
+            for (j = 0; j < tableboat.rows.length-1;j++) {
                 boatid[j] = tableboat.rows[j+1].cells[0];
                 boatlocation[j] = tableboat.rows[j+1].cells[1];
                 boattype[j]= tableboat.rows[j+1].cells[2];
@@ -129,7 +128,6 @@
         }
     }
 
-
         function fnParent(){
             window.opener.location.reload();//刷新父窗口
             window.close();
@@ -138,6 +136,65 @@
     </script>
 
     <script type="text/javascript">
+
+        var websocket = null;
+
+        //判断当前浏览器是否支持WebSocket
+        if('WebSocket' in window){
+            websocket = new WebSocket("ws://localhost:8080/websocket");
+        }
+        else{
+            alert('Not support websocket')
+        }
+
+        //连接发生错误的回调方法
+        websocket.onerror = function(){
+            setMessageInnerHTML("error");
+
+        };
+
+        //连接成功建立的回调方法
+        websocket.onopen = function(event){
+            setMessageInnerHTML("open");
+        };
+
+        //接收到消息的回调方法
+        websocket.onmessage = function(event){
+            setMessageInnerHTML(event.data);
+        };
+
+        //连接关闭的回调方法
+        websocket.onclose = function(){
+            setMessageInnerHTML("close");
+
+        };
+
+        //监听窗口关闭事件，当窗口关闭时，主动去关闭websocket连接，防止连接还没断开就关闭窗口，server端会抛异常。
+        window.onbeforeunload = function(){
+            websocket.close();
+        };
+
+        //将消息显示在网页上
+        function setMessageInnerHTML(innerHTML){
+
+
+
+
+
+            document.getElementById('r-result').innerHTML += innerHTML + '<br/>';
+        }
+
+        //关闭连接
+        function closeWebSocket(){
+            websocket.close();
+        }
+
+        //发送消息
+   /*     function send(){
+            var message = document.getElementById('text').value;
+            websocket.send(message);
+        }
+        */
         function finder() {
 
             var allOverlay = map.getOverlays();                                       //移除原有的航线
@@ -287,38 +344,6 @@
             });
         }
 
-        function showsensor(sensorvalue,sensortype){
-
-            var s = parseFloat(sensorvalue);
-
-            var st = parseFloat(sensortype);
-
-            switch (st) {
-                case 2926155 :
-                    x[0] = [s];
-                    $('#liquid1').removeClass('dis');
-                    break;
-                case 2926378 :
-                    x[1] = [s];
-                    $('#liquid2').removeClass('dis');
-                    break;
-                case 7752109 :
-                    x[2] = [s];
-                    $('#liquid3').removeClass('dis');
-                    break;
-                default :
-                    x[0] = [0];
-                    x[1] = [0];
-                    x[2] = [0];
-                    x[3] = [0];
-
-                    break;
-
-            }
-
-            drawLiquid();
-
-        }
 
     </script>
 
@@ -531,7 +556,7 @@
 
                     lineStyle: {
 
-                        color: 'yellow',					 //设置坐标轴字体颜色
+                        color: 'yellow'					 //设置坐标轴字体颜色
 
                     }
 
@@ -583,7 +608,7 @@ function showchart2() {
 }
 </script>
 
-<script type="text/javascript">	 //管道参数数据显示
+<script type="text/javascript">	 //管道、传感器参数数据显示
 
 x=[];
 x[0]=[0];
@@ -622,9 +647,42 @@ function xinfo(infoWindow) {
 
 }
 
+function showsensor(sensorvalue,sensortype){
+
+    var s = parseFloat(sensorvalue);
+
+    var st = parseFloat(sensortype);
+
+    switch (st) {
+        case 2926155 :
+            x[0] = [s];
+            $('#liquid1').removeClass('dis');
+            break;
+        case 2926378 :
+            x[1] = [s];
+            $('#liquid2').removeClass('dis');
+            break;
+        case 7752109 :
+            x[2] = [s];
+            $('#liquid3').removeClass('dis');
+            break;
+        default :
+            x[0] = [0];
+            x[1] = [0];
+            x[2] = [0];
+            x[3] = [0];
+
+            break;
+
+    }
+
+    drawLiquid();
+
+}
+
 function drawLiquid (){
 
-
+                //div设置了display:none，echart没有获取到div的宽和高导致初始化失败
     $("#liquid1").css({"width":$("#liquid1").width(),"height":$("#liquid1").height()});
     $("#liquid2").css({"width":$("#liquid2").width(),"height":$("#liquid2").height()});
     $("#liquid3").css({"width":$("#liquid3").width(),"height":$("#liquid3").height()});
