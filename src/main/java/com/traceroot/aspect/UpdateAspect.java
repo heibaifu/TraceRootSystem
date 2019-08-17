@@ -11,6 +11,7 @@ import com.traceroot.service.ifs.RouteSegmentService;
 import com.traceroot.vo.SensorVO;
 import com.traceroot.vo.UpdateBoatVO;
 import com.traceroot.vo.UpdatePipeSegmentVO;
+import com.traceroot.vo.UpdateSensorVO;
 import lombok.extern.slf4j.Slf4j;
 import org.aspectj.lang.JoinPoint;
 import org.aspectj.lang.annotation.*;
@@ -129,9 +130,13 @@ public class UpdateAspect {
             if (pipelineSensorDTO.getCreateTime() == null){
                 pipelineSensorDTO.setCreateTime(createTime);
             }
-
-            SensorVO sensorVO = new SensorVO();
+            //判断管道状态
+            UpdateSensorVO sensorVO = new UpdateSensorVO();
             BeanUtils.copyProperties(pipelineSensorDTO,sensorVO);
+            sensorVO.setFlag(segmentService.testifyStatus(sensorVO.getSegmentId()).toString());
+            PipeSegmentDTO pipeSegmentDTO = segmentService.selectBySegmentId(sensorVO.getSegmentId());
+            sensorVO.setSegmentStart(pipeSegmentDTO.getStart());
+            sensorVO.setSegmentEnd(pipeSegmentDTO.getEnd());
             result = sensorVO;
         } else if(RouteSegmentForm.class.isInstance(args[0])){
             RouteSegmentForm arg = (RouteSegmentForm) args[0];

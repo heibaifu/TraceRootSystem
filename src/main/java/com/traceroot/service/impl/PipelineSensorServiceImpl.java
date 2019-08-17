@@ -54,6 +54,9 @@ public class PipelineSensorServiceImpl implements PipelineSensorService {
     public PipelineSensorDTO selectBySensorId(String sensorId) {
 
         PipelineSensorDTO pipelineSensorDTO=PipelineSensor2SensorDTOConverter.convert(repository.findBySensorId(sensorId));
+        if (pipelineSensorDTO == null){
+            return pipelineSensorDTO;
+        }
         List<SensorStatus>sensorStatuses=statusService.selectBySensorId(pipelineSensorDTO.getSensorId());
         pipelineSensorDTO.setStatusList(sensorStatuses);
         return pipelineSensorDTO;
@@ -122,14 +125,6 @@ public class PipelineSensorServiceImpl implements PipelineSensorService {
         if (pipelineSensor==null){
             throw new PipeException(ResultEnum.SENSOR_NOT_EXIST);
         }
-
-       /* if (pipelineSensorDTO.getPresentValue()!=null){
-            if (Double.valueOf(pipelineSensorDTO.getPresentValue()) >= Double.valueOf(sensorTypeDTO.getLowestValue())&&Double.valueOf(status.getValue()) <= Double.valueOf(sensorTypeDTO.getHighestValue())){
-                pipelineSensorDTO.setPresentStatus(SensorStatusEnum.NORMAL.getCode());
-            }else {
-                pipelineSensorDTO.setPresentStatus(SensorStatusEnum.ABNORMAL.getCode());
-            }
-        }*/
 
         BeanUtils.copyProperties(pipelineSensorDTO,pipelineSensor);
         PipelineSensor result=repository.save(pipelineSensor);

@@ -16,6 +16,8 @@ public interface PipelineSegmentService {
 
     List<PipeSegmentDTO> selectByWarning();
 
+    Integer testifyStatus(String segmentId);
+
     PipelineSegment insert(PipeSegmentDTO pipeSegmentDTO);
 
     PipelineSegment update(PipeSegmentDTO pipeSegmentDTO);

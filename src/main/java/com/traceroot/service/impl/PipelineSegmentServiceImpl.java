@@ -73,6 +73,21 @@ public class PipelineSegmentServiceImpl implements PipelineSegmentService {
     }
 
     /**
+     * 判断管道状态
+     * @param segmentId
+     * @return 0正常 1异常
+     */
+    @Override
+    public Integer testifyStatus(String segmentId) {
+        List<PipelineSensorDTO> pipelineSensorDTOS = pipelineSensorService.selectBySegmentId(segmentId);
+        for (int i = 0; i < pipelineSensorDTOS.size(); i++) {
+            if (!pipelineSensorDTOS.get(i).getPresentStatus().equals(SensorStatusEnum.NORMAL))
+                return 1;
+        }
+        return 0;
+    }
+
+    /**
      * 插入
      * todo 插入到中间部分，需要修改序列号，可以以后有需求再写
      * @param pipeSegmentDTO
