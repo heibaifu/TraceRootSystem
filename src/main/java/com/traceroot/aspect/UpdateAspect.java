@@ -50,7 +50,6 @@ public class UpdateAspect {
             if (boatDTO != null){
                 boatDTO.setCreateTime(new Date(boatDTO.getUpdateTime().getTime()));
                 createTime = boatDTO.getCreateTime();   //转换时间格式
-                log.warn(createTime.toString());
             }
         } else if (PipeSegmentForm.class.isInstance(args[0])){
             //todo
