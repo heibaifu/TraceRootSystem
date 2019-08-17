@@ -134,7 +134,7 @@ public class UpdateAspect {
             //判断管道状态，满足前端的各种奇怪的需求
             UpdateSensorVO sensorVO = new UpdateSensorVO();
             BeanUtils.copyProperties(pipelineSensorDTO,sensorVO);
-            if (pipelineSensorDTO.getPresentValue().equals(SensorStatusEnum.BROKEN.getCode())){
+            if (pipelineSensorDTO.getPresentStatus().equals(SensorStatusEnum.BROKEN.getCode())){
                 sensorVO.setFlag("2");
             } else {
                 sensorVO.setFlag(segmentService.testifyStatus(sensorVO.getSegmentId()).toString());

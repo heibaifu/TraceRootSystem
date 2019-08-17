@@ -18,6 +18,7 @@ import org.springframework.stereotype.Service;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Slf4j
 @Service
@@ -49,13 +50,11 @@ public class PipelineSegmentServiceImpl implements PipelineSegmentService {
 
     /**
      * 返回有问题的管道段
-     * todo 传感器状态需注意，不止查找一种状态
      * @return
      */
-    @Override
-    public List<PipeSegmentDTO> selectByWarning() {
+    public List<PipeSegmentDTO> selectBySensorStatus(SensorStatusEnum statusEnum) {
 
-        List<PipelineSensorDTO> pipelineSensors=pipelineSensorService.selectByPresentStatus(SensorStatusEnum.ABNORMAL);
+        List<PipelineSensorDTO> pipelineSensors=pipelineSensorService.selectByPresentStatus(statusEnum);
         List<PipelineSegment> segmentList =new ArrayList<>();
         for (int i=0;i<pipelineSensors.size();i++){
             //从传感器列表的第0项开始查找
@@ -63,14 +62,13 @@ public class PipelineSegmentServiceImpl implements PipelineSegmentService {
             segmentList.add(repository.findBySegmentId(segmentId));
         }
 
-        //用HashSet剔除重复数据
-        HashSet h = new HashSet(segmentList);
-        segmentList.clear();
-        segmentList.addAll(h);
+        List<PipelineSegment> collect = segmentList.stream().distinct().collect(Collectors.toList());
 
-        List<PipeSegmentDTO> segmentDTOList = PipelineSegment2PipeSegmentDTOConverter.convert(segmentList);
+        List<PipeSegmentDTO> segmentDTOList = PipelineSegment2PipeSegmentDTOConverter.convert(collect);
         return segmentDTOList;
     }
+
+
 
     /**
      * 判断管道状态

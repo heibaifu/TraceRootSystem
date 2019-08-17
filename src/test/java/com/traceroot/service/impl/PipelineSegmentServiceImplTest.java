@@ -2,6 +2,7 @@ package com.traceroot.service.impl;
 
 import com.traceroot.dataobject.PipelineSegment;
 import com.traceroot.dto.PipeSegmentDTO;
+import com.traceroot.enums.SensorStatusEnum;
 import com.traceroot.utils.RandomUtil;
 import lombok.extern.slf4j.Slf4j;
 import org.junit.Assert;
@@ -79,18 +80,13 @@ public class PipelineSegmentServiceImplTest {
 
     @Test
     public void selectByWarning() {
-        segmentService.selectByWarning();
+        segmentService.selectBySensorStatus(SensorStatusEnum.ABNORMAL);
     }
 
     @Test
     public void  arrryString(){
-        String[] badnodeid=new String[2];
-        List<PipeSegmentDTO> warningSegments=segmentService.selectByWarning();
-        for (int i=0;i<warningSegments.size();i++){
-            badnodeid[i]=warningSegments.get(i).getSegmentId();
-        }
-
-        log.info(String.valueOf(badnodeid.length));
+        List<PipeSegmentDTO> warningSegments=segmentService.selectBySensorStatus(SensorStatusEnum.BROKEN);
+        log.info("hhh");
 
     }
 }

@@ -3,6 +3,7 @@ package com.traceroot.service.ifs;
 import com.traceroot.dataobject.PipelineSegment;
 import com.traceroot.dataobject.multikeysclass.PipelineSegmentMultiKeys;
 import com.traceroot.dto.PipeSegmentDTO;
+import com.traceroot.enums.SensorStatusEnum;
 
 import java.util.List;
 
@@ -14,7 +15,7 @@ public interface PipelineSegmentService {
 
     List<PipeSegmentDTO> selectAll();
 
-    List<PipeSegmentDTO> selectByWarning();
+    List<PipeSegmentDTO> selectBySensorStatus(SensorStatusEnum statusEnum);
 
     Integer testifyStatus(String segmentId);
 
