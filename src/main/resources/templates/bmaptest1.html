@@ -129,6 +129,7 @@
         }
 
         function fnParent(){
+
             window.opener.location.reload();//刷新父窗口
             window.close();
         }
@@ -163,8 +164,8 @@
                 var msg = JSON.parse(event.data);
 
 
-               /*    switch (event) {
-                       case 0:*/
+                 switch (msg.code) {
+                       case 0:
                            var lo=msg.lastLocation.split(",");
                            var longitude=lo[0];
                            var latitude=lo[1];
@@ -178,14 +179,12 @@
                                }
                            }
                            drawboatf(msg.boatId,msg.presentLocation,msg.type,msg.status,msg.updateTime,msg.createTime);
-                /*           break;
+                          break;
 
                        case 1:
-                           drawboatf( boatid[j],boatlocation[j],boattype[j],boatstate[j],boatupdate[j],boatcreat[j]);
-                       default:
-
-                           break;
-                   }*/
+                           drawboatf(msg.boatId,msg.presentLocation,msg.type,msg.status,msg.updateTime,msg.createTime);
+                       break;
+                   }
 
 
         };
