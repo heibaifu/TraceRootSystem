@@ -10,6 +10,7 @@ import com.traceroot.enums.ResultEnum;
 import com.traceroot.repository.PipelineSensorRepository;
 import com.traceroot.repository.SensorStatusRepository;
 import com.traceroot.service.ifs.PipelineSensorService;
+import com.traceroot.service.ifs.SensorStatusService;
 import com.traceroot.utils.RandomUtil;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.BeanUtils;
@@ -27,6 +28,9 @@ public class PipelineSensorServiceImpl implements PipelineSensorService {
 
     @Autowired
     private SensorStatusRepository statusRepository;
+
+    @Autowired
+    private SensorStatusService statusService;
 
     @Override
     public List<PipelineSensorDTO> selectAll() {
@@ -83,7 +87,7 @@ public class PipelineSensorServiceImpl implements PipelineSensorService {
 
         //增加一条传感器状态记录
         SensorStatus sensorStatus = new SensorStatus();
-        sensorStatus.setStatus(RandomUtil.genUniqueId());
+        sensorStatus.setStatusId(RandomUtil.genUniqueId());
         sensorStatus.setSensorId(result.getSensorId());
 
         if (result.getPresentValue()==null) {
@@ -91,7 +95,7 @@ public class PipelineSensorServiceImpl implements PipelineSensorService {
         }else {
             sensorStatus.setValue(result.getPresentValue());
         }
-        statusRepository.save(sensorStatus);
+        statusService.save(sensorStatus);
 
         return sensorDTO;
     }
@@ -105,12 +109,20 @@ public class PipelineSensorServiceImpl implements PipelineSensorService {
             throw new PipeException(ResultEnum.SENSOR_NOT_EXIST);
         }
 
+        if (pipelineSensorDTO.getPresentValue()!=null){
+            if (Double.valueOf(pipelineSensorDTO.getPresentValue()) >= Double.valueOf(sensorTypeDTO.getLowestValue())&&Double.valueOf(status.getValue()) <= Double.valueOf(sensorTypeDTO.getHighestValue())){
+                pipelineSensorDTO.setPresentStatus(SensorStatusEnum.NORMAL.getCode());
+            }else {
+                pipelineSensorDTO.setPresentStatus(SensorStatusEnum.ABNORMAL.getCode());
+            }
+        }
+
         BeanUtils.copyProperties(pipelineSensorDTO,pipelineSensor);
         PipelineSensor result=repository.save(pipelineSensor);
 
         //增加一条传感器状态记录
         SensorStatus sensorStatus = new SensorStatus();
-        sensorStatus.setStatus(RandomUtil.genUniqueId());
+        sensorStatus.setStatusId(RandomUtil.genUniqueId());
         sensorStatus.setSensorId(result.getSensorId());
 
         if (result.getPresentValue()==null) {
@@ -118,7 +130,7 @@ public class PipelineSensorServiceImpl implements PipelineSensorService {
         }else {
             sensorStatus.setValue(result.getPresentValue());
         }
-        statusRepository.save(sensorStatus);
+        statusService.save(sensorStatus);
 
         return pipelineSensorDTO;
     }

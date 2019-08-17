@@ -30,7 +30,6 @@ public class PipelineSensorForm {
     private String location;
 
     /*传感器当前状态*/
-    @NotEmpty(message = "状态必填")
     private String presentStatus;
 
     /*传感器当前值可以为空*/

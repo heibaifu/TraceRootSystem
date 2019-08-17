@@ -35,17 +35,7 @@ public class SensorStatusServiceImpl implements SensorStatusService {
     public SensorStatus save(SensorStatus status) {
 
         PipelineSensorDTO pipelineSensorDTO=pipelineSensorService.selectBySensorId(status.getSensorId());
-
-
         SensorTypeDTO sensorTypeDTO=sensorTypeService.selectByTypeId(pipelineSensorDTO.getTypeId());
-
-        if (status.getValue()!=null){
-            if (Double.valueOf(status.getValue()) >= Double.valueOf(sensorTypeDTO.getLowestValue())&&Double.valueOf(status.getValue()) <= Double.valueOf(sensorTypeDTO.getHighestValue())){
-                status.setStatus(SensorStatusEnum.NORMAL.getCode());
-            }else {
-                status.setStatus(SensorStatusEnum.ABNORMAL.getCode());
-            }
-        }
         return repository.save(status);
     }
 

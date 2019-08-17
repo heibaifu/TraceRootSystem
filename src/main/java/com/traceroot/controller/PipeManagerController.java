@@ -210,20 +210,19 @@ public class PipeManagerController {
                                                     BindingResult bindingResult){
         if (bindingResult.hasErrors()){
             log.error("【保存传感器】参数不正确，pipelineSensorForm={}",pipelineSensorForm);
-            ResultVOUtil.error(ResultEnum.PARAM_ERROR.getCode(),bindingResult.getFieldError().getDefaultMessage());
+            return ResultVOUtil.error(ResultEnum.PARAM_ERROR.getCode(),bindingResult.getFieldError().getDefaultMessage());
         }
 
         //先判断传感器ID是否存在以分清是更新还是新增
-        PipelineSensorDTO pipelineSensorDTO=new PipelineSensorDTO();
-        PipelineSensorDTO result=new PipelineSensorDTO();
-        if (pipelineSensorForm.getSensorId()==null|| StringUtils.isEmpty(pipelineSensorForm.getSensorId())){
+        PipelineSensorDTO pipelineSensorDTO = PipelineSensorForm2SensorDTOConverter.convert(pipelineSensorForm);
+        PipelineSensorDTO result = new PipelineSensorDTO();
+        if (pipelineSensorForm.getSensorId() == null|| StringUtils.isEmpty(pipelineSensorForm.getSensorId())){
 
-            pipelineSensorForm.setSensorId(RandomUtil.genUniqueId());
             pipelineSensorDTO= PipelineSensorForm2SensorDTOConverter.convert(pipelineSensorForm);
+            pipelineSensorDTO.setSensorId(RandomUtil.genUniqueId());
             result = sensorService.save(pipelineSensorDTO); //新增
 
         }else{
-            pipelineSensorDTO= sensorService.selectBySensorId(pipelineSensorForm.getSensorId());
             result = sensorService.update(pipelineSensorDTO);    //更新
         }
 
