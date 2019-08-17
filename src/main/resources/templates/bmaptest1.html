@@ -142,6 +142,21 @@ function del(msg) {
         }
     }
 }
+
+        function dels(msg) {
+
+            var lo = msg.sensorLocation.split(",");
+            var longitude = lo[0];
+            var latitude = lo[1];
+            var allOverlay = map.getOverlays();             //删除原有的节点
+            for (var i = 0; i < allOverlay.length; i++) {
+                if (allOverlay[i].toString() == "[object Marker]") {
+                    if (allOverlay[i].getPosition().lng == longitude && allOverlay[i].getPosition().lat == latitude) {
+                        map.removeOverlay(allOverlay[i]);
+                    }
+                }
+            }
+        }
 function delpipe(msg) {
     var lo = msg.segmentStart.split(",");
     var longitude = lo[0];
@@ -204,7 +219,7 @@ function delpipe(msg) {
                        break;
 
                      case "2":
-                         del(msg);
+                         dels(msg);
                          drawsensorf(msg.sensorId,msg.segmentId,msg.sensorLocation,msg.typeId,msg.presentStatus,msg.presentValue,msg.updateTime,msg.createTime);
                          document.getElementById("id").value=msg.segmentId;
                          findsensor();
