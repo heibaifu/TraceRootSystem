@@ -10,7 +10,9 @@ import java.util.stream.Collectors;
 public class RouteSegment2RouteSegmentDTO {
 
     public static RouteSegmentDTO convert(RouteSegment routeSegment){
-
+        if (routeSegment == null){
+            return null;
+        }
         RouteSegmentDTO routeSegmentDTO = new RouteSegmentDTO() ;
 
         BeanUtils.copyProperties(routeSegment,routeSegmentDTO);

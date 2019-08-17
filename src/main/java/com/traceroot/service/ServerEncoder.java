@@ -10,7 +10,7 @@ import javax.websocket.EndpointConfig;
 /**
  * 自定义的encoder
  */
-public class ServerEncoder implements Encoder.Text<UpdateBoatVO> {
+public class ServerEncoder implements Encoder.Text<Object> {
 
     @Override
     public void destroy() {
@@ -25,9 +25,9 @@ public class ServerEncoder implements Encoder.Text<UpdateBoatVO> {
     }
 
     @Override
-    public String encode(UpdateBoatVO updateBoatVO) throws EncodeException {
+    public String encode(Object o) throws EncodeException {
         Gson gson=new Gson();
-        return gson.toJson(updateBoatVO);
+        return gson.toJson(o);
     }
 
 }

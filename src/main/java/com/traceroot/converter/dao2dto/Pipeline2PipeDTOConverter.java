@@ -10,7 +10,9 @@ import java.util.stream.Collectors;
 public class Pipeline2PipeDTOConverter {
 
     public static PipeDTO convert(Pipeline pipeline){
-
+        if (pipeline == null){
+            return null;
+        }
         PipeDTO pipeDTO = new PipeDTO() ;
 
         pipeDTO.setPipeId(pipeline.getPipeId());

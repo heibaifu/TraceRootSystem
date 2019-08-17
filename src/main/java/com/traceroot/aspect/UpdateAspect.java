@@ -1,9 +1,7 @@
 package com.traceroot.aspect;
 
 import com.traceroot.converter.form2dto.BoatForm2BoatDTOConverter;
-import com.traceroot.dto.BoatDTO;
-import com.traceroot.dto.BoatTraceDTO;
-import com.traceroot.dto.PipeSegmentDTO;
+import com.traceroot.dto.*;
 import com.traceroot.form.BoatForm;
 import com.traceroot.form.PipeSegmentForm;
 import com.traceroot.form.PipelineSensorForm;
@@ -12,6 +10,8 @@ import com.traceroot.service.Websocket;
 import com.traceroot.service.ifs.BoatService;
 import com.traceroot.service.ifs.PipelineSegmentService;
 import com.traceroot.service.ifs.PipelineSensorService;
+import com.traceroot.service.ifs.RouteSegmentService;
+import com.traceroot.vo.SensorVO;
 import com.traceroot.vo.UpdateBoatVO;
 import com.traceroot.vo.UpdatePipeSegmentVO;
 import lombok.extern.slf4j.Slf4j;
@@ -42,6 +42,9 @@ public class UpdateAspect {
     @Autowired
     PipelineSensorService sensorService;
 
+    @Autowired
+    RouteSegmentService routeSegmentService;
+
     private Date createTime;
 
     /**
@@ -69,9 +72,20 @@ public class UpdateAspect {
                 createTime = pipeSegmentDTO.getCreateTime();
             }
         } else if (PipelineSensorForm.class.isInstance(args[0])) {
-            //todo
+            PipelineSensorForm arg = (PipelineSensorForm) args[0];
+            PipelineSensorDTO pipelineSensorDTO = sensorService.selectBySensorId(arg.getSensorId());
+            if (pipelineSensorDTO != null){
+                pipelineSensorDTO.setCreateTime(new Date(pipelineSensorDTO.getCreateTime().getTime()));   //转换时间格式
+                createTime = pipelineSensorDTO.getCreateTime();
+            }
         } else if(SeaRouteForm.class.isInstance(args[0])){
+            SeaRouteForm arg = (SeaRouteForm) args[0];
             //todo
+            RouteSegmentDTO routeSegmentDTO = routeSegmentService.selectBySegmentId(arg.getRouteId());
+            if (routeSegmentDTO != null){
+                routeSegmentDTO.setCreateTime(new Date(routeSegmentDTO.getCreateTime().getTime()));   //转换时间格式
+                createTime = routeSegmentDTO.getCreateTime();
+            }
         }
     }
 
@@ -114,8 +128,17 @@ public class UpdateAspect {
             BeanUtils.copyProperties(pipeSegmentDTO,updatePipeSegmentVO);
             result = updatePipeSegmentVO;
         } else if (PipelineSensorForm.class.isInstance(args[0])) {
-            //todo
+            PipelineSensorForm arg = (PipelineSensorForm) args[0];
+            PipelineSensorDTO pipelineSensorDTO = sensorService.selectBySensorId(arg.getSensorId());
+            if (pipelineSensorDTO.getCreateTime() == null){
+                pipelineSensorDTO.setCreateTime(createTime);
+            }
+
+            SensorVO sensorVO = new SensorVO();
+            BeanUtils.copyProperties(pipelineSensorDTO,sensorVO);
+            result = sensorVO;
         } else if(SeaRouteForm.class.isInstance(args[0])){
+            SeaRouteForm arg = (SeaRouteForm) args[0];
             //todo
         } else {
             log.warn("嗷嗷嗷");

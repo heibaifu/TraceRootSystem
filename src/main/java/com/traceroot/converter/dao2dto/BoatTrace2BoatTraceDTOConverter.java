@@ -10,7 +10,9 @@ import java.util.stream.Collectors;
 public class BoatTrace2BoatTraceDTOConverter {
 
     public static BoatTraceDTO convert(BoatTrace boatTrace){
-
+        if (boatTrace == null){
+            return null;
+        }
         BoatTraceDTO boatTraceDTO = new BoatTraceDTO() ;
         BeanUtils.copyProperties(boatTrace,boatTraceDTO);
 

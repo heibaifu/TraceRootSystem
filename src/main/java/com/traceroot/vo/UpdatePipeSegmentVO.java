@@ -4,11 +4,14 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.traceroot.dataobject.SensorStatus;
 import lombok.Data;
 
+import java.io.Serializable;
 import java.util.Date;
 import java.util.List;
 
 @Data
-public class UpdatePipeSegmentVO {
+public class UpdatePipeSegmentVO implements Serializable {
+
+    private static final long serialVersionUID = -1995423575546286136L;
 
     private String code = "3";
 

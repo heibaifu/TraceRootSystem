@@ -10,7 +10,9 @@ import java.util.stream.Collectors;
 public class SeaRoute2SeaRouteDTO {
 
     public static SeaRouteDTO convert(SeaRoute seaRoute){
-
+        if (seaRoute == null){
+            return null;
+        }
         SeaRouteDTO seaRouteDTO = new SeaRouteDTO() ;
 
         BeanUtils.copyProperties(seaRoute,seaRouteDTO);

@@ -10,7 +10,9 @@ import java.util.stream.Collectors;
 public class SensorType2SensorTypeDTOConverter {
 
     public static SensorTypeDTO convert(SensorType type){
-
+        if (type == null){
+            return null;
+        }
         SensorTypeDTO sensorTypeDTO = new SensorTypeDTO() ;
 
         BeanUtils.copyProperties(type,sensorTypeDTO);

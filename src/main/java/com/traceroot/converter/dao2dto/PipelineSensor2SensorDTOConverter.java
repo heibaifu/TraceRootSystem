@@ -11,6 +11,9 @@ import java.util.stream.Collectors;
 public class PipelineSensor2SensorDTOConverter {
 
     public static PipelineSensorDTO convert(PipelineSensor pipelineSensor){
+        if (pipelineSensor == null){
+            return null;
+        }
         PipelineSensorDTO pipelineSensorDTO =new PipelineSensorDTO();
         BeanUtils.copyProperties(pipelineSensor, pipelineSensorDTO);
         pipelineSensorDTO.setLocation(pipelineSensor.getLocation());
