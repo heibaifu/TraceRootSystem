@@ -109,13 +109,13 @@ public class PipelineSensorServiceImpl implements PipelineSensorService {
             throw new PipeException(ResultEnum.SENSOR_NOT_EXIST);
         }
 
-        if (pipelineSensorDTO.getPresentValue()!=null){
+       /* if (pipelineSensorDTO.getPresentValue()!=null){
             if (Double.valueOf(pipelineSensorDTO.getPresentValue()) >= Double.valueOf(sensorTypeDTO.getLowestValue())&&Double.valueOf(status.getValue()) <= Double.valueOf(sensorTypeDTO.getHighestValue())){
                 pipelineSensorDTO.setPresentStatus(SensorStatusEnum.NORMAL.getCode());
             }else {
                 pipelineSensorDTO.setPresentStatus(SensorStatusEnum.ABNORMAL.getCode());
             }
-        }
+        }*/
 
         BeanUtils.copyProperties(pipelineSensorDTO,pipelineSensor);
         PipelineSensor result=repository.save(pipelineSensor);

@@ -185,7 +185,7 @@ public class PipeManagerController {
     @ResponseBody
     public ResultVO<List<SensorVO>> findSensorBySegmentId (@RequestParam(value = "segmentid",required = true)String segmentId){
 
-        PipelineSegment segment = segmentService.selectBySegmentId(segmentId);
+        PipeSegmentDTO segment = segmentService.selectBySegmentId(segmentId);
         if (segment == null){
             return ResultVOUtil.error(ResultEnum.PIPE_SEGMENT_NOT_EXIST.getCode(),ResultEnum.PIPE_SEGMENT_NOT_EXIST.getMessage());
         }

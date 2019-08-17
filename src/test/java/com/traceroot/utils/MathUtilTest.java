@@ -3,11 +3,13 @@ package com.traceroot.utils;
 import com.traceroot.dataobject.BoatTrace;
 import com.traceroot.dataobject.PipelineSegment;
 import com.traceroot.dto.BoatTraceDTO;
+import com.traceroot.dto.PipeSegmentDTO;
 import com.traceroot.service.impl.BoatTraceServiceImpl;
 import com.traceroot.service.impl.PipelineSegmentServiceImpl;
 import org.junit.Assert;
 import org.junit.Test;
 import org.junit.runner.RunWith;
+import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit4.SpringRunner;
@@ -29,7 +31,9 @@ public class MathUtilTest {
     @Test
     public void intersection() {
 
-        PipelineSegment testSegment = segmentService.selectBySegmentId("1326574");
+        PipeSegmentDTO pipeSegmentDTO = segmentService.selectBySegmentId("1326574");
+        PipelineSegment testSegment = new PipelineSegment();
+        BeanUtils.copyProperties(pipeSegmentDTO,testSegment);
         DoubleLocation startLine1 = LocationUtil.string2doubleLocation(testSegment.getStart());
         DoubleLocation endLine1 = LocationUtil.string2doubleLocation(testSegment.getEnd());
 

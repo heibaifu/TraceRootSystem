@@ -8,9 +8,9 @@ import java.util.List;
 
 public interface PipelineSegmentService {
 
-    PipelineSegment selectBySegmentId(String segmentId);
+    PipeSegmentDTO selectBySegmentId(String segmentId);
 
-    List<PipelineSegment> selectByPipeId(String pipeId);
+    List<PipeSegmentDTO> selectByPipeId(String pipeId);
 
     List<PipeSegmentDTO> selectAll();
 

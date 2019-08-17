@@ -26,7 +26,7 @@ public class PipelineSegmentServiceImplTest {
 
     @Test
     public void selectBySegmentId() {
-        PipelineSegment pipelineSegment=new PipelineSegment();
+        PipeSegmentDTO pipelineSegment=new PipeSegmentDTO();
         pipelineSegment=segmentService.selectBySegmentId(PipeID);
         Assert.assertNotNull(pipelineSegment);
 
@@ -40,7 +40,7 @@ public class PipelineSegmentServiceImplTest {
 
     @Test
     public void selectByPipeId() {
-        List<PipelineSegment> pipelineSegmentList=new ArrayList<>();
+        List<PipeSegmentDTO> pipelineSegmentList=new ArrayList<>();
         pipelineSegmentList=segmentService.selectByPipeId(PipeID);
         Assert.assertNotNull(pipelineSegmentList);
 

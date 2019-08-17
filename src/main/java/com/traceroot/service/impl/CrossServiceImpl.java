@@ -3,6 +3,7 @@ package com.traceroot.service.impl;
 import com.traceroot.dataobject.Boat;
 import com.traceroot.dataobject.BoatTrace;
 import com.traceroot.dataobject.PipelineSegment;
+import com.traceroot.dto.PipeSegmentDTO;
 import com.traceroot.enums.ResultEnum;
 import com.traceroot.exception.BoatException;
 import com.traceroot.exception.PipeException;
@@ -39,9 +40,9 @@ public class CrossServiceImpl implements CrossService {
     public Map<String,List<BoatTrace>> findBoatNearSegmentDuringTime(String segmentId, Date startTime, Date endTime , Integer accuracyDegree) {
 
         //获取起始点经纬度对象
-        PipelineSegment segment = segmentService.selectBySegmentId(segmentId);
-        DoubleLocation startLocation = LocationUtil.string2doubleLocation(segment.getStart());
-        DoubleLocation endLocation = LocationUtil.string2doubleLocation(segment.getEnd());
+        PipeSegmentDTO pipeSegmentDTO = segmentService.selectBySegmentId(segmentId);
+        DoubleLocation startLocation = LocationUtil.string2doubleLocation(pipeSegmentDTO.getStart());
+        DoubleLocation endLocation = LocationUtil.string2doubleLocation(pipeSegmentDTO.getEnd());
 
         //计算中心点的位置
         Double meanLng = 0.5 * (startLocation.getLongitude() + endLocation.getLongitude());
@@ -97,13 +98,13 @@ public class CrossServiceImpl implements CrossService {
     public NavigableMap<Integer,List<String>> selectByPassingPipelineSegment(String segmentId,Date startTime,Date endTime,Integer accuracyDegree) {
 
         //1.查找这段管道的坐标
-        PipelineSegment pipelineSegment = segmentService.selectBySegmentId(segmentId);
-        if (pipelineSegment==null){
+        PipeSegmentDTO pipeSegmentDTO = segmentService.selectBySegmentId(segmentId);
+        if (pipeSegmentDTO==null){
             throw new PipeException(ResultEnum.PIPE_SEGMENT_NOT_EXIST);
         }
         DoubleLocation segmentStart,segmentEnd;
-        segmentStart = LocationUtil.string2doubleLocation(pipelineSegment.getStart());
-        segmentEnd = LocationUtil.string2doubleLocation(pipelineSegment.getEnd());
+        segmentStart = LocationUtil.string2doubleLocation(pipeSegmentDTO.getStart());
+        segmentEnd = LocationUtil.string2doubleLocation(pipeSegmentDTO.getEnd());
 
         //2.查找在这段时间内经过管道的船只
         Map<String, List<BoatTrace>> boatListMap = findBoatNearSegmentDuringTime(segmentId, startTime, endTime,accuracyDegree);

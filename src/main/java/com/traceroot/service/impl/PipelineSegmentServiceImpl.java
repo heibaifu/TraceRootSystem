@@ -38,13 +38,13 @@ public class PipelineSegmentServiceImpl implements PipelineSegmentService {
     }
 
     @Override
-    public PipelineSegment selectBySegmentId(String segmentId) {
-        return repository.findBySegmentId(segmentId);
+    public PipeSegmentDTO selectBySegmentId(String segmentId) {
+        return PipelineSegment2PipeSegmentDTOConverter.convert(repository.findBySegmentId(segmentId));
     }
 
     @Override
-    public List<PipelineSegment> selectByPipeId(String pipeId) {
-        return repository.findByPipeIdOrderBySegmentSerialNumber(pipeId);
+    public List<PipeSegmentDTO> selectByPipeId(String pipeId) {
+        return PipelineSegment2PipeSegmentDTOConverter.convert(repository.findByPipeIdOrderBySegmentSerialNumber(pipeId));
     }
 
     /**
