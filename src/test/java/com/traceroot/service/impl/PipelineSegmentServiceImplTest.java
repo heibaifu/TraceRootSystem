@@ -15,7 +15,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 @RunWith(SpringRunner.class)
-@SpringBootTest
+@SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
 @Slf4j
 public class PipelineSegmentServiceImplTest {
 
@@ -44,6 +44,12 @@ public class PipelineSegmentServiceImplTest {
         pipelineSegmentList=segmentService.selectByPipeId(PipeID);
         Assert.assertNotNull(pipelineSegmentList);
 
+    }
+
+    @Test
+    public void testifyStatus() {
+        int integer = segmentService.testifyStatus("1001");
+        Assert.assertEquals(0,integer);
     }
 
     @Test

@@ -2,6 +2,7 @@ package com.traceroot.aspect;
 
 import com.traceroot.converter.form2dto.BoatForm2BoatDTOConverter;
 import com.traceroot.dto.*;
+import com.traceroot.enums.SensorStatusEnum;
 import com.traceroot.form.*;
 import com.traceroot.service.Websocket;
 import com.traceroot.service.ifs.BoatService;
@@ -130,13 +131,18 @@ public class UpdateAspect {
             if (pipelineSensorDTO.getCreateTime() == null){
                 pipelineSensorDTO.setCreateTime(createTime);
             }
-            //判断管道状态
+            //判断管道状态，满足前端的各种奇怪的需求
             UpdateSensorVO sensorVO = new UpdateSensorVO();
             BeanUtils.copyProperties(pipelineSensorDTO,sensorVO);
-            sensorVO.setFlag(segmentService.testifyStatus(sensorVO.getSegmentId()).toString());
+            if (pipelineSensorDTO.getPresentValue().equals(SensorStatusEnum.BROKEN.getCode())){
+                sensorVO.setFlag("2");
+            } else {
+                sensorVO.setFlag(segmentService.testifyStatus(sensorVO.getSegmentId()).toString());
+            }
             PipeSegmentDTO pipeSegmentDTO = segmentService.selectBySegmentId(sensorVO.getSegmentId());
             sensorVO.setSegmentStart(pipeSegmentDTO.getStart());
             sensorVO.setSegmentEnd(pipeSegmentDTO.getEnd());
+            sensorVO.setSensorLocation(pipelineSensorDTO.getLocation());
             result = sensorVO;
         } else if(RouteSegmentForm.class.isInstance(args[0])){
             RouteSegmentForm arg = (RouteSegmentForm) args[0];

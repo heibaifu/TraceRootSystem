@@ -81,7 +81,7 @@ public class PipelineSegmentServiceImpl implements PipelineSegmentService {
     public Integer testifyStatus(String segmentId) {
         List<PipelineSensorDTO> pipelineSensorDTOS = pipelineSensorService.selectBySegmentId(segmentId);
         for (int i = 0; i < pipelineSensorDTOS.size(); i++) {
-            if (!pipelineSensorDTOS.get(i).getPresentStatus().equals(SensorStatusEnum.NORMAL))
+            if (!pipelineSensorDTOS.get(i).getPresentStatus().equals(SensorStatusEnum.NORMAL.getCode()))
                 return 1;
         }
         return 0;
