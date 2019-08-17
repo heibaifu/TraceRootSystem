@@ -57,6 +57,11 @@
                 var badnodeend=new Array();
                 var badnodeupdate=new Array();
                 var badnodecreat=new Array();
+                var unknownodeid=new Array();
+                var unknownodestart=new Array();
+                var unknownodeend=new Array();
+                var unknownodeupdate=new Array();
+                var unknownodecreat=new Array();
                 var boatid=new Array();
                 var boatlocation=new Array();
                 var boattype=new Array();
@@ -66,7 +71,9 @@
                 var tablepipesegment=pare.document.getElementById("pipesegment1");
                 var tablesensor=pare.document.getElementById("sensor1");
                 var tablebadnode=pare.document.getElementById("badnode");
+                var tableunknownode=pare.document.getElementById("unknownode");
                 var tableboat=pare.document.getElementById("boat1");
+
                 chartdata1=tablepipesegment.rows.length-tablebadnode.rows.length;
                 chartdata2=tablebadnode.rows.length -1;
 
@@ -108,6 +115,19 @@
                     if (badnodeend[i] != null) {
 
                         drawbadnode(badnodeid[i],badnodestart[i], badnodeend[i],badnodeupdate[i],badnodecreat[i]);
+
+                    }
+                }
+
+                for (i = 0; i < tableunknownode.rows.length -1; i++) {
+                    unknownodeid[i] = tableunknownode.rows[i+1].cells[0];
+                    unknownodestart[i] = tableunknownode.rows[i+1].cells[1];
+                    unknownodeend[i] = tableunknownode.rows[i+1].cells[2];
+                    unknownodeupdate[i] = tableunknownode.rows[i+1].cells[2];
+                    unknownodecreat[i] = tableunknownode.rows[i+1].cells[2];
+                    if (unknownodeend[i] != null) {
+
+                        drawunknownode(unknownodeid[i],unknownodestart[i], unknownodeend[i],unknownodeupdate[i],unknownodecreat[i]);
 
                     }
                 }
@@ -1232,6 +1252,26 @@ function drawvoyage(ids,start,end,update,creat)
 
     map.addOverlay(voyageline);
 
+}
+
+function drawunknownode(id,start,end,update,creat) {
+
+    var ss = start.innerHTML.split(",");
+    var ee = end.innerHTML.split(",");
+    var points1 = new BMap.Point(ss[0], ss[1]);
+    var points2 = new BMap.Point(ee[0], ee[1]);
+    var pipeline = new BMap.Polyline([
+        points1,
+        points2
+    ], {strokeColor: "yellow", strokeWeight: 5, strokeOpacity: 0.5});   //创建折线
+    var content = "告警管道段id ：" + id.innerHTML + "； 起点位置 ：" + start.innerHTML + "； 终点位置 ：" + end.innerHTML +
+        "； 更新时间： " + update.innerHTML + "； 创建时间：" + creat.innerHTML;
+    var showvl = new BMap.Point(ss[0] * 0.5 + ee[0] * 0.5, ss[1] * 0.5 + ee[1] * 0.5);
+    map.addOverlay(pipeline);
+
+    // addClickHandlerb(pipeline,id);
+
+    addClickHandlerv(content, pipeline, showvl, 0);
 }
 
 function drawbadnode(id,start,end,update,creat) {
