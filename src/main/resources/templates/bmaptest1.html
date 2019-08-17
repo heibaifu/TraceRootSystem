@@ -225,7 +225,6 @@ function delpipe(msg) {
                          findsensor();
                          delpipe(msg);
                             drawpipef(msg.segmentId,msg.segmentStart,msg.segmentEnd,msg.updateTime,msg.createTime,msg.flag);
-
                          break;
 
                      case "3":
@@ -1183,6 +1182,13 @@ function drawpipef(id,start,end,update,creat,flag) {
                 points1,
                 points2
             ], {strokeColor: "red", strokeStyle: "solid", strokeWeight: 5, strokeOpacity: 0.5});   //创建折线
+        }
+        else
+        {
+            pipelines = new BMap.Polyline([
+                points1,
+                points2
+            ], {strokeColor: "yellow", strokeStyle: "solid", strokeWeight: 5, strokeOpacity: 0.5});   //创建折线
         }
         addClickHandlerv(content,pipelines,showvl,0);
 
