@@ -215,16 +215,13 @@ public class PipeManagerController {
 
         //先判断传感器ID是否存在以分清是更新还是新增
         PipelineSensorDTO pipelineSensorDTO = PipelineSensorForm2SensorDTOConverter.convert(pipelineSensorForm);
-        PipelineSensorDTO result = new PipelineSensorDTO();
         if (pipelineSensorForm.getSensorId() == null|| StringUtils.isEmpty(pipelineSensorForm.getSensorId())){
 
             pipelineSensorDTO= PipelineSensorForm2SensorDTOConverter.convert(pipelineSensorForm);
-            pipelineSensorDTO.setSensorId(RandomUtil.genUniqueId());
-            result = sensorService.save(pipelineSensorDTO); //新增
+            pipelineSensorDTO.setSensorId(RandomUtil.genUniqueId());    //todo 是否需要自己设置id值，以后可根据需求更改
 
-        }else{
-            result = sensorService.update(pipelineSensorDTO);    //更新
         }
+        PipelineSensorDTO result = sensorService.save(pipelineSensorDTO); //更新
 
         if (result == null){
             log.error("【保存传感器】保存失败，result={}",result);

@@ -24,18 +24,9 @@ public class SensorStatusServiceImpl implements SensorStatusService {
     @Autowired
     private SensorStatusRepository repository;
 
-    @Autowired
-    private SensorTypeServiceImpl sensorTypeService;
-
-    @Autowired
-    private PipelineSensorServiceImpl pipelineSensorService;
-
-
     @Override
     public SensorStatus save(SensorStatus status) {
 
-        PipelineSensorDTO pipelineSensorDTO=pipelineSensorService.selectBySensorId(status.getSensorId());
-        SensorTypeDTO sensorTypeDTO=sensorTypeService.selectByTypeId(pipelineSensorDTO.getTypeId());
         return repository.save(status);
     }
 

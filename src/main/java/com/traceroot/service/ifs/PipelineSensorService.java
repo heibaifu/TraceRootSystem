@@ -24,7 +24,7 @@ public interface PipelineSensorService {
     PipelineSensorDTO save(PipelineSensorDTO pipelineSensorDTO);
 
     //管道段传感器状态更新
-    PipelineSensorDTO update(PipelineSensorDTO pipelineSensorDTO);
+    //PipelineSensorDTO update(PipelineSensorDTO pipelineSensorDTO);
 
     List<PipelineSensorDTO> selectByPresentStatus(SensorStatusEnum statusEnum);
 

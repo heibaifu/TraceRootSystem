@@ -3,7 +3,9 @@ package com.traceroot.service.impl;
 import com.traceroot.converter.dao2dto.PipelineSensor2SensorDTOConverter;
 import com.traceroot.dataobject.PipelineSensor;
 import com.traceroot.dataobject.SensorStatus;
+import com.traceroot.dataobject.SensorType;
 import com.traceroot.dto.PipelineSensorDTO;
+import com.traceroot.dto.SensorTypeDTO;
 import com.traceroot.enums.SensorStatusEnum;
 import com.traceroot.exception.PipeException;
 import com.traceroot.enums.ResultEnum;
@@ -27,7 +29,7 @@ public class PipelineSensorServiceImpl implements PipelineSensorService {
     private PipelineSensorRepository repository;
 
     @Autowired
-    private SensorStatusRepository statusRepository;
+    private SensorTypeServiceImpl sensorTypeService;
 
     @Autowired
     private SensorStatusService statusService;
@@ -52,7 +54,7 @@ public class PipelineSensorServiceImpl implements PipelineSensorService {
     public PipelineSensorDTO selectBySensorId(String sensorId) {
 
         PipelineSensorDTO pipelineSensorDTO=PipelineSensor2SensorDTOConverter.convert(repository.findBySensorId(sensorId));
-        List<SensorStatus>sensorStatuses=statusRepository.findBySensorIdOrderByRecordTimeDesc(pipelineSensorDTO.getSensorId());
+        List<SensorStatus>sensorStatuses=statusService.selectBySensorId(pipelineSensorDTO.getSensorId());
         pipelineSensorDTO.setStatusList(sensorStatuses);
         return pipelineSensorDTO;
     }
@@ -81,26 +83,38 @@ public class PipelineSensorServiceImpl implements PipelineSensorService {
     @Override
     public PipelineSensorDTO save(PipelineSensorDTO sensorDTO) {
 
-        PipelineSensor result=new PipelineSensor();
-        BeanUtils.copyProperties(sensorDTO,result);
-        repository.save(result);
+        PipelineSensor pipelineSensor=new PipelineSensor();
+        BeanUtils.copyProperties(sensorDTO,pipelineSensor);
 
         //增加一条传感器状态记录
+        //先判断传感器是否有状态值（presentValue），若有状态值则判断，没有状态值直接设置状态号，
         SensorStatus sensorStatus = new SensorStatus();
+
+        SensorTypeDTO sensorTypeDTO=sensorTypeService.selectByTypeId(pipelineSensor.getTypeId());
+
+        if (pipelineSensor.getPresentValue()!=null){
+            if (Double.valueOf(pipelineSensor.getPresentValue()) >= Double.valueOf(sensorTypeDTO.getLowestValue())&&Double.valueOf(pipelineSensor.getPresentValue()) <= Double.valueOf(sensorTypeDTO.getHighestValue())){
+                pipelineSensor.setPresentStatus(SensorStatusEnum.NORMAL.getCode());
+            }else {
+                pipelineSensor.setPresentStatus(SensorStatusEnum.ABNORMAL.getCode());
+            }
+        }
+
+        PipelineSensor result=repository.save(pipelineSensor);
+        PipelineSensorDTO pipelineSensorDTO=PipelineSensor2SensorDTOConverter.convert(result);
+
+
         sensorStatus.setStatusId(RandomUtil.genUniqueId());
         sensorStatus.setSensorId(result.getSensorId());
+        sensorStatus.setStatus(result.getPresentStatus());
+        sensorStatus.setValue(result.getPresentValue());
 
-        if (result.getPresentValue()==null) {
-            sensorStatus.setStatus(result.getPresentStatus());
-        }else {
-            sensorStatus.setValue(result.getPresentValue());
-        }
         statusService.save(sensorStatus);
 
-        return sensorDTO;
+        return pipelineSensorDTO;
     }
 
-    @Override
+    /*@Override
     public PipelineSensorDTO update(PipelineSensorDTO pipelineSensorDTO) {
 
         PipelineSensor pipelineSensor=repository.findBySensorId(pipelineSensorDTO.getSensorId());
@@ -133,7 +147,7 @@ public class PipelineSensorServiceImpl implements PipelineSensorService {
         statusService.save(sensorStatus);
 
         return pipelineSensorDTO;
-    }
+    }*/
 
     @Override
     public void deleteBySensorId(String SensorId) {
