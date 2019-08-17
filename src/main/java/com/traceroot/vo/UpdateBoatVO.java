@@ -35,7 +35,4 @@ public class UpdateBoatVO implements Serializable {
     /*@JsonSerialize(using= DateToLongSerializer.class)*/
     private Date updateTime;
 
-    /*该船对应的船只航线*/
-    private List<BoatTraceDTO> boatTraces;
-
 }

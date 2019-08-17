@@ -16,8 +16,10 @@ import com.traceroot.utils.RandomUtil;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.stereotype.Service;
 
+import javax.transaction.Transactional;
 import java.util.List;
 
 @Slf4j
@@ -37,12 +39,15 @@ public class BoatServiceImpl implements BoatService {
      */
     @Override
     public BoatDTO selectByBoatId(String boatId) {
+
         Boat boat=repository.findByBoatId(boatId);
+        if (boat == null){
+            return null;
+        }
         BoatDTO boatDTO= Boat2BoatDTOConverter.convert(boat);
 
         List<BoatTraceDTO> boatTraceDTOS=traceService.selectByBoatId(boatId);
         boatDTO.setBoatTraces(boatTraceDTOS);
-
         return boatDTO;
     }
 
@@ -104,6 +109,7 @@ public class BoatServiceImpl implements BoatService {
      * @return
      */
     @Override
+    @Transactional
     public BoatDTO save(BoatDTO boatDTO) {
 
         Boat boat=new Boat();
@@ -113,7 +119,6 @@ public class BoatServiceImpl implements BoatService {
         //新建一条轨迹信息
         BoatTraceDTO boatTraceDTO = new BoatTraceDTO(RandomUtil.genUniqueId(),boatDTO.getBoatId(),boatDTO.getPresentLocation(),boatDTO.getStatus());
         traceService.insert(boatTraceDTO);
-
         return result;
     }
 

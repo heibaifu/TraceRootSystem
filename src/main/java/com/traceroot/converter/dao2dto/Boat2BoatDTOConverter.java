@@ -15,7 +15,7 @@ public class Boat2BoatDTOConverter {
         BoatDTO boatDTO = new BoatDTO() ;
 
         BeanUtils.copyProperties(boat,boatDTO);
-        boatDTO.setPresentLocation(boat.getPresentLocation());
+
         return boatDTO;
     }
 

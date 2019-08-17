@@ -127,7 +127,6 @@ public class CrossServiceImpl implements CrossService {
                             , segmentEnd, LocationUtil.string2doubleLocation(traceList.get(i).getRecordLocation())
                             , LocationUtil.string2doubleLocation(traceList.get(i + 1).getRecordLocation()))
                             && Integer.valueOf(traceList.get(i).getTraceSerialNumber()) + 1 == Integer.valueOf(traceList.get(i + 1).getTraceSerialNumber())) {
-                        log.info(traceList.get(i).getTraceId());
                         count++;
                     }
                 }

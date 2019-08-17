@@ -1,6 +1,7 @@
 package com.traceroot.service.impl;
 
 import com.traceroot.dataobject.Boat;
+import com.traceroot.dto.BoatDTO;
 import com.traceroot.enums.BoatStatusEnum;
 import com.traceroot.utils.RandomUtil;
 import org.junit.Assert;
@@ -15,7 +16,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 @RunWith(SpringRunner.class)
-@SpringBootTest
+@SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
+//websocket是需要依赖tomcat等容器的启动。所以在测试过程中我们要真正的启动一个tomcat作为容器。
 public class BoatServiceImplTest {
 
     @Autowired
@@ -24,17 +26,17 @@ public class BoatServiceImplTest {
     @Autowired
     BoatTraceServiceImpl boatTraceService;
 
-    public static String BOATID = "6126226";
+    public static String BOATID = "0001";
 
     String RUTEID="1234";
 
-    /*@Test
+    @Test
     public void selectByBoatId() {
-        Boat boat = boatService.selectByBoatId(BOATID);
-        Assert.assertEquals(BOATID,boat.getBoatId());
+        BoatDTO boatDTO = boatService.selectByBoatId(BOATID);
+        Assert.assertEquals(BOATID,boatDTO.getBoatId());
     }
 
-    @Test
+    /*@Test
     public void selectByStatus() {
         List<Boat> boatList = boatService.selectByStatus("151");
         Assert.assertNotNull(boatList);
