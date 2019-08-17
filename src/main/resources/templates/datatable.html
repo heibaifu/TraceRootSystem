@@ -87,6 +87,30 @@
     </tbody>
 </table>
 
+<table id="unknownode" name="unknownode">
+    <thead>
+    <tr>
+        <th>未知管道段id</th>
+        <th>未知管道段起点位置</th>
+        <th>未知管道段终点位置</th>
+        <th>未知管道段更新时间</th>
+        <th>未知管道段创建时间</th>
+
+    </tr>
+    </thead>
+    <tbody>
+    <tr th:each="unknownodeid:${unknownSegments}">
+        <td id="unknownode_id" name="unknownode_id" th:text="${unknownodeid.segmentId}"></td>
+        <td id="unknownode_start" name="unknownode_start" th:text="${unknownodeid.start}"></td>
+        <td id="unknownode_end" name="unknownode_end" th:text="${unknownodeid.end}"></td>
+        <td id="unknownode_update" name="unknownode_update" th:text="${unknownodeid.updateTime}"></td>
+        <td id="unknownode_creat" name="unknownode_creat" th:text="${unknownodeid.createTime}"></td>
+    </tr>
+
+
+    </tbody>
+</table>
+
 <table id="boat1" name="boat1">
     <thead>
     <tr>
