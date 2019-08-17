@@ -12,6 +12,8 @@ public class UpdateBoatVO implements Serializable {
 
     private static final long serialVersionUID = 1780457570498248057L;
 
+    private String code = "0";    //区分是新船(1)还是旧船(0)
+
     private String boatId;
 
     /*船只类型*/

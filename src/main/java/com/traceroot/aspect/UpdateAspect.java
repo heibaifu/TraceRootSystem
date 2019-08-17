@@ -73,15 +73,18 @@ public class UpdateAspect {
 
         if (BoatForm.class.isInstance(args[0])){
             BoatForm arg = (BoatForm) args[0];
+            String code = "1";    //区分是新船(1)还是旧船(0)
             BoatDTO boatDTO = boatService.selectByBoatId(arg.getBoatId());
             //todo 这里可能是因为Jpa一级缓存机制的原因，查询结果的createTime为null
             if (boatDTO.getCreateTime() == null){
                 boatDTO.setCreateTime(createTime);
+                code = "0";
             }
             List<BoatTraceDTO> boatTraces = boatDTO.getBoatTraces();
 
             UpdateBoatVO updateBoatVO = new UpdateBoatVO();
             BeanUtils.copyProperties(boatDTO,updateBoatVO);
+            updateBoatVO.setCode(code);
             if (boatTraces.size()>1){
                 updateBoatVO.setLastLocation(boatTraces.get(boatTraces.size()-2).getRecordLocation());
             }
