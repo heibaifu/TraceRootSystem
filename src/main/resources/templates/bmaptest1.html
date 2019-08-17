@@ -160,10 +160,12 @@
 
         //接收到消息的回调方法
         websocket.onmessage = function(event){
+                var msg = JSON.parse(event.data);
+
 
                /*    switch (event) {
                        case 0:*/
-                           var lo=event.data.lastLocation.split(",")
+                           var lo=msg.lastLocation.split(",");
                            var longitude=lo[0];
                            var latitude=lo[1];
                            var allOverlay = map.getOverlays();             //删除原有的节点
@@ -175,7 +177,7 @@
                                    }
                                }
                            }
-                           drawboatf(event.data.boatid,event.data.presentLocation,event.data.type,event.data.status,event.data.updateTime,event.data.createTime);
+                           drawboatf(msg.boatId,msg.presentLocation,msg.type,msg.status,msg.updateTime,msg.createTime);
                 /*           break;
 
                        case 1:
@@ -1205,7 +1207,7 @@ function drawsensor(id,segid,location,type,state,value,update,creat) {
 
 function drawboatf(id,location,type,state,update,creat) {
 
-    var sen = location.innerHTML.split(",");
+    var sen = location.split(",");
 
     var myIcon = new BMap.Icon("/traceroot/image/boat.png", new BMap.Size(32,32));
 

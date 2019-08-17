@@ -36,6 +36,6 @@ public class UpdateBoatVO implements Serializable {
     private Date updateTime;
 
     /*该船对应的船只航线*/
-    List<BoatTraceDTO> boatTraces;
+    private List<BoatTraceDTO> boatTraces;
 
 }

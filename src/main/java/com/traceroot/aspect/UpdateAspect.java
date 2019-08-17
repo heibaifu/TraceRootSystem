@@ -49,14 +49,14 @@ public class UpdateAspect {
             UpdateBoatVO updateBoatVO = new UpdateBoatVO();
             BeanUtils.copyProperties(boatDTO,updateBoatVO);
             if (boatTraces.size()>1){
-                updateBoatVO.setLastLocation(boatTraces.get(boatTraces.size()-1).getRecordLocation());
+                updateBoatVO.setLastLocation(boatTraces.get(boatTraces.size()-2).getRecordLocation());
             }
             result = updateBoatVO;
-        } if (PipeSegmentForm.class.isInstance(args[0])){
+        } else if (PipeSegmentForm.class.isInstance(args[0])){
             //todo
-        } if (PipelineSensorForm.class.isInstance(args[0])) {
+        } else if (PipelineSensorForm.class.isInstance(args[0])) {
             //todo
-        } if(SeaRouteForm.class.isInstance(args[0])){
+        } else if(SeaRouteForm.class.isInstance(args[0])){
             //todo
         } else {
             log.warn("嗷嗷嗷");
