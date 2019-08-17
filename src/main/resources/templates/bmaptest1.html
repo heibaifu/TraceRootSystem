@@ -79,7 +79,7 @@
                     creat[i] = tablepipesegment.rows[i+1].cells[4];
                     if (end[i] != null) {
 
-                        drawpipe(segmentid[i],start[i], end[i],update[i],creat[i],-1);
+                        drawpipe(segmentid[i],start[i], end[i],update[i],creat[i]);
 
                     }
                 }
@@ -163,9 +163,8 @@
         websocket.onmessage = function(event){
                 var msg = JSON.parse(event.data);
 
-
                  switch (msg.code) {
-                       case 0:
+                     case "0":
                            var lo=msg.lastLocation.split(",");
                            var longitude=lo[0];
                            var latitude=lo[1];
@@ -181,9 +180,18 @@
                            drawboatf(msg.boatId,msg.presentLocation,msg.type,msg.status,msg.updateTime,msg.createTime);
                           break;
 
-                       case 1:
+                     case "1":
                            drawboatf(msg.boatId,msg.presentLocation,msg.type,msg.status,msg.updateTime,msg.createTime);
                        break;
+
+                     case "2":
+                         drawsensorf(msg.sensorId,msg.segmentId,msg.location,msg.typeId,msg.presentStatus,msg.presentValue,msg.updateTime,msg.createTime);
+                         break;
+
+                     case "3":
+                         drawpipef(msg.segmentId,msg.start,msg.end,msg.updateTime,msg.createTime);
+                         break;
+
                    }
 
 
@@ -192,7 +200,6 @@
         //连接关闭的回调方法
         websocket.onclose = function(){
             setMessageInnerHTML("close");
-
         };
 
         //监听窗口关闭事件，当窗口关闭时，主动去关闭websocket连接，防止连接还没断开就关闭窗口，server端会抛异常。
@@ -274,7 +281,7 @@
             var d = name.split("，");
             document.getElementById("findp").innerHTML = "查找中";
 
-            var id = $("#id").val();
+            var id = $("#id").val();p0
             var data = {
                 'segmentid': id,
                 'starttime':d[0],
@@ -887,7 +894,7 @@ var point = new BMap.Point(116.404, 39.915);
 
 // 创建点坐标
 
-map.centerAndZoom(point, 15);					// 初始化地图，设置中心点坐标和地图级别
+map.centerAndZoom(point, 9);					// 初始化地图，设置中心点坐标和地图级别
 
 map.enableScrollWheelZoom(true);
 
@@ -1012,8 +1019,6 @@ function showInfos(content,e,t) {
 
 function showvoya(content,t){
 
-
-
     var sensorvalue = content.split("；");
 
     var senid = sensorvalue[0].split("：");
@@ -1079,8 +1084,8 @@ function addClickHandlerb(voyageline,id){
 */
 
 
-function drawpipe(id,start,end,update,creat,t) {
-    if (t == -1) {
+function drawpipe(id,start,end,update,creat) {
+
         var ss = start.innerHTML.split(",");
         var ee = end.innerHTML.split(",");
         var points1 = new BMap.Point(ss[0], ss[1]);
@@ -1114,8 +1119,48 @@ function drawpipe(id,start,end,update,creat,t) {
 
         element.appendChild(para);
 
-    }
+
 }
+
+
+function drawpipef(id,start,end,update,creat) {
+
+        var ss = start.split(",");
+        var ee = end.split(",");
+        var points1 = new BMap.Point(ss[0], ss[1]);
+        var points2 = new BMap.Point(ee[0], ee[1]);
+        var content = "管道段id ：" + id + "； 起点位置 ：" + start+"； 终点位置 ：" + end +
+            "； 更新时间： " + update + "； 创建时间：" + creat;
+        var showvl = new BMap.Point(ss[0]*0.5+ee[0]*0.5, ss[1]*0.5+ee[1]*0.5);
+        var pipeline = new BMap.Polyline([
+            points1,
+            points2
+        ], {strokeColor: "blue", strokeStyle: "solid", strokeWeight: 5, strokeOpacity: 0.5});   //创建折线
+
+        addClickHandlerv(content,pipeline,showvl,0);
+
+        map.addOverlay(pipeline);
+
+        var para=document.createElement("p");
+
+        var pipesegid=id;
+
+        var node=document.createTextNode(pipesegid);
+
+        para.appendChild(node);
+
+        para.onclick = function() {            //element.onclick后面直接跟的函数不能有参数
+            //每次点击都会画一个标签（小bug）
+            tojump(ss, ee);
+        };
+
+        var element=document.getElementById("pipesegs");
+
+        element.appendChild(para);
+
+
+}
+
 function drawvoyage(ids,start,end,update,creat)
 {
     ss = start.split(",");
@@ -1199,6 +1244,36 @@ function drawsensor(id,segid,location,type,state,value,update,creat) {
 
     var content = "id ：" + id.innerHTML + "； 管道段id ：" + segid.innerHTML + "； 位置 ：" + location.innerHTML + "； 状态 ：" + state.innerHTML + "； 种类 ：" + type.innerHTML + "； 数值 ：" + value.innerHTML +
         "； 更新时间： " + update.innerHTML + "； 创建时间：" + creat.innerHTML;
+
+    addClickHandler(content,marker,1);
+
+}
+
+function drawsensorf(id,segid,location,type,state,value,update,creat) {
+
+    var sen = location.split(",");
+
+    switch (state) {
+        case "100":
+            var myIcon = new BMap.Icon("/traceroot/image/chuanganqic.png", new BMap.Size(32,32));
+            break;
+        case "101":
+            var myIcon = new BMap.Icon("/traceroot/image/chuanganqie.png", new BMap.Size(32,32));
+            break;
+        case "102":
+            var myIcon = new BMap.Icon("/traceroot/image/chuanganqiw.png", new BMap.Size(32,32));
+            break;
+        default:
+            var myIcon = new BMap.Icon("/traceroot/image/chuanganqie.png", new BMap.Size(32,32));
+            break;
+    }
+
+    var marker = new BMap.Marker(new BMap.Point(sen[0], sen[1]),{icon:myIcon});			//加载单个点
+
+    map.addOverlay(marker);
+
+    var content = "id ：" + id + "； 管道段id ：" + segid+ "； 位置 ：" + location + "； 状态 ：" + state+ "； 种类 ：" + type+ "； 数值 ：" + value +
+        "； 更新时间： " + update+ "； 创建时间：" + creat;
 
     addClickHandler(content,marker,1);
 
