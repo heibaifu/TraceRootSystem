@@ -361,7 +361,7 @@ body{
 /* 左上角删除按键 */
 .BMap_pop img {
 	top:43px !important;
-	left:215px !important;
+	left:255px !important;
 }
 .BMap_top {
 	display:none;
