@@ -349,7 +349,7 @@ function delpipe(msg) {
                             drawvoyage(ids,location[i], location[i + 1],startt[i],startt[i+1]);
                         }
                         if( idsv!=null) {
-                            for (var j = 0; j < result.data.seaRouteDTO.routeSegments.length - 1; j++) {
+                            for (var j = 0; j < result.data.seaRouteDTO.routeSegments.length ; j++) {
                                 idss[j] = result.data.seaRouteDTO.routeSegments[j].segmentId;
                                 segmentSerialNumber[j] = result.data.seaRouteDTO.routeSegments[j].segmentSerialNumber;
                                 start[j] = result.data.seaRouteDTO.routeSegments[j].start;

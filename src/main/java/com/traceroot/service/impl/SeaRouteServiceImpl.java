@@ -45,7 +45,7 @@ public class SeaRouteServiceImpl implements SeaRouteService {
     public SeaRouteDTO selectByRouteId(String routeId) {
         SeaRoute seaRoute= repository.findByRouteId(routeId);
         if (seaRoute==null){
-            throw new RouteException(ResultEnum.SEA_ROUTE_NOT_EXIST);
+            return null;
         }
 
         SeaRouteDTO seaRouteDTO=SeaRoute2SeaRouteDTO.convert(seaRoute);
