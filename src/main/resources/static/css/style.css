@@ -10,6 +10,8 @@ body{
 	padding:0px;
 	font-family: "微软雅黑 Light";
 	color:white;
+	overflow-y: hidden;
+
 }  
 #container{
 	height:100%
