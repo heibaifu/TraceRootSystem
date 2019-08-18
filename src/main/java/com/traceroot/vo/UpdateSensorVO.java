@@ -15,7 +15,7 @@ public class UpdateSensorVO {
     private String segmentId;
 
     /*管道状态*/
-    private String flag = "0";  //0好，1坏
+    private String flag = "0";  //0好，1坏，2未知
 
     /*管道起点坐标*/
     private String segmentStart;

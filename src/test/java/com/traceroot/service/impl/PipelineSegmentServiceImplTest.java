@@ -2,6 +2,7 @@ package com.traceroot.service.impl;
 
 import com.traceroot.dataobject.PipelineSegment;
 import com.traceroot.dto.PipeSegmentDTO;
+import com.traceroot.enums.SensorStatusEnum;
 import com.traceroot.utils.RandomUtil;
 import lombok.extern.slf4j.Slf4j;
 import org.junit.Assert;
@@ -15,7 +16,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 @RunWith(SpringRunner.class)
-@SpringBootTest
+@SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
 @Slf4j
 public class PipelineSegmentServiceImplTest {
 
@@ -47,6 +48,12 @@ public class PipelineSegmentServiceImplTest {
     }
 
     @Test
+    public void testifyStatus() {
+        int integer = segmentService.testifyStatus("1001");
+        Assert.assertEquals(0,integer);
+    }
+
+    @Test
     public void insert() {
         PipeSegmentDTO pipeSegmentDTO = new PipeSegmentDTO("2004", "10002", null, "121.267183,38.062677", "121.465672,37.53779", null);
         PipelineSegment result = segmentService.insert(pipeSegmentDTO);
@@ -73,18 +80,13 @@ public class PipelineSegmentServiceImplTest {
 
     @Test
     public void selectByWarning() {
-        segmentService.selectByWarning();
+        segmentService.selectBySensorStatus(SensorStatusEnum.ABNORMAL);
     }
 
     @Test
     public void  arrryString(){
-        String[] badnodeid=new String[2];
-        List<PipeSegmentDTO> warningSegments=segmentService.selectByWarning();
-        for (int i=0;i<warningSegments.size();i++){
-            badnodeid[i]=warningSegments.get(i).getSegmentId();
-        }
-
-        log.info(String.valueOf(badnodeid.length));
+        List<PipeSegmentDTO> warningSegments=segmentService.selectBySensorStatus(SensorStatusEnum.BROKEN);
+        log.info("hhh");
 
     }
 }
