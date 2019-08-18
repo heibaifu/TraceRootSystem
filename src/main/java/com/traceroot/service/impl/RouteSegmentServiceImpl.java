@@ -7,6 +7,8 @@ import com.traceroot.enums.ResultEnum;
 import com.traceroot.exception.RouteException;
 import com.traceroot.repository.RouteSegmentRepository;
 import com.traceroot.service.ifs.RouteSegmentService;
+import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -14,6 +16,7 @@ import javax.transaction.Transactional;
 import java.util.List;
 
 @Service
+@Slf4j
 public class RouteSegmentServiceImpl implements RouteSegmentService {
 
     @Autowired
@@ -88,9 +91,11 @@ public class RouteSegmentServiceImpl implements RouteSegmentService {
      * @return
      */
     @Override
+    @Transactional
     public RouteSegmentDTO insert(RouteSegmentDTO segmentDTO) {
+        Integer number = repository.countRouteSegmentByRouteId(segmentDTO.getRouteId())+1;
         RouteSegment routeSegment=new RouteSegment();
-        Integer number = repository.countRouteSegmentByRouteId(routeSegment.getRouteId())+1;
+        BeanUtils.copyProperties(segmentDTO,routeSegment);
         routeSegment.setSegmentSerialNumber(number);
         RouteSegmentDTO routeSegmentDTO=RouteSegment2RouteSegmentDTO.convert(repository.save(routeSegment));
         return routeSegmentDTO;

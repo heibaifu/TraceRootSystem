@@ -91,12 +91,11 @@ public class SeaRouteController {
 
         SeaRouteDTO seaRouteDTO= SeaRouteForm2SeaRouteDTO.convert(seaRouteForm);
         if (seaRouteForm.getRouteId()!=null){
-            seaRouteDTO=seaRouteService.selectByRouteId(seaRouteForm.getRouteId());
+            seaRouteDTO.setRouteId(seaRouteForm.getRouteId());
         }else {
             seaRouteDTO.setRouteId(RandomUtil.genUniqueId()); //设置航线号
         }
-        SeaRouteDTO result=new SeaRouteDTO();
-        result=seaRouteService.insert(seaRouteDTO);
+        SeaRouteDTO result = seaRouteService.insert(seaRouteDTO);
 
         if (result == null){
             log.error("【保存航线】保存失败，result={}",result);
@@ -121,7 +120,7 @@ public class SeaRouteController {
 
         RouteSegmentDTO routeSegmentDTO= RouteSegmentForm2RouteSegmentDTO.convert(routeSegmentForm);
         if (routeSegmentForm.getSegmentId()!=null){
-            routeSegmentDTO=routeSegmentService.selectBySegmentId(routeSegmentForm.getSegmentId());
+            routeSegmentDTO.setSegmentId(routeSegmentForm.getSegmentId());
         }else {
             routeSegmentDTO.setSegmentId(RandomUtil.genUniqueId()); //设置航线段号
         }
