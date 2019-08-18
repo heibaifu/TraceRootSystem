@@ -3,6 +3,9 @@ package com.traceroot.controller;
 import com.traceroot.converter.form2dto.BoatForm2BoatDTOConverter;
 import com.traceroot.dto.BoatDTO;
 import com.traceroot.dto.BoatTraceDTO;
+import com.traceroot.dto.SeaRouteDTO;
+import com.traceroot.service.ifs.SeaRouteService;
+import com.traceroot.vo.BoatVO;
 import com.traceroot.vo.ThreateningBoatVO;
 import com.traceroot.enums.ResultEnum;
 import com.traceroot.exception.BoatException;
@@ -37,20 +40,25 @@ public class BoatManageController {
     @Autowired
     BoatService boatService;
 
+    @Autowired
+    SeaRouteService seaRouteService;
+
     /**
-     * 按照船只id查找trace
+     * 按照船只id查找船只信息
      * @param boatId
      * @return
      */
     @ResponseBody
     @GetMapping("/findbyboatid")
-    public ResultVO<List<BoatTraceDTO>> findBoatTraceByBoatId(@RequestParam(value = "boatid",required = true)String boatId){
+    public ResultVO<BoatVO> findInfoByBoatId(@RequestParam(value = "boatid",required = true)String boatId){
         List<BoatTraceDTO> traceDTOList = traceService.selectByBoatId(boatId);
         if (traceDTOList.size()==0){
             log.error("【查找船只轨迹】船只轨迹不存在，boatid={}",boatId);
             return ResultVOUtil.error(ResultEnum.BOAT_TRACE_NOT_EXIST.getCode(),ResultEnum.BOAT_TRACE_NOT_EXIST.getMessage());
         }
-        return ResultVOUtil.success(traceDTOList);
+        SeaRouteDTO seaRouteDTO = seaRouteService.selectByRouteId(boatService.selectByBoatId(boatId).getRouteId());
+        BoatVO boatVO = new BoatVO(traceDTOList,seaRouteDTO);
+        return ResultVOUtil.success(boatVO);
     }
 
     /**
