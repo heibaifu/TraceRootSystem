@@ -3,6 +3,7 @@ package com.traceroot.service.impl;
 import com.traceroot.dataobject.RouteSegment;
 import com.traceroot.dataobject.SeaRoute;
 import com.traceroot.dto.RouteSegmentDTO;
+import com.traceroot.service.ifs.RouteSegmentService;
 import com.traceroot.utils.RandomUtil;
 import org.junit.Assert;
 import org.junit.Test;
@@ -20,7 +21,7 @@ import static org.junit.Assert.*;
 public class RouteSegmentServiceImplTest {
 
     @Autowired
-    private RouteSegmentServiceImpl segmentService;
+    private RouteSegmentService segmentService;
 
     private String ROUTEID = "1188454";
 

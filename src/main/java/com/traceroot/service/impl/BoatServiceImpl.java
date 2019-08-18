@@ -10,6 +10,7 @@ import com.traceroot.enums.ResultEnum;
 import com.traceroot.exception.BoatException;
 import com.traceroot.repository.BoatRepository;
 import com.traceroot.service.ifs.BoatService;
+import com.traceroot.service.ifs.BoatTraceService;
 import com.traceroot.utils.DoubleLocation;
 import com.traceroot.utils.LocationUtil;
 import com.traceroot.utils.RandomUtil;
@@ -30,7 +31,7 @@ public class BoatServiceImpl implements BoatService {
     private BoatRepository repository;
 
     @Autowired
-    private BoatTraceServiceImpl traceService;
+    private BoatTraceService traceService;
 
     /**
      * 按照船只id查询

@@ -3,6 +3,7 @@ package com.traceroot.service.impl;
 import com.traceroot.dataobject.Pipeline;
 import com.traceroot.dto.PipeDTO;
 import com.traceroot.exception.PipeException;
+import com.traceroot.service.ifs.PipelineService;
 import com.traceroot.utils.RandomUtil;
 import lombok.extern.slf4j.Slf4j;
 import org.junit.Assert;
@@ -20,7 +21,7 @@ import java.util.List;
 public class PipelineServiceImplTest {
 
     @Autowired
-    PipelineServiceImpl pipelineService ;
+    private PipelineService pipelineService ;
 
     static String PIPEID = "4342832";
 

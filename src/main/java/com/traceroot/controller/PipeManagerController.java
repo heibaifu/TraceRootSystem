@@ -13,10 +13,10 @@ import com.traceroot.exception.PipeException;
 import com.traceroot.form.PipeForm;
 import com.traceroot.form.PipeSegmentForm;
 import com.traceroot.form.PipelineSensorForm;
+import com.traceroot.service.ifs.PipelineSegmentService;
+import com.traceroot.service.ifs.PipelineSensorService;
+import com.traceroot.service.ifs.PipelineService;
 import com.traceroot.service.ifs.SensorTypeService;
-import com.traceroot.service.impl.PipelineSegmentServiceImpl;
-import com.traceroot.service.impl.PipelineSensorServiceImpl;
-import com.traceroot.service.impl.PipelineServiceImpl;
 import com.traceroot.utils.RandomUtil;
 import com.traceroot.utils.ResultVOUtil;
 import com.traceroot.vo.ResultVO;
@@ -41,16 +41,16 @@ import java.util.Map;
 public class PipeManagerController {
 
     @Autowired
-    PipelineServiceImpl pipelineService;
+    private PipelineService pipelineService;
 
     @Autowired
-    PipelineSegmentServiceImpl segmentService;
+    private PipelineSegmentService segmentService;
 
     @Autowired
-    PipelineSensorServiceImpl sensorService;
+    private PipelineSensorService sensorService;
 
     @Autowired
-    SensorTypeService sensorTypeService;
+    private SensorTypeService sensorTypeService;
 
     /**
      * 保存管道

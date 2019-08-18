@@ -1,6 +1,7 @@
 package com.traceroot.service.impl;
 
 import com.traceroot.dataobject.BoatType;
+import com.traceroot.service.ifs.BoatTypeService;
 import lombok.extern.slf4j.Slf4j;
 import org.junit.Assert;
 import org.junit.Test;
@@ -16,7 +17,7 @@ import static org.junit.Assert.*;
 public class BoatTypeServiceImplTest {
 
     @Autowired
-    private BoatTypeServiceImpl boatTypeService;
+    private BoatTypeService boatTypeService;
 
     String TYPEID="004";
     String TYPENAME="屁屁船";

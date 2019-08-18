@@ -21,10 +21,10 @@ import java.util.List;
 public class BoatServiceImplTest {
 
     @Autowired
-    BoatServiceImpl boatService;
+    private BoatServiceImpl boatService;
 
     @Autowired
-    BoatTraceServiceImpl boatTraceService;
+    private BoatTraceServiceImpl boatTraceService;
 
     public static String BOATID = "0001";
 

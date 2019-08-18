@@ -1,6 +1,7 @@
 package com.traceroot.service.impl;
 
 import com.traceroot.dataobject.BoatTrace;
+import com.traceroot.service.ifs.CrossService;
 import com.traceroot.utils.TimeUtil;
 import lombok.extern.slf4j.Slf4j;
 import org.junit.Assert;
@@ -19,7 +20,7 @@ import java.util.*;
 public class CrossServiceImplTest {
 
     @Autowired
-    CrossServiceImpl service;
+    private CrossService service;
 
     private Date startTime;
 
