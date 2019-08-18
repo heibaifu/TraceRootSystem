@@ -15,7 +15,7 @@ import java.text.ParseException;
 import java.util.*;
 
 @RunWith(SpringRunner.class)
-@SpringBootTest
+@SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
 @Slf4j
 public class CrossServiceImplTest {
 
@@ -30,11 +30,11 @@ public class CrossServiceImplTest {
     public void findBoatNearSegmentDuringTime() {
         try {
             startTime = TimeUtil.string2Timestamp("2019-07-27 17:10:08");
-            endTime = TimeUtil.string2Timestamp("2019-07-28 20:50:56");
+            endTime = TimeUtil.string2Timestamp("2019-08-18 16:46:04");
         } catch (ParseException e) {
             log.error("【时间设定异常】",e.getMessage());
         }
-        Map<String, List<BoatTrace>> map = service.findBoatNearSegmentDuringTime("123", startTime, endTime, 1);
+        Map<String, List<BoatTrace>> map = service.findBoatNearSegmentDuringTime("2003", startTime, endTime, 0);
         Assert.assertNotEquals(0,map.size());
     }
 
@@ -42,11 +42,11 @@ public class CrossServiceImplTest {
     public void selectByPassingPipelineSegment() {
         try {
             startTime = TimeUtil.string2Timestamp("2019-07-27 19:17:18");
-            endTime = TimeUtil.string2Timestamp("2019-07-28 18:49:25");
+            endTime = TimeUtil.string2Timestamp("2019-08-18 16:46:04");
         } catch (ParseException e) {
             log.error("【时间设定异常】",e.getMessage());
         }
-        NavigableMap<Integer, List<String>> map = service.selectByPassingPipelineSegment("123", startTime, endTime, 1);
+        NavigableMap<Integer, List<String>> map = service.selectByPassingPipelineSegment("2003", startTime, endTime, 0);
         Assert.assertNotEquals(0,map.size());
     }
 }

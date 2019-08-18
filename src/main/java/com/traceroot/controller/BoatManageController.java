@@ -97,7 +97,7 @@ public class BoatManageController {
     public ResultVO<List<BoatTraceDTO>> findWarningBoatNearSegmentDuringTime(@RequestParam(value = "segmentid",required = true)String segmentId,
                                                                              @RequestParam(value = "starttime",required = false)String startTime,
                                                                              @RequestParam(value = "endtime",required = false)String endTime,
-                                                                             @RequestParam(value = "accuracydegree",required = false,defaultValue = "1")Integer accuracyDegree){
+                                                                             @RequestParam(value = "accuracydegree",required = false,defaultValue = "-1")Integer accuracyDegree){
         if (endTime == null || endTime.isEmpty()){
             endTime = TimeUtil.presentTime();
 //            log.warn("into 1");

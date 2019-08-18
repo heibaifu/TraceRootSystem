@@ -64,17 +64,28 @@ public class LocationUtil {
 
         //例子："116.3%,-39.9%"
 
-        //拿出经度小数点前的位数
-        String[] split = lngString.split("\\.");
-        String substring = split[1].substring(0, accuracyDegree);
-        //拼接精度
-        result = split[0] + "." + substring + "%" + ",";
+        if (accuracyDegree > 0){
+            //拿出经度小数点前的位数
+            String[] split = lngString.split("\\.");
+            String substring = split[1].substring(0, accuracyDegree);
+            //拼接精度
+            result = split[0] + "." + substring + "%" + ",";
 
-        //重复上一部，拿纬度数据
-        split = latString.split("\\.");
-        substring = split[1].substring(0, accuracyDegree);
+            //重复上一部，拿纬度数据
+            split = latString.split("\\.");
+            substring = split[1].substring(0, accuracyDegree);
 
-        result = result +  split[0] + "." + substring + "%";
+            result = result +  split[0] + "." + substring + "%";
+
+        } else {
+            //拿出经度小数点前的位数
+            String[] split = lngString.split("\\.");
+            //拼接精度
+            result = split[0].substring(0, split[0].length()-1) + "%";
+            //重复上一部，拿纬度数据
+            split = latString.split("\\.");
+            result = result + "," +split[0].substring(0, split[0].length()-1) + "%";
+        }
 
         return result;
     }

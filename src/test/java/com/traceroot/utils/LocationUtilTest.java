@@ -16,7 +16,7 @@ public class LocationUtilTest {
 
     @Test
     public void buildFuzzyMatchingExpr() {
-        String result = LocationUtil.buildFuzzyMatchingExpr(116.35504950497435, -39.96149086928498, 3);
+        String result = LocationUtil.buildFuzzyMatchingExpr(116.35504950497435, -39.96149086928498, -1);
         log.info(result);
     }
 }
