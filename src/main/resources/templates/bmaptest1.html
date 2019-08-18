@@ -74,7 +74,7 @@
                 var tableunknownode=pare.document.getElementById("unknownode");
                 var tableboat=pare.document.getElementById("boat1");
 
-                chartdata1=tablepipesegment.rows.length-tablebadnode.rows.length;
+                chartdata1=tablepipesegment.rows.length-tablebadnode.rows.length-tableunknownode.rows.length +1;
                 chartdata2=tablebadnode.rows.length -1;
 
                 showchart(chartdata1,chartdata2);
@@ -176,6 +176,8 @@ function del(msg) {
                     }
                 }
             }
+
+
         }
 function delpipe(msg) {
     var lo = msg.segmentStart.split(",");
@@ -191,8 +193,15 @@ function delpipe(msg) {
                 map.removeOverlay(allOverlay[i]);
         }
     }
+    var buttons = document.getElementsByTagName("p");
+    for(var i=0; i<buttons.length; i++){
+        var v_button = buttons[i];
+        if(msg.segmentId == v_button.innerHTML){
+            v_button.style.display="none";		}
+    }
 
 }
+
         function fnParent(){
 
             window.opener.location.reload();//刷新父窗口
@@ -244,16 +253,24 @@ function delpipe(msg) {
                          document.getElementById("id").value=msg.segmentId;
                          findsensor();
                          delpipe(msg);
-                            drawpipef(msg.segmentId,msg.segmentStart,msg.segmentEnd,msg.updateTime,msg.createTime,msg.flag);
+                         drawpipef(msg.segmentId,msg.segmentStart,msg.segmentEnd,msg.updateTime,msg.createTime,msg.flag);
+                         if(msg.flag =="0"){
+                             chartdata1=chartdata1+1;
+                             chartdata2=chartdata2-1;
+                         }
+                         else{
+                             chartdata1=chartdata1-1;
+                             chartdata2=chartdata2+1;
+                         }
+                         showchart(chartdata1,chartdata2);
                          break;
 
                      case "3":
                          drawpipef(msg.segmentId,msg.start,msg.end,msg.updateTime,msg.createTime,0);
+                         chartdata1=chartdata1+1;
+                         showchart(chartdata1,chartdata2);
                          break;
-
                    }
-
-
         };
 
         //连接关闭的回调方法
@@ -1183,6 +1200,24 @@ function drawpipe(id,start,end,update,creat) {
 
 
 function drawpipef(id,start,end,update,creat,flag) {
+        var para=document.createElement("p");
+
+        var pipesegid=id;
+
+        var node=document.createTextNode(pipesegid);
+
+        para.appendChild(node);
+
+        para.onclick = function() {            //element.onclick后面直接跟的函数不能有参数
+            //每次点击都会画一个标签（小bug）
+            tojump(ss, ee);
+        };
+
+        var element=document.getElementById("pipesegs");
+
+        element.appendChild(para);
+
+
 
         var ss = start.split(",");
         var ee = end.split(",");
@@ -1202,6 +1237,8 @@ function drawpipef(id,start,end,update,creat,flag) {
                 points1,
                 points2
             ], {strokeColor: "red", strokeStyle: "solid", strokeWeight: 5, strokeOpacity: 0.5});   //创建折线
+            var element1=document.getElementById("dragon");
+            element1.appendChild(para);
         }
         else
         {
@@ -1209,28 +1246,12 @@ function drawpipef(id,start,end,update,creat,flag) {
                 points1,
                 points2
             ], {strokeColor: "yellow", strokeStyle: "solid", strokeWeight: 5, strokeOpacity: 0.5});   //创建折线
+            var element2=document.getElementById("dragon");
+            element2.appendChild(para);
         }
         addClickHandlerv(content,pipelines,showvl,0);
 
         map.addOverlay(pipelines);
-
-        var para=document.createElement("p");
-
-        var pipesegid=id;
-
-        var node=document.createTextNode(pipesegid);
-
-        para.appendChild(node);
-
-        para.onclick = function() {            //element.onclick后面直接跟的函数不能有参数
-            //每次点击都会画一个标签（小bug）
-            tojump(ss, ee);
-        };
-
-        var element=document.getElementById("pipesegs");
-
-        element.appendChild(para);
-
 
 }
 
@@ -1269,9 +1290,25 @@ function drawunknownode(id,start,end,update,creat) {
     var showvl = new BMap.Point(ss[0] * 0.5 + ee[0] * 0.5, ss[1] * 0.5 + ee[1] * 0.5);
     map.addOverlay(pipeline);
 
-    // addClickHandlerb(pipeline,id);
-
     addClickHandlerv(content, pipeline, showvl, 0);
+
+    var para=document.createElement("p");
+
+    var badnoid=id.innerHTML;
+
+    var node=document.createTextNode(badnoid);
+
+    para.appendChild(node);
+
+    para.onclick = function() {            //element.onclick后面直接跟的函数不能有参数
+        //每次点击都会画一个标签（小bug）
+        tojump(ss, ee);
+    };
+
+    var element=document.getElementById("dragon");
+
+    element.appendChild(para);
+
 }
 
 function drawbadnode(id,start,end,update,creat) {
