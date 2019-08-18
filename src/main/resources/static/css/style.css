@@ -361,7 +361,7 @@ body{
 /* 左上角删除按键 */
 .BMap_pop img {
 	top:43px !important;
-	left:255px !important;
+	left:265px !important;
 }
 .BMap_top {
 	display:none;
@@ -376,9 +376,12 @@ body{
 .BMap_pop div:nth-child(1) div {
 	display:none;
 }
-.BMap_pop div:nth-child(3) {
+.BMap_pop div:nth-child(3) div {
+	 display:none;
+ }
+.BMap_pop div:nth-child(5) div {
 	display:none;
 }
-.BMap_pop div:nth-child(7) {
+.BMap_pop div:nth-child(7) div {
 	display:none;
 }
