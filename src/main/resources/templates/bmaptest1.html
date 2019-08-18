@@ -12,6 +12,8 @@
 
     <title>bmaptest</title>
 
+
+
     <link href="/traceroot/css/style.css" rel="stylesheet" type="text/css">
 
     <link href="//netdna.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet">
@@ -353,7 +355,7 @@ function delpipe(msg) {
                     if (result.code == 0) {
                         var location = new Array;
                         var ids = result.data.traceDTOList[0].boatId;
-                        var idsv = result.data.seaRouteDTO.routeSegments[0].routeId;
+
                         var startt = new Array;
                         var idss=new Array;
                         var segmentSerialNumber=new Array;
@@ -369,7 +371,7 @@ function delpipe(msg) {
                             drawvoyage(ids,location[i], location[i + 1],startt[i],startt[i+1]);
                         }
                         if( result.data.seaRouteDTO !=null) {
-
+                            var idsv = result.data.seaRouteDTO.routeSegments[0].routeId;
                             for (var j = 0; j < result.data.seaRouteDTO.routeSegments.length ; j++) {
                                 idss[j] = result.data.seaRouteDTO.routeSegments[j].segmentId;
                                 segmentSerialNumber[j] = result.data.seaRouteDTO.routeSegments[j].segmentSerialNumber;
@@ -396,7 +398,7 @@ function delpipe(msg) {
             var d = name.split("，");
             document.getElementById("findp").innerHTML = "查找中";
 
-            var id = $("#id").val();p0
+            var id = $("#id").val();
             var data = {
                 'segmentid': id,
                 'starttime':d[0],
@@ -542,8 +544,8 @@ function delpipe(msg) {
     <div class="has_children">
 
         <li id="pipecontrol" style="font-size:24px;text-align:center" onclick=change(0)>管道线路管理
-            <div id="pipesegs" class="pipesegs">
-
+            <div id="pipesegs" class="pipesegs" style="font-size:15px">
+                <p>管道段ID</p>
                 <!--根据管道的个数决定显示多少个p-->
 
             </div>
@@ -552,13 +554,13 @@ function delpipe(msg) {
 
 
         <li id="boatcontrol" style="font-size:24px;text-align:center" onclick="change(6)">船只线路管理
-            <div id="boats" class="boatss">
-
+            <div id="boats" class="boatss" style="font-size:15px">
+                <p>船只ID</p>
                 <!--根据管道的个数决定显示多少个p-->
 
             </div>
         </li>
-
+<!--
         <li onclick=change(1)>渤海</li>
 
         <li onclick=change(2)>黄海</li>
@@ -566,23 +568,27 @@ function delpipe(msg) {
         <li onclick=change(3)>东海</li>
 
         <li onclick=change(4)>南海</li>
-
-        <li onclick=change(5)>城市管道</li>
-
+-->
+<div style="margin-left: 40px;margin-top: 10px ">
+        <input type="button" class="button" onclick="jump()" value="跳转">
+        <input type="button" class="button" id="find" onclick="finder()" value="查找路径   ">
+        <input type="button" class="button" id="findp" onclick="finds()" value="可疑船只   ">
+        <input type="button" class="button" id="voya" onclick="hiosh()" value="隐藏航线   ">
+</div>
     </div>
 
-    <div id="echarts" style="width:100%;height:70%;">
+    <div id="echarts" style="width:100%;height:65%;top: -4%;">
 
     </div>
 
 </div>
 
-<div id="drag">
+<div style="text-align:center" id="drag" >
 
-    <p>告警管道列表</p>
+    <p style="color:#FF9900">告警管道列表</p>
 
     <div id="dragon" class="dragon">
-
+        <p>告警管道ID</p>
         <!--根据告警管道的个数决定显示多少个p-->
 
     </div>
@@ -591,15 +597,16 @@ function delpipe(msg) {
 
 <div id="liquid" >
 
-    <div class="liquid">
+    <div id="tt" class="liquid">
 
-        <table cellspacing="1" cellpadding="3" width="30%" style="color: beige" >
+        <table cellspacing="1" cellpadding="3" width="120%" height="68%"  style="color: beige" >
 
             <tr>
 
-                <td>经度</td>
+                <td >经度</td>
 
-                <td><input type="text" name="lng" id="lng" value=""/>
+                <td><input  class="input" type="text" name="lng" id="lng" value="                例：119.69443"  onfocus="if(value=='                例：119.69443'){value=''}"
+                            onblur="if(value==''){value='                例：119.69443'}"/>
 
                 </td>
 
@@ -609,7 +616,8 @@ function delpipe(msg) {
 
                 <td >纬度</td>
 
-                <td><input type="text" name="lat" id="lat" value=""/>
+                <td><input class="input" type="text" name="lat" id="lat" value="                例：38.496474"  onfocus="if(value=='                例：38.496474'){value=''}"
+                           onblur="if(value==''){value='                例：38.496474'}"/>
 
                 </td>
 
@@ -617,19 +625,16 @@ function delpipe(msg) {
 
             <tr>
 
-                <td >id</td>
+                <td >ID</td>
 
-                <td><input type="text" name="id" id="id" value=""/>
+                <td><input class="input" type="text" name="id" id="id" value="                例：119"  onfocus="if(value=='                例：119'){value=''}"
+                           onblur="if(value==''){value='                例：119'}"/>
 
                 </td>
 
             </tr>
 
         </table>
-        <input type="button" onclick="jump()" value="跳转">
-        <input type="button" id="find" onclick="finder()" value="查找路径">
-        <input type="button" id="findp" onclick="finds()" value="查找管道">
-        <input type="button" id="voya" onclick="hiosh()" value="隐藏航线">
 
     </div>
 
@@ -644,7 +649,7 @@ function delpipe(msg) {
 </div>
 
 <div id="button">
-    <button style="font-size:24px" onclick="fnParent()" >刷新 <i class="fa fa-refresh"></i></button>
+    <i class="fa fa-refresh fa-2x" onclick="fnParent()"></i>
     <!--<button style="font-size:24px">删除 <i class="fa fa-minus-square" onclick="delp()"></i></button> -->
 </div>
 
@@ -657,12 +662,11 @@ function delpipe(msg) {
     function showchart(chartdata1,chartdata2) {
 
         echarts.init(document.getElementById('echarts')).setOption({
-
-            title: {
-
-                text: ''
+            textStyle: {
+                fontFamily: 'KaiTi'
 
             },
+
 
             tooltip: {},
 
@@ -676,13 +680,20 @@ function delpipe(msg) {
 
                 data: ["正常管道", "告警管道"],
 
+                axisLabel:{
+                    textStyle:{
+                        fontSize:20
+                    }
+                },
+
                 axisLine: {
 
                     lineStyle: {
 
-                        color: 'yellow',					 //设置坐标轴字体颜色
+                        color: 'white'					 //设置坐标轴字体颜色
 
                     }
+
 
                 }
 
@@ -695,7 +706,7 @@ function delpipe(msg) {
 
                     lineStyle: {
 
-                        color: 'yellow'					 //设置坐标轴字体颜色
+                        color: 'white'					 //设置坐标轴字体颜色
 
                     }
 
@@ -710,7 +721,17 @@ function delpipe(msg) {
 
                 type: 'bar',
 
-                itemStyle: {normal: {color: 'blue'}},							 //设置柱状图颜色
+                itemStyle: {
+                    normal: {
+                        color: function (params) {
+                            // build a color map as your need.
+                            var colorList = [
+                                '#9BCA63', 'orange'
+                            ];
+                            return colorList[params.dataIndex]
+                        }
+                    }
+                },
 
                 data: [chartdata1, chartdata2]												//此处需要告警管道的个数
 
@@ -1614,14 +1635,6 @@ counter =0;
             case 4:
 
                 var point = new BMap.Point(115.004004,11.655103);
-
-                map.panTo(point);
-
-                break;
-
-            case 5:
-
-                var point = new BMap.Point(121.479853,31.232993);
 
                 map.panTo(point);
 
