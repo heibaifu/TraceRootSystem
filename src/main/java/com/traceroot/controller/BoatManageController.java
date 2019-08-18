@@ -4,15 +4,14 @@ import com.traceroot.converter.form2dto.BoatForm2BoatDTOConverter;
 import com.traceroot.dto.BoatDTO;
 import com.traceroot.dto.BoatTraceDTO;
 import com.traceroot.dto.SeaRouteDTO;
+import com.traceroot.service.ifs.BoatTraceService;
 import com.traceroot.service.ifs.SeaRouteService;
 import com.traceroot.vo.BoatVO;
 import com.traceroot.vo.ThreateningBoatVO;
 import com.traceroot.enums.ResultEnum;
-import com.traceroot.exception.BoatException;
 import com.traceroot.form.BoatForm;
 import com.traceroot.service.ifs.BoatService;
 import com.traceroot.service.ifs.CrossService;
-import com.traceroot.service.impl.BoatTraceServiceImpl;
 import com.traceroot.utils.ResultVOUtil;
 import com.traceroot.utils.TimeUtil;
 import com.traceroot.vo.ResultVO;
@@ -32,16 +31,16 @@ import java.util.*;
 public class BoatManageController {
 
     @Autowired
-    BoatTraceServiceImpl traceService;
+    private BoatTraceService traceService;
 
     @Autowired
-    CrossService crossService;
+    private CrossService crossService;
 
     @Autowired
-    BoatService boatService;
+    private BoatService boatService;
 
     @Autowired
-    SeaRouteService seaRouteService;
+    private SeaRouteService seaRouteService;
 
     /**
      * 按照船只id查找船只信息

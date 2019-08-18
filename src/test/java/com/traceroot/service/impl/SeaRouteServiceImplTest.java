@@ -4,6 +4,7 @@ import com.traceroot.dataobject.SeaRoute;
 import com.traceroot.dto.SeaRouteDTO;
 import com.traceroot.enums.SeaRouteStatusEnum;
 import com.traceroot.enums.SensorStatusEnum;
+import com.traceroot.service.ifs.SeaRouteService;
 import com.traceroot.utils.RandomUtil;
 import lombok.extern.slf4j.Slf4j;
 import org.junit.Assert;
@@ -22,7 +23,7 @@ import static org.junit.Assert.*;
 public class SeaRouteServiceImplTest {
 
     @Autowired
-    private SeaRouteServiceImpl seaRouteService;
+    private SeaRouteService seaRouteService;
 
     @Test
     public void insert() {

@@ -35,6 +35,16 @@ body{
 	
 }
 
+.liquids{
+	margin-left: 0%;
+	width: 15%;
+	height: 140%;
+	float:left;
+	position: relative;
+	top: -20%;
+	left: 10%;
+}
+
 .dis{
 	display: none;
 

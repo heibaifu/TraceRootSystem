@@ -4,6 +4,7 @@ import com.traceroot.converter.dao2dto.PipelineSensor2SensorDTOConverter;
 import com.traceroot.dataobject.PipelineSensor;
 import com.traceroot.dto.PipelineSensorDTO;
 import com.traceroot.enums.SensorStatusEnum;
+import com.traceroot.service.ifs.PipelineSensorService;
 import com.traceroot.utils.RandomUtil;
 import lombok.extern.slf4j.Slf4j;
 import org.junit.Assert;
@@ -21,7 +22,7 @@ import java.util.List;
 public class PipelineSensorServiceImplTest {
 
     @Autowired
-    PipelineSensorServiceImpl service;
+    private PipelineSensorService service;
 
     public static String SEGMENTID = "123";
 

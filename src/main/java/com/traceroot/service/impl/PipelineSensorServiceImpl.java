@@ -13,6 +13,7 @@ import com.traceroot.repository.PipelineSensorRepository;
 import com.traceroot.repository.SensorStatusRepository;
 import com.traceroot.service.ifs.PipelineSensorService;
 import com.traceroot.service.ifs.SensorStatusService;
+import com.traceroot.service.ifs.SensorTypeService;
 import com.traceroot.utils.RandomUtil;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.BeanUtils;
@@ -29,7 +30,7 @@ public class PipelineSensorServiceImpl implements PipelineSensorService {
     private PipelineSensorRepository repository;
 
     @Autowired
-    private SensorTypeServiceImpl sensorTypeService;
+    private SensorTypeService sensorTypeService;
 
     @Autowired
     private SensorStatusService statusService;

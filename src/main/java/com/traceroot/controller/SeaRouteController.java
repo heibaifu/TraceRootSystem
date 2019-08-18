@@ -11,7 +11,7 @@ import com.traceroot.exception.RouteException;
 import com.traceroot.form.RouteSegmentForm;
 import com.traceroot.form.SeaRouteForm;
 import com.traceroot.service.ifs.RouteSegmentService;
-import com.traceroot.service.impl.SeaRouteServiceImpl;
+import com.traceroot.service.ifs.SeaRouteService;
 import com.traceroot.utils.RandomUtil;
 import com.traceroot.utils.ResultVOUtil;
 import com.traceroot.vo.ResultVO;
@@ -33,7 +33,7 @@ import java.util.Map;
 public class SeaRouteController {
 
     @Autowired
-    private SeaRouteServiceImpl seaRouteService;
+    private SeaRouteService seaRouteService;
 
     @Autowired
     private RouteSegmentService routeSegmentService;
@@ -50,7 +50,7 @@ public class SeaRouteController {
 
         if (seaRouteDTOS.size()==0){
             log.error("【查找航线】航线不存在，routestatus={}",routestatus);
-            throw new RouteException(ResultEnum.SEA_ROUTE_NOT_EXIST);
+            return ResultVOUtil.error(ResultEnum.SEA_ROUTE_NOT_EXIST.getCode(),ResultEnum.SEA_ROUTE_NOT_EXIST.getMessage());
         }
 
         return ResultVOUtil.success(seaRouteDTOS);
@@ -69,7 +69,7 @@ public class SeaRouteController {
 
         if (seaRouteDTO==null){
             log.error("【查找航线】航线不存在, routeId={}",routeid);
-            throw new RouteException(ResultEnum.SEA_ROUTE_NOT_EXIST);
+            return ResultVOUtil.error(ResultEnum.SEA_ROUTE_NOT_EXIST.getCode(),ResultEnum.SEA_ROUTE_NOT_EXIST.getMessage());
         }
         return ResultVOUtil.success(seaRouteDTO);
     }

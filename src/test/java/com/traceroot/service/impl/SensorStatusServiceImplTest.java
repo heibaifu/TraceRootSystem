@@ -2,6 +2,7 @@ package com.traceroot.service.impl;
 
 import com.traceroot.dataobject.SensorStatus;
 import com.traceroot.enums.SensorStatusEnum;
+import com.traceroot.service.ifs.SensorStatusService;
 import com.traceroot.utils.RandomUtil;
 import com.traceroot.utils.TimeUtil;
 import lombok.extern.slf4j.Slf4j;
@@ -22,7 +23,7 @@ import java.util.List;
 public class SensorStatusServiceImplTest {
 
     @Autowired
-    private SensorStatusServiceImpl statusService;
+    private SensorStatusService statusService;
 
     private String SENSORID = "1262750";
 

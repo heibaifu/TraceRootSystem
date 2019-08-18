@@ -10,7 +10,7 @@
 
     <meta http-equiv="X-UA-Compatible" content="ie=edge" />
 
-    <title>bmaptest</title>
+    <title>船只管道检测</title>
 
 
 
@@ -120,8 +120,8 @@
                     badnodeid[i] = tablebadnode.rows[i+1].cells[0];
                     badnodestart[i] = tablebadnode.rows[i+1].cells[1];
                     badnodeend[i] = tablebadnode.rows[i+1].cells[2];
-                    badnodeupdate[i] = tablebadnode.rows[i+1].cells[2];
-                    badnodecreat[i] = tablebadnode.rows[i+1].cells[2];
+                    badnodeupdate[i] = tablebadnode.rows[i+1].cells[3];
+                    badnodecreat[i] = tablebadnode.rows[i+1].cells[4];
                     if (badnodeend[i] != null) {
 
                         drawbadnode(badnodeid[i],badnodestart[i], badnodeend[i],badnodeupdate[i],badnodecreat[i]);
@@ -133,8 +133,8 @@
                     unknownodeid[i] = tableunknownode.rows[i+1].cells[0];
                     unknownodestart[i] = tableunknownode.rows[i+1].cells[1];
                     unknownodeend[i] = tableunknownode.rows[i+1].cells[2];
-                    unknownodeupdate[i] = tableunknownode.rows[i+1].cells[2];
-                    unknownodecreat[i] = tableunknownode.rows[i+1].cells[2];
+                    unknownodeupdate[i] = tableunknownode.rows[i+1].cells[3];
+                    unknownodecreat[i] = tableunknownode.rows[i+1].cells[4];
                     if (unknownodeend[i] != null) {
 
                         drawunknownode(unknownodeid[i],unknownodestart[i], unknownodeend[i],unknownodeupdate[i],unknownodecreat[i]);
@@ -229,7 +229,7 @@ function delpipe(msg) {
             window.opener.location.reload();//刷新父窗口
             window.close();
         }
-        setTimeout('fnParent()',600000);            //十分钟刷新一次
+    //    setTimeout('fnParent()',600000);            //十分钟刷新一次
     </script>
 
     <script type="text/javascript">
@@ -246,13 +246,13 @@ function delpipe(msg) {
 
         //连接发生错误的回调方法
         websocket.onerror = function(){
-            setMessageInnerHTML("error");
+            /*setMessageInnerHTML("error");*/
 
         };
 
         //连接成功建立的回调方法
         websocket.onopen = function(event){
-            setMessageInnerHTML("open");
+            /*setMessageInnerHTML("open");*/
         };
 
         //接收到消息的回调方法
@@ -297,7 +297,7 @@ function delpipe(msg) {
 
         //连接关闭的回调方法
         websocket.onclose = function(){
-            setMessageInnerHTML("close");
+            /*setMessageInnerHTML("close");*/
         };
 
         //监听窗口关闭事件，当窗口关闭时，主动去关闭websocket连接，防止连接还没断开就关闭窗口，server端会抛异常。
@@ -308,7 +308,7 @@ function delpipe(msg) {
         //将消息显示在网页上
         function setMessageInnerHTML(innerHTML){
 
-            document.getElementById('r-result').innerHTML += innerHTML + '<br/>';
+            /*document.getElementById('r-result').innerHTML += innerHTML + '<br/>';*/
         }
 
         //关闭连接
@@ -638,13 +638,13 @@ function delpipe(msg) {
 
     </div>
 
-    <div id="liquid1" class="liquid" ></div>
+    <div id="liquid1" class="liquids" ></div>
 
-    <div id="liquid2" class="liquid" ></div>
+    <div id="liquid2" class="liquids" ></div>
 
-    <div id="liquid3" class="liquid" ></div>
+    <div id="liquid3" class="liquids" ></div>
 
-    <div id="liquid4" class="liquid" ></div>
+    <div id="liquid4" class="liquids" ></div>
 
 </div>
 
@@ -824,6 +824,10 @@ function showsensor(sensorvalue,sensortype){
             x[2] = [s];
             $('#liquid3').removeClass('dis');
             break;
+        case 3333333 :
+            x[3] = [s];
+            $('#liquid4').removeClass('dis');
+            break;
         default :
             x[0] = [0];
             x[1] = [0];
@@ -854,7 +858,7 @@ function drawLiquid (){
 
             data: x[0],
 
-            name: "温度传感器",
+            name: "温度"+"\n"+"传感器",
 
             label: {
 
@@ -862,7 +866,7 @@ function drawLiquid (){
 
                 formatter: '{a}\n{b}\n{c}',
 
-                fontSize: 20
+                fontSize: 18
 
             },
 
@@ -892,7 +896,7 @@ function drawLiquid (){
 
             data: x[1],
 
-            name: "杂质传感器",
+            name: "杂质"+"\n"+"传感器",
 
             label: {
 
@@ -900,7 +904,7 @@ function drawLiquid (){
 
                 formatter: '{a}\n\n{c}',			//{a} refers to series name, {b} to data name, and {c} to data value.
 
-                fontSize: 20
+                fontSize: 18
 
             },
 
@@ -930,7 +934,7 @@ function drawLiquid (){
 
             data: x[2],
 
-            name: "管压传感器",
+            name: "管压"+"\n"+"传感器",
 
             label: {
 
@@ -938,7 +942,7 @@ function drawLiquid (){
 
                 formatter: '{a}\n\n{c}',			//{a} refers to series name, {b} to data name, and {c} to data value.
 
-                fontSize: 20
+                fontSize: 18
 
             },
 
@@ -968,7 +972,7 @@ function drawLiquid (){
 
             data: x[3],
 
-            name: "传感器",
+            name: "二氧化碳"+"\n"+"传感器",
 
             label: {
 
@@ -976,7 +980,7 @@ function drawLiquid (){
 
                 formatter: '{a}\n\n{c}',			//{a} refers to series name, {b} to data name, and {c} to data value.
 
-                fontSize: 20
+                fontSize: 18
 
             },
 
@@ -1092,7 +1096,7 @@ function showInfos(content,e,t) {
 
         var opts = {
             width: 200,     // 信息窗口宽度
-            height: 250,     // 信息窗口高度
+            height: 200,     // 信息窗口高度
             title: "传感器信息", // 信息窗口标题
             enableMessage: true,//设置允许信息窗发送短息
             enableCloseOnClick: false,
@@ -1111,7 +1115,7 @@ function showInfos(content,e,t) {
     else{
         var opts = {
             width: 200,     // 信息窗口宽度
-            height: 250,     // 信息窗口高度
+            height: 200,     // 信息窗口高度
             title: "船只信息", // 信息窗口标题
             enableMessage: true,//设置允许信息窗发送短息
             enableCloseOnClick: false,
@@ -1150,7 +1154,7 @@ function showvoya(content,t){
 
     var opts = {
         width: 200,     // 信息窗口宽度
-        height: 250,     // 信息窗口高度
+        height: 200,     // 信息窗口高度
         title: "线路信息", // 信息窗口标题
         enableMessage: true,//设置允许信息窗发送短息
         enableCloseOnClick: false,
@@ -1213,8 +1217,8 @@ function drawpipe(id,start,end,update,creat) {
         var ee = end.innerHTML.split(",");
         var points1 = new BMap.Point(ss[0], ss[1]);
         var points2 = new BMap.Point(ee[0], ee[1]);
-        var content = "管道段id ：" + id.innerHTML + "；<br> 起点位置 ：" + start.innerHTML +"； <br>终点位置 ：" + end.innerHTML +
-            "；<br> 更新时间： " + update.innerHTML + "； <br>创建时间：" + creat.innerHTML;
+        var content = "管道段id ：" + id.innerHTML + "；"  + " 起点位置 ：" + start.innerHTML +"； 终点位置 ：" + end.innerHTML +
+            "； 更新时间： " + update.innerHTML + "； 创建时间：" + creat.innerHTML;
         var showvl = new BMap.Point(ss[0]*0.5+ee[0]*0.5, ss[1]*0.5+ee[1]*0.5);
         var pipeline = new BMap.Polyline([
             points1,
@@ -1270,8 +1274,8 @@ function drawpipef(id,start,end,update,creat,flag) {
         var ee = end.split(",");
         var points1 = new BMap.Point(ss[0], ss[1]);
         var points2 = new BMap.Point(ee[0], ee[1]);
-        var content = "管道段id ：" + id + "；<br> 起点位置 ：" + start+"；<br> 终点位置 ：" + end +
-            "； <br>更新时间： " + update + "； <br>创建时间：" + creat;
+        var content = "管道段id ：" + id + "； 起点位置 ：" + start+"； 终点位置 ：" + end +
+            "； 更新时间： " + update + "； 创建时间：" + creat;
         var showvl = new BMap.Point(ss[0]*0.5+ee[0]*0.5, ss[1]*0.5+ee[1]*0.5);
         if(flag =="0") {
             var pipelines = new BMap.Polyline([
@@ -1314,8 +1318,8 @@ function drawvoyage(ids,start,end,update,creat)
         points2
     ], {strokeColor: "green",strokeStyle: "dashed", strokeWeight: 8, strokeOpacity: 0.5});   //创建折线
 
-    var content = "船只id ：" + ids + "；<br> 起点位置 ：" + start +"； <br>终点位置 ：" + end +
-        "； <br>出发时间： " + update + "；<br> 到达时间：" + creat;
+    var content = "船只id ：" + ids + "； 起点位置 ：" + start +"； 终点位置 ：" + end +
+        "； 出发时间： " + update + "； 到达时间：" + creat;
     addClickHandlerv(content,voyageline,showvl,1);
 
     map.addOverlay(voyageline);
@@ -1334,8 +1338,8 @@ function drawvoyageline(ids,idss,segmentSerialNumber,start,end,update,creat)
         points2
     ], {strokeColor: "black",strokeStyle: "dashed", strokeWeight: 5, strokeOpacity: 0.5});   //创建折线
 
-    var content = "航线id ：" + ids + "；<br> 航线段id ：" + idss +"；<br> 航线顺序 ："+ segmentSerialNumber +"； <br>起点位置 ：" + start+"； <br>终点位置 ：" + end +
-        "；<br> 更新时间： " + update + "； <br>创建时间：" + creat;
+    var content = "航线id ：" + ids + "； 航线段id ：" + idss +"； 航线顺序 ："+ segmentSerialNumber +"； 起点位置 ：" + start+"； 终点位置 ：" + end +
+        "； 更新时间： " + update + "； 创建时间：" + creat;
     addClickHandlerv(content,voyageline,showvl,1);
     map.addOverlay(voyageline);
     voyageline.disableMassClear();
@@ -1350,8 +1354,8 @@ function drawunknownode(id,start,end,update,creat) {
         points1,
         points2
     ], {strokeColor: "yellow", strokeWeight: 5, strokeOpacity: 0.5});   //创建折线
-    var content = "告警管道段id ：" + id.innerHTML + "；<br> 起点位置 ：" + start.innerHTML + "；<br> 终点位置 ：" + end.innerHTML +
-        "； <br>更新时间： " + update.innerHTML + "； <br>创建时间：" + creat.innerHTML;
+    var content = "告警管道段id ：" + id.innerHTML + "； 起点位置 ：" + start.innerHTML + "； 终点位置 ：" + end.innerHTML +
+        "； 更新时间： " + update.innerHTML + "； 创建时间：" + creat.innerHTML;
     var showvl = new BMap.Point(ss[0] * 0.5 + ee[0] * 0.5, ss[1] * 0.5 + ee[1] * 0.5);
     map.addOverlay(pipeline);
 
@@ -1385,8 +1389,8 @@ function drawroute(id,segmentid,segmentSerialNumber,start,end,update,creat) {
         points1,
         points2
     ], {strokeColor: "black",strokeStyle: "dashed", strokeWeight: 5, strokeOpacity: 0.5});   //创建折线
-    var content = "航线id ：" + id.innerHTML + "；<br> 航线段id ：" + segmentid.innerHTML +"； <br>航线顺序 ："+ segmentSerialNumber.innerHTML +"； <br>起点位置 ：" + start.innerHTML+"； <br>终点位置 ：" + end.innerHTML +
-        "； <br>更新时间： " + update.innerHTML + "； <br>创建时间：" + creat.innerHTML;
+    var content = "航线id ：" + id.innerHTML + "； 航线段id ：" + segmentid.innerHTML +"； 航线顺序 ："+ segmentSerialNumber.innerHTML +"； 起点位置 ：" + start.innerHTML+"； 终点位置 ：" + end.innerHTML +
+        "； 更新时间： " + update.innerHTML + "； 创建时间：" + creat.innerHTML;
     var showvl = new BMap.Point(ss[0]*0.5+ee[0]*0.5, ss[1]*0.5+ee[1]*0.5);
     map.addOverlay(pipeline);
     pipeline.disableMassClear();
@@ -1403,8 +1407,8 @@ function drawbadnode(id,start,end,update,creat) {
         points1,
         points2
     ], {strokeColor: "red", strokeWeight: 5, strokeOpacity: 0.5});   //创建折线
-    var content = "告警管道段id ：" + id.innerHTML + "；<br> 起点位置 ：" + start.innerHTML +"； <br>终点位置 ：" + end.innerHTML +
-        "； <br>更新时间： " + update.innerHTML + "； <br>创建时间：" + creat.innerHTML;
+    var content = "告警管道段id ：" + id.innerHTML + "； 起点位置 ：" + start.innerHTML +"； 终点位置 ：" + end.innerHTML +
+        "； 更新时间： " + update.innerHTML + "； 创建时间：" + creat.innerHTML;
     var showvl = new BMap.Point(ss[0]*0.5+ee[0]*0.5, ss[1]*0.5+ee[1]*0.5);
     map.addOverlay(pipeline);
 
@@ -1454,8 +1458,8 @@ function drawsensor(id,segid,location,type,state,value,update,creat) {
 
     map.addOverlay(marker);
 
-    var content = "id ：" + id.innerHTML + "；<br> 管道段id ：" + segid.innerHTML + "； <br>位置 ：" + location.innerHTML + "；<br> 状态 ：" + state.innerHTML + "； <br>种类 ：" + type.innerHTML + "； <br>数值 ：" + value.innerHTML +
-        "； <br>更新时间： " + update.innerHTML + "； <br>创建时间：" + creat.innerHTML;
+    var content = "id ：" + id.innerHTML + "； 管道段id ：" + segid.innerHTML + "； 位置 ：" + location.innerHTML + "； 状态 ：" + state.innerHTML + "； 种类 ：" + type.innerHTML + "； 数值 ：" + value.innerHTML +
+        "； 更新时间： " + update.innerHTML + "； 创建时间：" + creat.innerHTML;
 
     addClickHandler(content,marker,1);
 
@@ -1486,8 +1490,8 @@ function drawsensorf(id,segid,location,type,state,value,update,creat) {
 
     map.addOverlay(marker);
 
-    var content = "id ：" + id + "；<br> 管道段id ：" + segid+ "；<br> 位置 ：" + location + "；<br> 状态 ：" + state+ "；<br> 种类 ：" + type+ "； <br>数值 ：" + value +
-        "； <br>更新时间： " + update+ "； <br>创建时间：" + creat;
+    var content = "id ：" + id + "； 管道段id ：" + segid+ "； 位置 ：" + location + "； 状态 ：" + state+ "； 种类 ：" + type+ "； 数值 ：" + value +
+        "； 更新时间： " + update+ "； 创建时间：" + creat;
 
     addClickHandler(content,marker,1);
 
@@ -1503,8 +1507,8 @@ function drawboatf(id,location,type,state,update,creat) {
 
     map.addOverlay(marker);
 
-    var content = "id ：" + id + "； <br>位置 ：" + location + "； <br>状态 ：" + state + "； <br>种类 ：" + type +
-        "；<br> 更新时间： " + update + "；<br> 创建时间：" + creat;
+    var content = "id ：" + id + "； 位置 ：" + location + "； 状态 ：" + state + "； 种类 ：" + type +
+        "； 更新时间： " + update + "； 创建时间：" + creat;
 
     addClickHandler(content,marker,0);
 
@@ -1520,8 +1524,8 @@ function drawboat(id,location,type,state,update,creat) {
 
     map.addOverlay(marker);
 
-    var content = "id ：" + id.innerHTML + "； <br>位置 ：" + location.innerHTML + "； <br>状态 ：" + state.innerHTML + "； <br>种类 ：" + type.innerHTML +
-        "； <br>更新时间： " + update.innerHTML + "； <br>创建时间：" + creat.innerHTML;
+    var content = "id ：" + id.innerHTML + "； 位置 ：" + location.innerHTML + "； 状态 ：" + state.innerHTML + "； 种类 ：" + type.innerHTML +
+        "； 更新时间： " + update.innerHTML + "； 创建时间：" + creat.innerHTML;
 
     addClickHandler(content,marker,0);
 
@@ -1557,7 +1561,7 @@ function drawboate(id,time,location,i) {
 
     map.addOverlay(marker);
 
-    var content = "id ：" + id + "；<br> 位置 ：" + location + "；<br> 穿越次数 ：" +  time;
+    var content = "id ：" + id + "； 位置 ：" + location + "； 穿越次数 ：" +  time;
 
     addClickHandler(content,marker,0);
 }

@@ -2,8 +2,7 @@ package com.traceroot.controller;
 
 import com.traceroot.dto.*;
 import com.traceroot.enums.SensorStatusEnum;
-import com.traceroot.service.ifs.RouteSegmentService;
-import com.traceroot.service.ifs.SeaRouteService;
+import com.traceroot.service.ifs.*;
 import com.traceroot.service.impl.*;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -20,19 +19,19 @@ import java.util.Map;
 public class DisplayOfPipeAndBoatController {
 
     @Autowired
-    PipelineServiceImpl pipelineService;
+    private PipelineService pipelineService;
 
     @Autowired
-    PipelineSegmentServiceImpl segmentService;
+    private PipelineSegmentService segmentService;
 
     @Autowired
-    PipelineSensorServiceImpl sensorService;
+    private PipelineSensorService sensorService;
 
     @Autowired
-    BoatServiceImpl boatService;
+    private BoatService boatService;
 
     @Autowired
-    SeaRouteService seaRouteService;
+    private SeaRouteService seaRouteService;
 
     @Autowired
     private RouteSegmentService routeSegmentService;

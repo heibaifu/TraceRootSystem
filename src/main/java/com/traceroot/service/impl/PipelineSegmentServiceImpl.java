@@ -10,6 +10,7 @@ import com.traceroot.enums.ResultEnum;
 import com.traceroot.repository.PipelineSegmentRepository;
 import com.traceroot.service.ifs.PipelineSegmentService;
 import com.traceroot.converter.dao2dto.PipelineSegment2PipeSegmentDTOConverter;
+import com.traceroot.service.ifs.PipelineSensorService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -28,7 +29,7 @@ public class PipelineSegmentServiceImpl implements PipelineSegmentService {
     private PipelineSegmentRepository repository;
 
     @Autowired
-    private PipelineSensorServiceImpl pipelineSensorService;
+    private PipelineSensorService pipelineSensorService;
 
     //将查出来的列表转换为DTO列表
     @Override

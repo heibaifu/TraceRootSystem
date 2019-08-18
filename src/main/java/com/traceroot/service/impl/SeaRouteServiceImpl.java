@@ -6,6 +6,7 @@ import com.traceroot.dto.SeaRouteDTO;
 import com.traceroot.enums.ResultEnum;
 import com.traceroot.exception.RouteException;
 import com.traceroot.repository.SeaRouteRepository;
+import com.traceroot.service.ifs.RouteSegmentService;
 import com.traceroot.service.ifs.SeaRouteService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.BeanUtils;
@@ -22,7 +23,7 @@ public class SeaRouteServiceImpl implements SeaRouteService {
     private SeaRouteRepository repository;
 
     @Autowired
-    private RouteSegmentServiceImpl routeSegmentService;
+    private RouteSegmentService routeSegmentService;
 
     @Override
     public SeaRouteDTO insert(SeaRouteDTO seaRouteDTO) {
@@ -45,7 +46,7 @@ public class SeaRouteServiceImpl implements SeaRouteService {
     public SeaRouteDTO selectByRouteId(String routeId) {
         SeaRoute seaRoute= repository.findByRouteId(routeId);
         if (seaRoute==null){
-            throw new RouteException(ResultEnum.SEA_ROUTE_NOT_EXIST);
+            return null;
         }
 
         SeaRouteDTO seaRouteDTO=SeaRoute2SeaRouteDTO.convert(seaRoute);

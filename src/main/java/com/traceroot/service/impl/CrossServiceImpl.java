@@ -7,7 +7,9 @@ import com.traceroot.dto.PipeSegmentDTO;
 import com.traceroot.enums.ResultEnum;
 import com.traceroot.exception.BoatException;
 import com.traceroot.exception.PipeException;
+import com.traceroot.service.ifs.BoatTraceService;
 import com.traceroot.service.ifs.CrossService;
+import com.traceroot.service.ifs.PipelineSegmentService;
 import com.traceroot.utils.DoubleLocation;
 import com.traceroot.utils.LocationUtil;
 import com.traceroot.utils.MathUtil;
@@ -22,10 +24,10 @@ import java.util.*;
 public class CrossServiceImpl implements CrossService {
 
     @Autowired
-    private PipelineSegmentServiceImpl segmentService;
+    private PipelineSegmentService segmentService;
 
     @Autowired
-    private BoatTraceServiceImpl traceService;
+    private BoatTraceService traceService;
 
     /**
      * 查找指定时间内在指定管道附近游弋的船只，及对应船只的轨迹
