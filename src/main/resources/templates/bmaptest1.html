@@ -333,7 +333,7 @@ function delpipe(msg) {
                     if (result.code == 0) {
                         var location = new Array;
                         var ids = result.data.traceDTOList[0].boatId;
-                        var idsv = result.data.seaRouteDTO[0].routeId;
+                        var idsv = result.data.seaRouteDTO.routeSegments[0].routeId;
                         var startt = new Array;
                         var idss=new Array;
                         var segmentSerialNumber=new Array;
@@ -348,14 +348,16 @@ function delpipe(msg) {
                             location[i + 1] = result.data.traceDTOList[i + 1].recordLocation;
                             drawvoyage(ids,location[i], location[i + 1],startt[i],startt[i+1]);
                         }
-                        for(var j = 0; j < result.data.seaRouteDTO.length - 1; j++){
-                            idss[j]=result.data.seaRouteDTO[j].segmentId;
-                            segmentSerialNumber[j]=result.data.seaRouteDTO[j].segmentSerialNumber;
-                            start[j]=result.data.seaRouteDTO[j].start;
-                            end[j]=result.data.seaRouteDTO[j].end;
-                            update[j]=result.data.seaRouteDTO[j].updateTime;
-                            creat[j]=result.data.seaRouteDTO[j].createTime;
-                            drawvoyageline(idsv,idss[j],segmentSerialNumber[j],start[j],end[j],update[j],creat[j]);
+                        if( idsv!=null) {
+                            for (var j = 0; j < result.data.seaRouteDTO.routeSegments.length - 1; j++) {
+                                idss[j] = result.data.seaRouteDTO.routeSegments[j].segmentId;
+                                segmentSerialNumber[j] = result.data.seaRouteDTO.routeSegments[j].segmentSerialNumber;
+                                start[j] = result.data.seaRouteDTO.routeSegments[j].start;
+                                end[j] = result.data.seaRouteDTO.routeSegments[j].end;
+                                update[j] = result.data.seaRouteDTO.routeSegments[j].updateTime;
+                                creat[j] = result.data.seaRouteDTO.routeSegments[j].createTime;
+                                drawvoyageline(idsv, idss[j], segmentSerialNumber[j], start[j], end[j], update[j], creat[j]);
+                            }
                         }
                     }
                 },
