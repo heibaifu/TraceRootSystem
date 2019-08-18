@@ -68,11 +68,19 @@
                 var boatstate=new Array();
                 var boatupdate=new Array();
                 var boatcreat=new Array();
+                var routeid=new Array();
+                var routesegment=new Array();
+                var routesegmentSerialNumber=new Array();
+                var routestart=new Array();
+                var routeend=new Array();
+                var routeupdate=new Array();
+                var routecreat=new Array();
                 var tablepipesegment=pare.document.getElementById("pipesegment1");
                 var tablesensor=pare.document.getElementById("sensor1");
                 var tablebadnode=pare.document.getElementById("badnode");
                 var tableunknownode=pare.document.getElementById("unknownode");
                 var tableboat=pare.document.getElementById("boat1");
+                var tableroute=pare.document.getElementById("boatroute");
 
                 chartdata1=tablepipesegment.rows.length-tablebadnode.rows.length-tableunknownode.rows.length +1;
                 chartdata2=tablebadnode.rows.length -1;
@@ -139,12 +147,24 @@
                     boatstate[j]= tableboat.rows[j+1].cells[3];
                     boatupdate[j]= tableboat.rows[j+1].cells[4];
                     boatcreat[j]= tableboat.rows[j+1].cells[5];
-                    if (sensorlocation[j] != null) {
+                    if (boatlocation[j] != null) {
                         drawboat( boatid[j],boatlocation[j],boattype[j],boatstate[j],boatupdate[j],boatcreat[j]);
 
                     }
                 }
+                for (j = 0; j < tableroute.rows.length-1;j++) {
+                    routeid[j] = tableroute.rows[j+1].cells[0];
+                    routesegment[j] = tableroute.rows[j+1].cells[1];
+                    routesegmentSerialNumber[j]= tableroute.rows[j+1].cells[2];
+                    routestart[j]= tableroute.rows[j+1].cells[3];
+                    routeend[j]= tableroute.rows[j+1].cells[4];
+                    routeupdate[j]= tableroute.rows[j+1].cells[5];
+                    routecreat[j]= tableroute.rows[j+1].cells[6];
+                    if (routeid[j] != null) {
+                        drawroute( routeid[j],routesegment[j],routesegmentSerialNumber[j],routestart[j],routeend[j],routeupdate[j],routecreat[j]);
 
+                    }
+                }
             }
         }
 
@@ -302,12 +322,12 @@ function delpipe(msg) {
              */
         function finder() {
 
-            var allOverlay = map.getOverlays();                                       //移除原有的航线
-            for (var i = 0; i < allOverlay.length ; i++) {
-                if (allOverlay[i].toString()=="[object Polyline]") {
-                    if (allOverlay[i].getStrokeStyle() == "dashed")
-                        map.removeOverlay(allOverlay[i]);
-                }
+                var allOverlay = map.getOverlays();                                       //移除原有的航线
+                for (var i = 0; i < allOverlay.length ; i++) {
+                    if (allOverlay[i].toString()=="[object Polyline]") {
+                        if (allOverlay[i].getStrokeStyle() == "dashed")
+                            map.removeOverlay(allOverlay[i]);
+                    }
             }
             find();
         }
@@ -341,15 +361,15 @@ function delpipe(msg) {
                         var end=new Array;
                         var update=new Array;
                         var creat=new Array;
-                        for (var i = 0; i < result.data.traceDTOList.length - 1; i++) {
+                        for (var i = 0; i < result.data.traceDTOList.length -1; i++) {
                             startt[i] = result.data.traceDTOList[i].recordTime;
                             startt[i+1] = result.data.traceDTOList[i+1].recordTime;
                             location[i] = result.data.traceDTOList[i].recordLocation;
                             location[i + 1] = result.data.traceDTOList[i + 1].recordLocation;
                             drawvoyage(ids,location[i], location[i + 1],startt[i],startt[i+1]);
                         }
-                        if( idsv!=null) {
-                            for (var j = 0; j < result.data.seaRouteDTO.routeSegments.length - 1; j++) {
+                        if( result.data.seaRouteDTO !=null) {
+                            for (var j = 0; j < result.data.seaRouteDTO.routeSegments.length ; j++) {
                                 idss[j] = result.data.seaRouteDTO.routeSegments[j].segmentId;
                                 segmentSerialNumber[j] = result.data.seaRouteDTO.routeSegments[j].segmentSerialNumber;
                                 start[j] = result.data.seaRouteDTO.routeSegments[j].start;
@@ -608,6 +628,7 @@ function delpipe(msg) {
         <input type="button" onclick="jump()" value="跳转">
         <input type="button" id="find" onclick="finder()" value="查找路径">
         <input type="button" id="findp" onclick="finds()" value="查找管道">
+        <input type="button" id="voya" onclick="hiosh()" value="隐藏航线">
 
     </div>
 
@@ -1297,6 +1318,7 @@ function drawvoyageline(ids,idss,segmentSerialNumber,start,end,update,creat)
         "； 更新时间： " + update + "； 创建时间：" + creat;
     addClickHandlerv(content,voyageline,showvl,1);
     map.addOverlay(voyageline);
+    voyageline.disableMassClear();
 }
 
 function drawunknownode(id,start,end,update,creat) {
@@ -1332,6 +1354,23 @@ function drawunknownode(id,start,end,update,creat) {
 
     element.appendChild(para);
 
+}
+
+function drawroute(id,segmentid,segmentSerialNumber,start,end,update,creat) {
+    var ss = start.innerHTML.split(",");
+    var ee = end.innerHTML.split(",");
+    var points1 = new BMap.Point(ss[0], ss[1]);
+    var points2 = new BMap.Point(ee[0], ee[1]);
+    var pipeline = new BMap.Polyline([
+        points1,
+        points2
+    ], {strokeColor: "black",strokeStyle: "dashed", strokeWeight: 5, strokeOpacity: 0.5});   //创建折线
+    var content = "航线id ：" + id.innerHTML + "； 航线段id ：" + segmentid.innerHTML +"； 航线顺序 ："+ segmentSerialNumber.innerHTML +"； 起点位置 ：" + start.innerHTML+"； 终点位置 ：" + end.innerHTML +
+        "； 更新时间： " + update.innerHTML + "； 创建时间：" + creat.innerHTML;
+    var showvl = new BMap.Point(ss[0]*0.5+ee[0]*0.5, ss[1]*0.5+ee[1]*0.5);
+    map.addOverlay(pipeline);
+    pipeline.disableMassClear();
+    addClickHandlerv(content,pipeline,showvl,1);
 }
 
 function drawbadnode(id,start,end,update,creat) {
@@ -1506,6 +1545,30 @@ function drawboate(id,time,location,i) {
 </script>
 
 <script>
+counter =0;
+    function hiosh() {
+        counter=counter+1;
+        if(counter%2 ==1) {
+            document.getElementById("voya").value = "显示航线";
+            var allOverlay = map.getOverlays();                                       //移除原有的航线
+            for (var i = 0; i < allOverlay.length; i++) {
+                if (allOverlay[i].toString() == "[object Polyline]") {
+                    if (allOverlay[i].getStrokeStyle() == "dashed")
+                        allOverlay[i].hide();
+                }
+            }
+        }else
+        {
+            document.getElementById("voya").value = "隐藏航线";
+            allOverlay = map.getOverlays();                                       //移除原有的航线
+            for ( i = 0; i < allOverlay.length; i++) {
+                if (allOverlay[i].toString() == "[object Polyline]") {
+                    if (allOverlay[i].getStrokeStyle() == "dashed")
+                        allOverlay[i].show();
+                }
+            }
+        }
+    }
 
     function change(n)
 

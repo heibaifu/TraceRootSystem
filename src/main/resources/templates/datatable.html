@@ -133,7 +133,31 @@
     </tr>
     </tbody>
 </table>
-
+routeSegmentDTOS
+<table id="boatroute" name="boatroute">
+    <thead>
+    <tr>
+        <th>航线id</th>
+        <th>航线段id</th>
+        <th>航线段序列号</th>
+        <th>起点坐标</th>
+        <th>终点坐标</th>
+        <th>船只更新时间</th>
+        <th>船只创建时间</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr th:each="route:${routeSegmentDTOS}">
+        <td id="route_id" name="route_id" th:text="${route.routeId}"></td>
+        <td id="route_segid" name="route_location" th:text="${route.segmentId}"></td>
+        <td id="route_serial" name="route_serial" th:text="${route.segmentSerialNumber}"></td>
+        <td id="route_start" name="route_start" th:text="${route.start}"></td>
+        <td id="route_end" name="route_end" th:text="${route.end}"></td>
+        <td id="route_update" name="route_update" th:text="${route.updateTime}"></td>
+        <td id="route_creat" name="route_creat" th:text="${route.createTime}"></td>
+    </tr>
+    </tbody>
+</table>
 </body>
 
 </html>
