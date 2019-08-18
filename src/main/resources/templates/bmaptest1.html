@@ -332,14 +332,30 @@ function delpipe(msg) {
                 success: function (result) {
                     if (result.code == 0) {
                         var location = new Array;
-                        var ids = result.data[0].boatId;
+                        var ids = result.data.traceDTOList[0].boatId;
+                        var idsv = result.data.seaRouteDTO[0].routeId;
                         var startt = new Array;
-                        for (var i = 0; i < result.data.length - 1; i++) {
-                            startt[i] = result.data[i].recordTime;
-                            startt[i+1] = result.data[i+1].recordTime;
-                            location[i] = result.data[i].recordLocation;
-                            location[i + 1] = result.data[i + 1].recordLocation;
+                        var idss=new Array;
+                        var segmentSerialNumber=new Array;
+                        var start=new Array;
+                        var end=new Array;
+                        var update=new Array;
+                        var creat=new Array;
+                        for (var i = 0; i < result.data.traceDTOList.length - 1; i++) {
+                            startt[i] = result.data.traceDTOList[i].recordTime;
+                            startt[i+1] = result.data.traceDTOList[i+1].recordTime;
+                            location[i] = result.data.traceDTOList[i].recordLocation;
+                            location[i + 1] = result.data.traceDTOList[i + 1].recordLocation;
                             drawvoyage(ids,location[i], location[i + 1],startt[i],startt[i+1]);
+                        }
+                        for(var j = 0; j < result.data.seaRouteDTO.length - 1; j++){
+                            idss[j]=result.data.seaRouteDTO[j].segmentId;
+                            segmentSerialNumber[j]=result.data.seaRouteDTO[j].segmentSerialNumber;
+                            start[j]=result.data.seaRouteDTO[j].start;
+                            end[j]=result.data.seaRouteDTO[j].end;
+                            update[j]=result.data.seaRouteDTO[j].updateTime;
+                            creat[j]=result.data.seaRouteDTO[j].createTime;
+                            drawvoyageline(idsv,idss[j],segmentSerialNumber[j],start[j],end[j],update[j],creat[j]);
                         }
                     }
                 },
@@ -502,7 +518,7 @@ function delpipe(msg) {
 
     <div class="has_children">
 
-        <li id="pipecontrol" onclick=change(0)>管道线路管理
+        <li id="pipecontrol" style="font-size:24px;text-align:center" onclick=change(0)>管道线路管理
             <div id="pipesegs" class="pipesegs">
 
                 <!--根据管道的个数决定显示多少个p-->
@@ -512,7 +528,7 @@ function delpipe(msg) {
 
 
 
-        <li id="boatcontrol" onclick="change(6)">船只线路管理
+        <li id="boatcontrol" style="font-size:24px;text-align:center" onclick="change(6)">船只线路管理
             <div id="boats" class="boatss">
 
                 <!--根据管道的个数决定显示多少个p-->
@@ -532,18 +548,6 @@ function delpipe(msg) {
 
     </div>
 
-    <!--<div id="boat" class="has_children">
-
-    <span>船只轨迹监测</span>
-
-     <li onclick=change(6)></li>
-
-     <li onclick=change(7)></li>
-
-     <li onclick=change(8)></li>
-
-    </div> -->
-
     <div id="echarts" style="width:100%;height:70%;">
 
     </div>
@@ -552,7 +556,7 @@ function delpipe(msg) {
 
 <div id="drag">
 
-    <p>告警管道id</p>
+    <p>告警管道列表</p>
 
     <div id="dragon" class="dragon">
 
@@ -632,7 +636,7 @@ function delpipe(msg) {
 
             title: {
 
-                text: '管道情况统计'
+                text: ''
 
             },
 
@@ -1275,8 +1279,25 @@ function drawvoyage(ids,start,end,update,creat)
 
 }
 
-function drawunknownode(id,start,end,update,creat) {
+function drawvoyageline(ids,idss,segmentSerialNumber,start,end,update,creat)
+{
+    ss = start.split(",");
+    ee = end.split(",");
+    points1 = new BMap.Point(ss[0], ss[1]);
+    points2 = new BMap.Point(ee[0], ee[1]);
+    var showvl = new BMap.Point(ss[0]*0.5+ee[0]*0.5, ss[1]*0.5+ee[1]*0.5);
+    var voyageline = new BMap.Polyline([
+        points1,
+        points2
+    ], {strokeColor: "black",strokeStyle: "dashed", strokeWeight: 5, strokeOpacity: 0.5});   //创建折线
 
+    var content = "航线id ：" + ids + "； 航线段id ：" + idss +"； 航线顺序 ："+ segmentSerialNumber +"； 起点位置 ：" + start+"； 终点位置 ：" + end +
+        "； 更新时间： " + update + "； 创建时间：" + creat;
+    addClickHandlerv(content,voyageline,showvl,1);
+    map.addOverlay(voyageline);
+}
+
+function drawunknownode(id,start,end,update,creat) {
     var ss = start.innerHTML.split(",");
     var ee = end.innerHTML.split(",");
     var points1 = new BMap.Point(ss[0], ss[1]);

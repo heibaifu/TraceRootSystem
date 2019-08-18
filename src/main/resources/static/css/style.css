@@ -4,6 +4,7 @@ html{
 	height:100%
 } 
 body{
+
 	height:100%;
 	margin:0px;
 	padding:0px
@@ -156,6 +157,7 @@ body{
 	position: absolute;
 	left: 0%;
 	top:0%;
+	font-family: "Microsoft YaHei UI";
 }
 #drag{
 	width: 100%;
@@ -195,14 +197,14 @@ body{
 }
 
 #pipecontrol:hover > .pipesegs {
-	width:20%;
+	width:40%;
 	display: block;
 	padding: 5px;
 
 }
 
 #boatcontrol:hover > .boatss {
-	width:20%;
+	width:40%;
 	display: block;
 	padding: 5px;
 
