@@ -195,8 +195,10 @@ function delbt(threatedboatlocation){
     var latitude = lo[1];
     for (var i = 0; i < allOverlay.length; i++) {
         if (allOverlay[i].toString() == "[object Marker]") {
-            if (allOverlay[i].getPosition().lng == longitude && allOverlay[i].getPosition().lat == latitude) {
-                map.removeOverlay(allOverlay[i]);
+            if (allOverlay[i].getPosition().lng == longitude && allOverlay[i].getPosition().lat == latitude  ) {
+                if(allOverlay[i].getIcon().imageUrl!= "/traceroot/image/boat.png") {
+                    map.removeOverlay(allOverlay[i]);
+                }
             }
         }
     }
