@@ -444,7 +444,12 @@ function delpipe(msg) {
                                 name:result.data[i].boatId,
                                 value:result.data[i].traverseTime
                             });
-                            delbt(threatedboatlocation[i]);
+
+                        }
+                        for ( i=0;i<threatedboatlocation.length;i++){
+
+                        delbt(threatedboatlocation[i]);
+
                         }
                         showchart2();
 
@@ -598,7 +603,8 @@ function delpipe(msg) {
 </div>
     </div>
 
-    <div id="echarts" style="width:100%;height:65%;top: -4%;">
+    <div id="echarts1" style="width:100%;height:65%;top: -4%;">
+        <div id="echarts2" style="width:100%;height:65%;top: -4%;">
 
     </div>
 
@@ -679,8 +685,10 @@ function delpipe(msg) {
     // 基于准备好的dom，初始化echarts实例
 
     function showchart(chartdata1,chartdata2) {
-
-        echarts.init(document.getElementById('echarts')).setOption({
+        $('#echarts2').addClass('dis');
+        $('#echarts1').removeClass('dis');
+        $("#echarts1").css({"width":$("#echarts1").width(),"height":$("#echarts1").height()});
+        echarts.init(document.getElementById('echarts1')).setOption({
             textStyle: {
                 fontFamily: 'KaiTi'
 
@@ -759,8 +767,10 @@ function delpipe(msg) {
         });
     }
     function showchart2() {
-
-        echarts.init(document.getElementById('echarts')).setOption({
+        $('#echarts1').addClass('dis');
+        $('#echarts2').removeClass('dis');
+        $("#echarts2").css({"width":$("#echarts2").width(),"height":$("#echarts2").height()});
+        echarts.init(document.getElementById('echarts2')).setOption({
 
             title: {
                 text: '当前管道船只穿越统计',
