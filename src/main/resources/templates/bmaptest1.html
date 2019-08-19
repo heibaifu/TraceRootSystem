@@ -604,7 +604,6 @@ function delpipe(msg) {
     </div>
 
     <div id="echarts1" style="width:100%;height:65%;top: -4%;">
-        <div id="echarts2" style="width:100%;height:65%;top: -4%;">
 
     </div>
 
@@ -685,9 +684,7 @@ function delpipe(msg) {
     // 基于准备好的dom，初始化echarts实例
 
     function showchart(chartdata1,chartdata2) {
-        $('#echarts2').addClass('dis');
-        $('#echarts1').removeClass('dis');
-        $("#echarts1").css({"width":$("#echarts1").width(),"height":$("#echarts1").height()});
+        $("#echarts1").removeAttr("_echarts_instance_").empty();
         echarts.init(document.getElementById('echarts1')).setOption({
             textStyle: {
                 fontFamily: 'KaiTi'
@@ -768,10 +765,9 @@ function delpipe(msg) {
         });
     }
     function showchart2() {
-        $('#echarts1').addClass('dis');
-        $('#echarts2').removeClass('dis');
-        $("#echarts2").css({"width":$("#echarts2").width(),"height":$("#echarts2").height()});
-        echarts.init(document.getElementById('echarts2')).setOption({
+
+        $("#echarts1").removeAttr("_echarts_instance_").empty();
+        echarts.init(document.getElementById('echarts1')).setOption({
 
             title: {
                 text: '当前管道船只穿越统计',
