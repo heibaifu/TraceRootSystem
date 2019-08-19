@@ -41,6 +41,8 @@
             var pare=window.opener;
             if(pare!=null)
             {
+                threatedboatlocation=new Array;
+
                 var segmentid=new Array();
                 var start=new Array();
                 var end=new Array();
@@ -182,6 +184,22 @@ function del(msg) {
                 map.removeOverlay(allOverlay[i]);
             }
         }
+    }
+}
+
+function delbt(threatedboatlocation){
+            if(threatedboatlocation!=null){
+    var allOverlay = map.getOverlays();
+    var lo = threatedboatlocation.split(",");
+    var longitude = lo[0];
+    var latitude = lo[1];
+    for (var i = 0; i < allOverlay.length; i++) {
+        if (allOverlay[i].toString() == "[object Marker]") {
+            if (allOverlay[i].getPosition().lng == longitude && allOverlay[i].getPosition().lat == latitude) {
+                map.removeOverlay(allOverlay[i]);
+            }
+        }
+    }
     }
 }
 
@@ -425,15 +443,18 @@ function delpipe(msg) {
                             arr.push({
                                 name:result.data[i].boatId,
                                 value:result.data[i].traverseTime
-                            })
+                            });
+                            delbt(threatedboatlocation[i]);
                         }
                         showchart2();
+
                         for(var j=0;j< result.data.length;j++)
                         {
                             threatboatid[j]=result.data[j].boatId;
                             threatboattimes[j]=result.data[j].traverseTime;
                             threatboatlocation[j]=result.data[j].presentLocation;
                             drawboate(threatboatid[j],threatboattimes[j],threatboatlocation[j],j);
+                            threatedboatlocation[j]=result.data[j].presentLocation;
                         }}
                     else if (result.code=14)
                         alert("该时间、精度区间内没有发现船只");//如果有错误抛出异常
