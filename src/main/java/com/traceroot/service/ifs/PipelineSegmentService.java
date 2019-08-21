@@ -17,7 +17,7 @@ public interface PipelineSegmentService {
 
     List<PipeSegmentDTO> selectBySensorStatus(SensorStatusEnum statusEnum);
 
-    Integer testifyStatus(String segmentId);
+    Integer judgeStatus(String segmentId);
 
     PipelineSegment insert(PipeSegmentDTO pipeSegmentDTO);
 

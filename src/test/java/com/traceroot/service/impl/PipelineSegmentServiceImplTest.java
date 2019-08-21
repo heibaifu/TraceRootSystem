@@ -49,7 +49,7 @@ public class PipelineSegmentServiceImplTest {
 
     @Test
     public void testifyStatus() {
-        int integer = segmentService.testifyStatus("1001");
+        int integer = segmentService.judgeStatus("1001");
         Assert.assertEquals(0,integer);
     }
 

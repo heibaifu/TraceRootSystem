@@ -77,7 +77,7 @@ public class PipelineSegmentServiceImpl implements PipelineSegmentService {
      * @return 0正常 1异常
      */
     @Override
-    public Integer testifyStatus(String segmentId) {
+    public Integer judgeStatus(String segmentId) {
         List<PipelineSensorDTO> pipelineSensorDTOS = pipelineSensorService.selectBySegmentId(segmentId);
         for (int i = 0; i < pipelineSensorDTOS.size(); i++) {
             if (!pipelineSensorDTOS.get(i).getPresentStatus().equals(SensorStatusEnum.NORMAL.getCode()))
