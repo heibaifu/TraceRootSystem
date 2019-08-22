@@ -19,4 +19,11 @@ public class LocationUtilTest {
         String result = LocationUtil.buildFuzzyMatchingExpr(116.35504950497435, -39.96149086928498, -1);
         log.info(result);
     }
+
+
+    @Test
+    public void inferDirection() {
+        Double result = LocationUtil.inferDirection("0,0","-2,-1");
+        log.info(result.toString());
+    }
 }

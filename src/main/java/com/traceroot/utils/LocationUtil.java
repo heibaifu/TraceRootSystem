@@ -89,4 +89,36 @@ public class LocationUtil {
 
         return result;
     }
+
+    /**
+     * 求用指定起始位置表示的向量与正北方向的夹角
+     * @param startDirection
+     * @param endDirection
+     * @return 弧度值
+     */
+    public static double inferDirection(String startDirection, String endDirection){
+
+        String[] startString = startDirection.split(",");
+        DoubleLocation start = new DoubleLocation(new Double(startString[0]),new Double(startString[1]));
+        String[] endString = endDirection.split(",");
+        DoubleLocation end = new DoubleLocation(new Double(endString[0]),new Double(endString[1]));
+
+        //构建向量，基基底都是单位向量
+        DoubleLocation vector = new DoubleLocation((end.getLongitude() - start.getLongitude())/2,end.getLatitude()- start.getLatitude());
+
+        //与(0,1)做数量积
+        double dotProduct = vector.getLatitude() * 1;
+
+        //求模值
+        double norm = Math.sqrt(Math.pow(vector.getLongitude(),2) + Math.pow(vector.getLatitude(),2) );
+
+        double radian;
+        if (vector.getLongitude() > 0){
+            radian = Math.acos(dotProduct / norm);
+        } else {
+            radian = 2 * Math.PI - Math.acos(dotProduct / norm) ;
+        }
+
+        return radian;
+    }
 }
