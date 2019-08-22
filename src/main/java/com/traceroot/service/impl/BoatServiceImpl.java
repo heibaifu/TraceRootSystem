@@ -117,6 +117,9 @@ public class BoatServiceImpl implements BoatService {
 
         Boat boat=new Boat();
         BeanUtils.copyProperties(boatDTO,boat);
+
+        //todo 判断船只是否超速需根据船只所在的航道段的限速判断，所以需要写出船只在那个航线段的判断方法
+
         BoatDTO result = Boat2BoatDTOConverter.convert(repository.save(boat));
 
         //新建一条轨迹信息

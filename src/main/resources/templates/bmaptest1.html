@@ -87,7 +87,7 @@
                 var tableroute=pare.document.getElementById("boatroute");
 
                 chartdata1=tablepipesegment.rows.length-tablebadnode.rows.length-tableunknownode.rows.length +1;
-                chartdata2=tablebadnode.rows.length -1;
+                chartdata2=tablebadnode.rows.length ;
 
                 showchart(chartdata1,chartdata2);
                 for (i = 0; i < tablepipesegment.rows.length -1; i++) {
@@ -236,7 +236,7 @@ function delpipe(msg) {
         }
     }
     var buttons = document.getElementsByTagName("p");
-    for(var i=0; i<buttons.length; i++){
+    for( i=0; i<buttons.length; i++){
         var v_button = buttons[i];
         if(msg.segmentId == v_button.innerHTML){
             v_button.style.display="none";		}
@@ -300,9 +300,14 @@ function delpipe(msg) {
                              chartdata1=chartdata1+1;
                              chartdata2=chartdata2-1;
                          }
-                         else{
+                         else if (msg.flag =="1") {
                              chartdata1=chartdata1-1;
                              chartdata2=chartdata2+1;
+                         }
+                         else
+                         {
+                             chartdata1=chartdata1;
+                             chartdata2=chartdata2;
                          }
                          showchart(chartdata1,chartdata2);
                          break;
@@ -347,7 +352,9 @@ function delpipe(msg) {
                 var allOverlay = map.getOverlays();                                       //移除原有的航线
                 for (var i = 0; i < allOverlay.length ; i++) {
                     if (allOverlay[i].toString()=="[object Polyline]") {
-                        if (allOverlay[i].getStrokeStyle() == "dashed")
+                        if (allOverlay[i].getStrokeStyle() == "dashed" && allOverlay[i].getStrokeColor() == "green")
+                            map.removeOverlay(allOverlay[i]);
+                        if (allOverlay[i].getStrokeStyle() == "dashed" && allOverlay[i].getStrokeColor() == "white")
                             map.removeOverlay(allOverlay[i]);
                     }
             }
@@ -567,17 +574,20 @@ function delpipe(msg) {
 
 </div>
 
+<div id="echarts1">
+</div>
+
 <div id="navigator">
 
     <div class="has_children">
 
         <li id="pipecontrol" style="font-size:24px;text-align:center" onclick=change(0)>管道线路管理
-            <div id="pipesegs" class="pipesegs" style="font-size:15px">
-                <p>管道段ID</p>
-                <!--根据管道的个数决定显示多少个p-->
+        <div id="pipesegs" class="pipesegs" style="font-size:15px">
+            <p>管道段ID</p>
+            <!--根据管道的个数决定显示多少个p-->
 
-            </div>
-        </li>
+        </div>
+    </li>
 
 
 
@@ -597,15 +607,18 @@ function delpipe(msg) {
 
         <li onclick=change(4)>南海</li>
 -->
-<div style="margin-left: 40px;margin-top: 10px ">
-        <input type="button" class="button" onclick="jump()" value="跳转">
-        <input type="button" class="button" id="find" onclick="finder()" value="查找路径   ">
-        <input type="button" class="button" id="findp" onclick="finds()" value="可疑船只   ">
-        <input type="button" class="button" id="voya" onclick="hiosh()" value="隐藏航线   ">
-</div>
-    </div>
+<div style="margin-left: 20px;margin-top: 20px ">
 
-    <div id="echarts1" style="width:100%;height:65%;top: -4%;">
+        <input type="button" class="button" onclick="jump()" value="跳转">
+        <input type="button" class="button" id="find" onclick="finder()" value="查找路径">
+        <input type="button" class="button" id="findp" onclick="finds()" value="可疑船只">
+        <input type="button" class="button" id="voya" onclick="hidev()" value="隐藏航线">
+        <input type="button" class="button" id="chart" onclick="hidechart()" value="隐藏图表">
+        <input type="button" class="button" id="lifechart" onclick="lifechart()" value="预测管道寿命">
+        <input type="button" class="button" id="historychart" onclick="historychart()" value="历史故障统计   ">
+        <input type="button" class="button" id="dangerchart" onclick="dangerchart()" value="危险船只预测   ">
+
+</div>
 
     </div>
 
@@ -900,6 +913,8 @@ function drawLiquid (){
 
             name: "温度"+"\n"+"传感器",
 
+            silent: true,
+
             label: {
 
                 position: ['50%', '50%'],
@@ -937,6 +952,8 @@ function drawLiquid (){
             data: x[1],
 
             name: "杂质"+"\n"+"传感器",
+
+            silent: true,
 
             label: {
 
@@ -976,6 +993,8 @@ function drawLiquid (){
 
             name: "管压"+"\n"+"传感器",
 
+            silent: true,
+
             label: {
 
                 position: ['50%', '50%'],
@@ -1013,6 +1032,8 @@ function drawLiquid (){
             data: x[3],
 
             name: "二氧化碳"+"\n"+"传感器",
+
+            silent: true,
 
             label: {
 
@@ -1057,7 +1078,7 @@ var map = new BMap.Map("container");
 
 // 创建地图实例
 
-var point = new BMap.Point(116.404, 39.915);
+var point = new BMap.Point(117.939,38.833);
 
 // 创建点坐标
 
@@ -1071,7 +1092,7 @@ var markersArray = [];
 
 map.setMapStyleV2({
 
-    styleId: '7b1d087644685621c5642aa7841a7956',
+    styleId: 'ec892cda5fa311c456680b32a7c2d8fd',
 
 });
 
@@ -1109,6 +1130,7 @@ function jump(){
     var jumps = new BMap.Point(document.getElementById('lng').value, document.getElementById('lat').value);
     var r=confirm("是否添加标记");
     map.panTo(jumps);
+    map.setZoom(9);
     if (r==true){
         var marker = new BMap.Marker(jumps);
         map.addOverlay(marker);
@@ -1116,9 +1138,20 @@ function jump(){
 }
 
 function tojump(ss,ee){
+
+    var allOverlay = map.getOverlays();             //删除原有的节点
+    for (var i = 0; i < allOverlay.length; i++) {
+        if (allOverlay[i].toString() == "[object Marker]") {
+            if (allOverlay[i].getIcon().imageUrl== "/traceroot/image/marker.png") {
+                map.removeOverlay(allOverlay[i]);
+            }
+        }
+    }
     var jumps=new BMap.Point(ss[0]*0.5+ee[0]*0.5, ss[1]*0.5+ee[1]*0.5);
     map.panTo(jumps);
-    var marker = new BMap.Marker(jumps);
+    map.setZoom(9);
+    var myIcon = new BMap.Icon("/traceroot/image/marker.png", new BMap.Size(32,32), {anchor: new BMap.Size(16, 32)});
+    var marker = new BMap.Marker(jumps,{icon:myIcon});
     map.addOverlay(marker);
     // marker.setAnimation(BMAP_ANIMATION_BOUNCE);
 }
@@ -1136,7 +1169,7 @@ function showInfos(content,e,t) {
 
         var opts = {
             width: 280,     // 信息窗口宽度
-            height: 200,     // 信息窗口高度
+            height: 220,     // 信息窗口高度
             title: "传感器信息", // 信息窗口标题
             enableMessage: true,//设置允许信息窗发送短息
             enableCloseOnClick: false,
@@ -1257,13 +1290,13 @@ function drawpipe(id,start,end,update,creat) {
         var ee = end.innerHTML.split(",");
         var points1 = new BMap.Point(ss[0], ss[1]);
         var points2 = new BMap.Point(ee[0], ee[1]);
-        var content = "管道段id ：" + id.innerHTML + "；"  + " <br>起点位置 ：" + start.innerHTML +"；<br> 终点位置 ：" + end.innerHTML +
+        var content = "管道段ID ：" + id.innerHTML + "；"  + " <br>起点位置 ：" + start.innerHTML +"；<br> 终点位置 ：" + end.innerHTML +
             "； <br>更新时间： " + update.innerHTML + "； <br>创建时间：" + creat.innerHTML;
         var showvl = new BMap.Point(ss[0]*0.5+ee[0]*0.5, ss[1]*0.5+ee[1]*0.5);
         var pipeline = new BMap.Polyline([
             points1,
             points2
-        ], {strokeColor: "blue", strokeStyle: "solid", strokeWeight: 5, strokeOpacity: 0.5});   //创建折线
+        ], {strokeColor: "blue", strokeStyle: "solid", strokeWeight: 5});   //创建折线
 
         addClickHandlerv(content,pipeline,showvl,0);
 
@@ -1289,8 +1322,11 @@ function drawpipe(id,start,end,update,creat) {
 
 }
 
-
 function drawpipef(id,start,end,update,creat,flag) {
+
+    var ss = start.split(",");
+    var ee = end.split(",");
+
         var para=document.createElement("p");
 
         var pipesegid=id;
@@ -1308,26 +1344,22 @@ function drawpipef(id,start,end,update,creat,flag) {
 
         element.appendChild(para);
 
-
-
-        var ss = start.split(",");
-        var ee = end.split(",");
         var points1 = new BMap.Point(ss[0], ss[1]);
         var points2 = new BMap.Point(ee[0], ee[1]);
-        var content = "管道段id ：" + id + "； <br>起点位置 ：" + start+"；<br> 终点位置 ：" + end +
+        var content = "管道段ID ：" + id + "； <br>起点位置 ：" + start+"；<br> 终点位置 ：" + end +
             "； <br>更新时间： " + update + "； <br>创建时间：" + creat;
         var showvl = new BMap.Point(ss[0]*0.5+ee[0]*0.5, ss[1]*0.5+ee[1]*0.5);
         if(flag =="0") {
             var pipelines = new BMap.Polyline([
                 points1,
                 points2
-            ], {strokeColor: "blue", strokeStyle: "solid", strokeWeight: 5, strokeOpacity: 0.5});   //创建折线
+            ], {strokeColor: "blue", strokeStyle: "solid", strokeWeight: 5});   //创建折线
         }
         else if(flag =="1"){
             pipelines = new BMap.Polyline([
                 points1,
                 points2
-            ], {strokeColor: "red", strokeStyle: "solid", strokeWeight: 5, strokeOpacity: 0.5});   //创建折线
+            ], {strokeColor: "red", strokeStyle: "solid", strokeWeight: 5});   //创建折线
             var element1=document.getElementById("dragon");
             element1.appendChild(para);
         }
@@ -1336,7 +1368,7 @@ function drawpipef(id,start,end,update,creat,flag) {
             pipelines = new BMap.Polyline([
                 points1,
                 points2
-            ], {strokeColor: "yellow", strokeStyle: "solid", strokeWeight: 5, strokeOpacity: 0.5});   //创建折线
+            ], {strokeColor: "yellow", strokeStyle: "solid", strokeWeight: 5});   //创建折线
             var element2=document.getElementById("dragon");
             element2.appendChild(para);
         }
@@ -1356,9 +1388,9 @@ function drawvoyage(ids,start,end,update,creat)
     var voyageline = new BMap.Polyline([
         points1,
         points2
-    ], {strokeColor: "green",strokeStyle: "dashed", strokeWeight: 8, strokeOpacity: 0.5});   //创建折线
+    ], {strokeColor: "green",strokeStyle: "dashed", strokeWeight: 5 });   //创建折线
 
-    var content = "船只id ：" + ids + "； <br>起点位置 ：" + start +"； <br>终点位置 ：" + end +
+    var content = "船只ID ：" + ids + "； <br>起点位置 ：" + start +"； <br>终点位置 ：" + end +
         "； <br>出发时间： " + update + "； <br>到达时间：" + creat;
     addClickHandlerv(content,voyageline,showvl,1);
 
@@ -1376,9 +1408,9 @@ function drawvoyageline(ids,idss,segmentSerialNumber,start,end,update,creat)
     var voyageline = new BMap.Polyline([
         points1,
         points2
-    ], {strokeColor: "black",strokeStyle: "dashed", strokeWeight: 5, strokeOpacity: 0.5});   //创建折线
+    ], {strokeColor: "white",strokeStyle: "dashed", strokeWeight: 5 });   //创建折线
 
-    var content = "航线id ：" + ids + "；<br> 航线段id ：" + idss +"；<br> 航线顺序 ："+ segmentSerialNumber +"； <br>起点位置 ：" + start+"； <br>终点位置 ：" + end +
+    var content = "航线ID ：" + ids + "；<br> 航线段ID ：" + idss +"；<br> 航线顺序 ："+ segmentSerialNumber +"； <br>起点位置 ：" + start+"； <br>终点位置 ：" + end +
         "； <br>更新时间： " + update + "； <br>创建时间：" + creat;
     addClickHandlerv(content,voyageline,showvl,1);
     map.addOverlay(voyageline);
@@ -1393,8 +1425,8 @@ function drawunknownode(id,start,end,update,creat) {
     var pipeline = new BMap.Polyline([
         points1,
         points2
-    ], {strokeColor: "yellow", strokeWeight: 5, strokeOpacity: 0.5});   //创建折线
-    var content = "告警管道段id ：" + id.innerHTML + "； <br>起点位置 ：" + start.innerHTML + "；<br> 终点位置 ：" + end.innerHTML +
+    ], {strokeColor: "yellow", strokeWeight: 5});   //创建折线
+    var content = "告警管道段ID ：" + id.innerHTML + "； <br>起点位置 ：" + start.innerHTML + "；<br> 终点位置 ：" + end.innerHTML +
         "；<br> 更新时间： " + update.innerHTML + "；<br> 创建时间：" + creat.innerHTML;
     var showvl = new BMap.Point(ss[0] * 0.5 + ee[0] * 0.5, ss[1] * 0.5 + ee[1] * 0.5);
     map.addOverlay(pipeline);
@@ -1428,8 +1460,8 @@ function drawroute(id,segmentid,segmentSerialNumber,start,end,update,creat) {
     var pipeline = new BMap.Polyline([
         points1,
         points2
-    ], {strokeColor: "black",strokeStyle: "dashed", strokeWeight: 5, strokeOpacity: 0.5});   //创建折线
-    var content = "航线id ：" + id.innerHTML + "；<br> 航线段id ：" + segmentid.innerHTML +"； <br>航线顺序 ："+ segmentSerialNumber.innerHTML +"；<br> 起点位置 ：" + start.innerHTML+"；<br> 终点位置 ：" + end.innerHTML +
+    ], {strokeColor: "black",strokeStyle: "dashed", strokeWeight: 5});   //创建折线
+    var content = "航线ID ：" + id.innerHTML + "；<br> 航线段ID ：" + segmentid.innerHTML +"； <br>航线顺序 ："+ segmentSerialNumber.innerHTML +"；<br> 起点位置 ：" + start.innerHTML+"；<br> 终点位置 ：" + end.innerHTML +
         "； <br>更新时间： " + update.innerHTML + "； <br>创建时间：" + creat.innerHTML;
     var showvl = new BMap.Point(ss[0]*0.5+ee[0]*0.5, ss[1]*0.5+ee[1]*0.5);
     map.addOverlay(pipeline);
@@ -1446,8 +1478,8 @@ function drawbadnode(id,start,end,update,creat) {
     var pipeline = new BMap.Polyline([
         points1,
         points2
-    ], {strokeColor: "red", strokeWeight: 5, strokeOpacity: 0.5});   //创建折线
-    var content = "告警管道段id ：" + id.innerHTML + "；<br> 起点位置 ：" + start.innerHTML +"；<br> 终点位置 ：" + end.innerHTML +
+    ], {strokeColor: "red", strokeWeight: 5});   //创建折线
+    var content = "告警管道段ID ：" + id.innerHTML + "；<br> 起点位置 ：" + start.innerHTML +"；<br> 终点位置 ：" + end.innerHTML +
         "； <br>更新时间： " + update.innerHTML + "； <br>创建时间：" + creat.innerHTML;
     var showvl = new BMap.Point(ss[0]*0.5+ee[0]*0.5, ss[1]*0.5+ee[1]*0.5);
     map.addOverlay(pipeline);
@@ -1498,7 +1530,7 @@ function drawsensor(id,segid,location,type,state,value,update,creat) {
 
     map.addOverlay(marker);
 
-    var content = "id ：" + id.innerHTML + "；<br> 管道段id ：" + segid.innerHTML + "；<br> 位置 ：" + location.innerHTML + "；<br> 状态 ：" + state.innerHTML + "；<br> 种类 ：" + type.innerHTML + "；<br> 数值 ：" + value.innerHTML +
+    var content = "传感器ID ：" + id.innerHTML + "；<br> 管道段ID ：" + segid.innerHTML + "；<br> 位置 ：" + location.innerHTML + "；<br> 状态 ：" + state.innerHTML + "；<br> 种类 ：" + type.innerHTML + "；<br> 数值 ：" + value.innerHTML +
         "；<br> 更新时间： " + update.innerHTML + "； <br>创建时间：" + creat.innerHTML;
 
     addClickHandler(content,marker,1);
@@ -1530,7 +1562,7 @@ function drawsensorf(id,segid,location,type,state,value,update,creat) {
 
     map.addOverlay(marker);
 
-    var content = "id ：" + id + "；<br> 管道段id ：" + segid+ "；<br> 位置 ：" + location + "； <br>状态 ：" + state+ "； <br>种类 ：" + type+ "；<br> 数值 ：" + value +
+    var content = "传感器ID ：" + id + "；<br> 管道段ID ：" + segid+ "；<br> 位置 ：" + location + "； <br>状态 ：" + state+ "； <br>种类 ：" + type+ "；<br> 数值 ：" + value +
         "；<br> 更新时间： " + update+ "；<br> 创建时间：" + creat;
 
     addClickHandler(content,marker,1);
@@ -1538,8 +1570,35 @@ function drawsensorf(id,segid,location,type,state,value,update,creat) {
 }
 
 function drawboatf(id,location,type,state,update,creat) {
+    var buttons = document.getElementsByTagName("p");
+    for( i=0; i<buttons.length; i++){
+        var v_button = buttons[i];
+        if(id == v_button.innerHTML){
+            v_button.style.display="none";		}
+    }
+
 
     var sen = location.split(",");
+
+    var para=document.createElement("p");
+
+    var pipesegid=id;
+
+    var node=document.createTextNode(pipesegid);
+
+    para.appendChild(node);
+
+    para.onclick = function() {            //element.onclick后面直接跟的函数不能有参数
+        //每次点击都会画一个标签（小bug）
+        map.panTo(new BMap.Point(sen[0], sen[1]));
+    };
+
+    var element=document.getElementById("boats");
+
+    element.appendChild(para);
+
+
+
 
     var myIcon = new BMap.Icon("/traceroot/image/boat.png", new BMap.Size(32,32));
 
@@ -1547,7 +1606,7 @@ function drawboatf(id,location,type,state,update,creat) {
 
     map.addOverlay(marker);
 
-    var content = "id ：" + id + "； <br>位置 ：" + location + "；<br> 状态 ：" + state + "；<br> 种类 ：" + type +
+    var content = "船只ID ：" + id + "； <br>位置 ：" + location + "；<br> 状态 ：" + state + "；<br> 种类 ：" + type +
         "；<br> 更新时间： " + update + "； <br>创建时间：" + creat;
 
     addClickHandler(content,marker,0);
@@ -1564,7 +1623,7 @@ function drawboat(id,location,type,state,update,creat) {
 
     map.addOverlay(marker);
 
-    var content = "id ：" + id.innerHTML + "； <br>位置 ：" + location.innerHTML + "；<br> 状态 ：" + state.innerHTML + "； <br>种类 ：" + type.innerHTML +
+    var content = "船只ID ：" + id.innerHTML + "； <br>位置 ：" + location.innerHTML + "；<br> 状态 ：" + state.innerHTML + "； <br>种类 ：" + type.innerHTML +
         "；<br> 更新时间： " + update.innerHTML + "； <br>创建时间：" + creat.innerHTML;
 
     addClickHandler(content,marker,0);
@@ -1601,7 +1660,7 @@ function drawboate(id,time,location,i) {
 
     map.addOverlay(marker);
 
-    var content = "id ：" + id + "；<br> 位置 ：" + location + "； <br>穿越次数 ：" +  time;
+    var content = "可疑船只ID ：" + id + "；<br> 位置 ：" + location + "； <br>穿越次数 ：" +  time+ " <br> <br> <br> <br> <br>";
 
     addClickHandler(content,marker,0);
 }
@@ -1610,14 +1669,15 @@ function drawboate(id,time,location,i) {
 
 <script>
 counter =0;
-    function hiosh() {
+counter1=0;
+    function hidev() {
         counter=counter+1;
         if(counter%2 ==1) {
             document.getElementById("voya").value = "显示航线";
             var allOverlay = map.getOverlays();                                       //移除原有的航线
             for (var i = 0; i < allOverlay.length; i++) {
                 if (allOverlay[i].toString() == "[object Polyline]") {
-                    if (allOverlay[i].getStrokeStyle() == "dashed")
+                    if (allOverlay[i].getStrokeStyle() == "dashed" && allOverlay[i].getStrokeColor() == "black")
                         allOverlay[i].hide();
                 }
             }
@@ -1627,18 +1687,31 @@ counter =0;
             allOverlay = map.getOverlays();                                       //移除原有的航线
             for ( i = 0; i < allOverlay.length; i++) {
                 if (allOverlay[i].toString() == "[object Polyline]") {
-                    if (allOverlay[i].getStrokeStyle() == "dashed")
+                    if (allOverlay[i].getStrokeStyle() == "dashed" && allOverlay[i].getStrokeColor() == "black")
                         allOverlay[i].show();
                 }
             }
         }
     }
 
+function hidechart() {
+    counter1=counter1+1;
+    if(counter1%2 ==1) {
+        document.getElementById("chart").value = "显示图表";
+        $('#echarts1').addClass('dis');
+    }else
+    {
+        document.getElementById("chart").value = "隐藏图表";
+        $('#echarts1').removeClass('dis');
+        $("#echarts1").css({"width":$("#echarts1").width(),"height":$("#echarts1").height()});
+    }
+}
+
     function change(n)
 
     {
 
-        map.setZoom(6);
+        map.setZoom(9);
 
         switch(n)
 
@@ -1655,6 +1728,7 @@ counter =0;
                 var point = new BMap.Point(119.861811,38.611712);
 
                 map.panTo(point);
+                map.setZoom(9);
 
                 break;
 
@@ -1663,6 +1737,7 @@ counter =0;
                 var point = new BMap.Point(120.611501,34.976702);
 
                 map.panTo(point);
+                map.setZoom(9);
 
                 break;
 
@@ -1671,6 +1746,7 @@ counter =0;
                 var point = new BMap.Point(122.197347,28.116691);
 
                 map.panTo(point);
+                map.setZoom(9);
 
                 break;
 
@@ -1679,6 +1755,7 @@ counter =0;
                 var point = new BMap.Point(115.004004,11.655103);
 
                 map.panTo(point);
+                map.setZoom(9);
 
                 break;
 
@@ -1693,6 +1770,7 @@ counter =0;
                 var point = new BMap.Point(116.404, 39.915);
 
                 map.panTo(point);
+                map.setZoom(9);
 
         }
 

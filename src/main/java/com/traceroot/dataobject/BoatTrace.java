@@ -34,6 +34,15 @@ public class BoatTrace {
     /*记录位置*/
     private String recordLocation;
 
+    /*记录船速*/
+    private String speed;
+
+    /*超速判断，正常为0，超速为1*/
+    private Integer overspeedJudging;
+
+    /*记录船方向*/
+    private String direction;
+
     /*船只状态*/
     private String status;
 

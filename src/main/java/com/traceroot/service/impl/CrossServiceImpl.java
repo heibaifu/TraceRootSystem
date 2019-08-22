@@ -91,6 +91,21 @@ public class CrossServiceImpl implements CrossService {
         return result;
     }
 
+    @Override
+    public String speedCalculate() {
+        return null;
+    }
+
+    @Override
+    public Integer speedJudging() {
+        return null;
+    }
+
+    @Override
+    public String directionCalculate() {
+        return null;
+    }
+
     /**
      * 给定时间区间，按是否穿越管道查询船只
      * @param segmentId

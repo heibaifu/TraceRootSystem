@@ -1,6 +1,6 @@
 package com.traceroot.aspect;
 
-import com.traceroot.converter.form2dto.BoatForm2BoatDTOConverter;
+import com.traceroot.dataobject.SensorStatus;
 import com.traceroot.dto.*;
 import com.traceroot.enums.SensorStatusEnum;
 import com.traceroot.form.*;
@@ -9,7 +9,6 @@ import com.traceroot.service.ifs.BoatService;
 import com.traceroot.service.ifs.PipelineSegmentService;
 import com.traceroot.service.ifs.PipelineSensorService;
 import com.traceroot.service.ifs.RouteSegmentService;
-import com.traceroot.vo.SensorVO;
 import com.traceroot.vo.UpdateBoatVO;
 import com.traceroot.vo.UpdatePipeSegmentVO;
 import com.traceroot.vo.UpdateSensorVO;
@@ -20,7 +19,6 @@ import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
-import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
 
@@ -131,13 +129,24 @@ public class UpdateAspect {
             if (pipelineSensorDTO.getCreateTime() == null){
                 pipelineSensorDTO.setCreateTime(createTime);
             }
-            //判断管道状态，满足前端的各种奇怪的需求
             UpdateSensorVO sensorVO = new UpdateSensorVO();
             BeanUtils.copyProperties(pipelineSensorDTO,sensorVO);
+            //判断管道状态，满足前端的各种奇怪的需求
+            List<SensorStatus> statusList = pipelineSensorDTO.getStatusList();
             if (pipelineSensorDTO.getPresentStatus().equals(SensorStatusEnum.BROKEN.getCode())){
                 sensorVO.setFlag("2");
+            } else if (statusList.size() == 1){
+                sensorVO.setFlag(segmentService.judgeStatus(sensorVO.getSegmentId()).toString());
             } else {
-                sensorVO.setFlag(segmentService.testifyStatus(sensorVO.getSegmentId()).toString());
+                String lastStatus = statusList.get(1).getStatus();
+                log.warn("lastStatus :" + lastStatus);
+                log.warn("presentStatus :" + sensorVO.getPresentStatus());
+                if (lastStatus.equals(sensorVO.getPresentStatus())){
+                    sensorVO.setFlag("3");
+                }
+                else {
+                    sensorVO.setFlag(segmentService.judgeStatus(sensorVO.getSegmentId()).toString());
+                }
             }
             PipeSegmentDTO pipeSegmentDTO = segmentService.selectBySegmentId(sensorVO.getSegmentId());
             sensorVO.setSegmentStart(pipeSegmentDTO.getStart());
