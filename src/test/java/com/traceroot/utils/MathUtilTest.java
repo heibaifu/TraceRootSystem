@@ -1,6 +1,5 @@
 package com.traceroot.utils;
 
-import com.traceroot.dataobject.BoatTrace;
 import com.traceroot.dataobject.PipelineSegment;
 import com.traceroot.dto.BoatTraceDTO;
 import com.traceroot.dto.PipeSegmentDTO;
@@ -15,8 +14,6 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit4.SpringRunner;
 
 import java.util.List;
-
-import static org.junit.Assert.*;
 
 @RunWith(SpringRunner.class)
 @SpringBootTest
@@ -34,15 +31,15 @@ public class MathUtilTest {
         PipeSegmentDTO pipeSegmentDTO = segmentService.selectBySegmentId("1326574");
         PipelineSegment testSegment = new PipelineSegment();
         BeanUtils.copyProperties(pipeSegmentDTO,testSegment);
-        DoubleLocation startLine1 = LocationUtil.string2doubleLocation(testSegment.getStart());
-        DoubleLocation endLine1 = LocationUtil.string2doubleLocation(testSegment.getEnd());
+        DoubleLocation startLine1 = GeographyUtil.string2doubleLocation(testSegment.getStart());
+        DoubleLocation endLine1 = GeographyUtil.string2doubleLocation(testSegment.getEnd());
 
         List<BoatTraceDTO> boatTraceDTOS = traceService.selectByBoatId("0673058");
 
         BoatTraceDTO testTraceStart = boatTraceDTOS.get(0);
-        DoubleLocation startLine2 = LocationUtil.string2doubleLocation(testTraceStart.getRecordLocation());
+        DoubleLocation startLine2 = GeographyUtil.string2doubleLocation(testTraceStart.getRecordLocation());
         BoatTraceDTO testTraceEnd  = boatTraceDTOS.get(1);
-        DoubleLocation endLine2 = LocationUtil.string2doubleLocation(testTraceEnd.getRecordLocation());
+        DoubleLocation endLine2 = GeographyUtil.string2doubleLocation(testTraceEnd.getRecordLocation());
 
         boolean result = MathUtil.intersection(startLine1, endLine1, startLine2, endLine2);
         Assert.assertEquals(false,result);

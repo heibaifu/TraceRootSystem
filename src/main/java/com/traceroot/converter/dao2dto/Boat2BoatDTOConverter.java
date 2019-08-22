@@ -2,7 +2,6 @@ package com.traceroot.converter.dao2dto;
 
 import com.traceroot.dataobject.Boat;
 import com.traceroot.dto.BoatDTO;
-import com.traceroot.utils.LocationUtil;
 import org.springframework.beans.BeanUtils;
 
 import java.util.List;

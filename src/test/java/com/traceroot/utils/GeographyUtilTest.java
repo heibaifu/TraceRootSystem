@@ -3,27 +3,25 @@ package com.traceroot.utils;
 import lombok.extern.slf4j.Slf4j;
 import org.junit.Test;
 
-import static org.junit.Assert.*;
-
 @Slf4j
-public class LocationUtilTest {
+public class GeographyUtilTest {
 
     @Test
     public void string2doubleLocation() {
-        DoubleLocation doubleLocation = LocationUtil.string2doubleLocation("-133.1564,25.15640");
+        DoubleLocation doubleLocation = GeographyUtil.string2doubleLocation("-133.1564,25.15640");
         log.info(doubleLocation.toString());
     }
 
     @Test
     public void buildFuzzyMatchingExpr() {
-        String result = LocationUtil.buildFuzzyMatchingExpr(116.35504950497435, -39.96149086928498, -1);
+        String result = GeographyUtil.buildFuzzyMatchingExpr(116.35504950497435, -39.96149086928498, -1);
         log.info(result);
     }
 
 
     @Test
     public void inferDirection() {
-        Double result = LocationUtil.inferDirection("0,0","-2,-1");
+        Double result = GeographyUtil.inferDirection("0,0","-2,-1");
         log.info(result.toString());
     }
 }

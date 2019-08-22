@@ -2,8 +2,6 @@ package com.traceroot.service.impl;
 
 import com.traceroot.converter.dao2dto.Boat2BoatDTOConverter;
 import com.traceroot.dataobject.Boat;
-import com.traceroot.dataobject.BoatTrace;
-import com.traceroot.dataobject.PipelineSegment;
 import com.traceroot.dto.BoatDTO;
 import com.traceroot.dto.BoatTraceDTO;
 import com.traceroot.enums.ResultEnum;
@@ -11,13 +9,11 @@ import com.traceroot.exception.BoatException;
 import com.traceroot.repository.BoatRepository;
 import com.traceroot.service.ifs.BoatService;
 import com.traceroot.service.ifs.BoatTraceService;
-import com.traceroot.utils.DoubleLocation;
-import com.traceroot.utils.LocationUtil;
+import com.traceroot.utils.GeographyUtil;
 import com.traceroot.utils.RandomUtil;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
@@ -104,10 +100,20 @@ public class BoatServiceImpl implements BoatService {
         return boatDTOList;
     }
 
+    @Override
+    public Double directionCalculate(String boatId , String presentLocation) {
 
+        List<BoatTraceDTO> traceDTOList = traceService.selectByBoatId(boatId);
+        if (traceDTOList.size() == 0)
+            return null;
+        else {
+            return GeographyUtil.inferDirection(traceDTOList.get(traceDTOList.size()-1).getRecordLocation(),presentLocation);
+        }
+    }
 
     /**
      * 保存船只信息
+     * 同时插入一条该船只的轨迹
      * @param boatDTO
      * @return
      */
@@ -120,10 +126,15 @@ public class BoatServiceImpl implements BoatService {
 
         //todo 判断船只是否超速需根据船只所在的航道段的限速判断，所以需要写出船只在那个航线段的判断方法
 
+        Double directionCalculate = directionCalculate(boat.getBoatId(), boat.getPresentLocation());
+        if (directionCalculate != null){
+            boat.setDirection(directionCalculate.toString());
+        }
         BoatDTO result = Boat2BoatDTOConverter.convert(repository.save(boat));
 
+
         //新建一条轨迹信息
-        BoatTraceDTO boatTraceDTO = new BoatTraceDTO(RandomUtil.genUniqueId(),boatDTO.getBoatId(),boatDTO.getPresentLocation(),boatDTO.getStatus());
+        BoatTraceDTO boatTraceDTO = new BoatTraceDTO(RandomUtil.genUniqueId(),boatDTO.getBoatId(),boatDTO.getPresentLocation(),result.getDirection(),boatDTO.getStatus());
         traceService.insert(boatTraceDTO);
         return result;
     }

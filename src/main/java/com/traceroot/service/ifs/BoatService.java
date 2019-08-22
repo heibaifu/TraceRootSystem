@@ -17,7 +17,8 @@ public interface BoatService {
 
     List<BoatDTO> selectByTypeIn(List<String> typeList);
 
-    //同时插入一条该船只的轨迹
+    Double directionCalculate(String boatId , String presentLocation);
+
     BoatDTO save(BoatDTO boatDTO);
 
     /*//船只当前位置变化，同时将此变化插入到船只轨迹表中  todo 船只更新方法有待考虑，使用了DTO应该不需要此方法了

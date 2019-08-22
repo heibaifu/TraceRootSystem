@@ -1,17 +1,14 @@
 package com.traceroot.service.impl;
 
-import com.traceroot.dataobject.Boat;
 import com.traceroot.dataobject.BoatTrace;
-import com.traceroot.dataobject.PipelineSegment;
 import com.traceroot.dto.PipeSegmentDTO;
 import com.traceroot.enums.ResultEnum;
-import com.traceroot.exception.BoatException;
 import com.traceroot.exception.PipeException;
 import com.traceroot.service.ifs.BoatTraceService;
 import com.traceroot.service.ifs.CrossService;
 import com.traceroot.service.ifs.PipelineSegmentService;
 import com.traceroot.utils.DoubleLocation;
-import com.traceroot.utils.LocationUtil;
+import com.traceroot.utils.GeographyUtil;
 import com.traceroot.utils.MathUtil;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -43,15 +40,15 @@ public class CrossServiceImpl implements CrossService {
 
         //获取起始点经纬度对象
         PipeSegmentDTO pipeSegmentDTO = segmentService.selectBySegmentId(segmentId);
-        DoubleLocation startLocation = LocationUtil.string2doubleLocation(pipeSegmentDTO.getStart());
-        DoubleLocation endLocation = LocationUtil.string2doubleLocation(pipeSegmentDTO.getEnd());
+        DoubleLocation startLocation = GeographyUtil.string2doubleLocation(pipeSegmentDTO.getStart());
+        DoubleLocation endLocation = GeographyUtil.string2doubleLocation(pipeSegmentDTO.getEnd());
 
         //计算中心点的位置
         Double meanLng = 0.5 * (startLocation.getLongitude() + endLocation.getLongitude());
         Double meanLat = 0.5 * (startLocation.getLatitude() + endLocation.getLatitude());
 
         //构造模糊匹配表达式，设定小数点后位数为1位
-        String fuzzyMatchingExpr = LocationUtil.buildFuzzyMatchingExpr(meanLng, meanLat, accuracyDegree);
+        String fuzzyMatchingExpr = GeographyUtil.buildFuzzyMatchingExpr(meanLng, meanLat, accuracyDegree);
 
         //搜索数据库
         List<BoatTrace> boatTraces = traceService.selectByRecordTimeBetweenAndRecordLocationIsLikeOrderByRecordTimeDesc(startTime, endTime, fuzzyMatchingExpr);
@@ -101,10 +98,6 @@ public class CrossServiceImpl implements CrossService {
         return null;
     }
 
-    @Override
-    public String directionCalculate() {
-        return null;
-    }
 
     /**
      * 给定时间区间，按是否穿越管道查询船只
@@ -120,8 +113,8 @@ public class CrossServiceImpl implements CrossService {
             throw new PipeException(ResultEnum.PIPE_SEGMENT_NOT_EXIST);
         }
         DoubleLocation segmentStart,segmentEnd;
-        segmentStart = LocationUtil.string2doubleLocation(pipeSegmentDTO.getStart());
-        segmentEnd = LocationUtil.string2doubleLocation(pipeSegmentDTO.getEnd());
+        segmentStart = GeographyUtil.string2doubleLocation(pipeSegmentDTO.getStart());
+        segmentEnd = GeographyUtil.string2doubleLocation(pipeSegmentDTO.getEnd());
 
         //2.查找在这段时间内经过管道的船只
         Map<String, List<BoatTrace>> boatListMap = findBoatNearSegmentDuringTime(segmentId, startTime, endTime,accuracyDegree);
@@ -142,8 +135,8 @@ public class CrossServiceImpl implements CrossService {
                 for (int i = 0; i < traceList.size() - 1; i++) {
                     //4.统计穿越管道线的次数
                     if (MathUtil.intersection(segmentStart
-                            , segmentEnd, LocationUtil.string2doubleLocation(traceList.get(i).getRecordLocation())
-                            , LocationUtil.string2doubleLocation(traceList.get(i + 1).getRecordLocation()))
+                            , segmentEnd, GeographyUtil.string2doubleLocation(traceList.get(i).getRecordLocation())
+                            , GeographyUtil.string2doubleLocation(traceList.get(i + 1).getRecordLocation()))
                             && Integer.valueOf(traceList.get(i).getTraceSerialNumber()) + 1 == Integer.valueOf(traceList.get(i + 1).getTraceSerialNumber())) {
                         count++;
                     }

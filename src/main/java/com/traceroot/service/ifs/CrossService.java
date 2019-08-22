@@ -18,9 +18,4 @@ public interface CrossService {
 
     Integer speedJudging();
 
-    String directionCalculate();
-
-
-
-
 }

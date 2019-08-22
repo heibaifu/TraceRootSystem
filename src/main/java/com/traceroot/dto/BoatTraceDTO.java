@@ -41,12 +41,26 @@ public class BoatTraceDTO {
     public BoatTraceDTO() {
     }
 
+    //测试用
     @JsonIgnore
-    public BoatTraceDTO(String traceId, String boatId, String recordLocation, String status) {
+    public BoatTraceDTO(String traceId, String boatId, String recordLocation, String direction, String status) {
+        this.traceId = traceId;
+        this.boatId = boatId;
+        this.direction = direction;
+        this.traceSerialNumber = traceSerialNumber;
+        this.recordLocation = recordLocation;
+        this.status = status;
+    }
+
+    @JsonIgnore
+    public BoatTraceDTO(String traceId, String boatId, String traceSerialNumber, String recordLocation, String speed, Integer overspeedJudging, String direction, String status) {
         this.traceId = traceId;
         this.boatId = boatId;
         this.traceSerialNumber = traceSerialNumber;
         this.recordLocation = recordLocation;
+        this.speed = speed;
+        this.overspeedJudging = overspeedJudging;
+        this.direction = direction;
         this.status = status;
     }
 }

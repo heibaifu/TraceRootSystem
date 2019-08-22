@@ -2,14 +2,20 @@ package com.traceroot.form;
 
 import lombok.Data;
 
+import javax.validation.constraints.NotEmpty;
+
 @Data
 public class BoatForm {
+
+    @NotEmpty(message = "Id必填")
     private String boatId;
 
     /*船只类型*/
+    @NotEmpty(message = "type必填")
     private String type;
 
     /*当前位置*/
+    @NotEmpty(message = "presentLocation必填")
     private String presentLocation;
 
     /*当前船速*//*

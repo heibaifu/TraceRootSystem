@@ -2,7 +2,6 @@ package com.traceroot.converter.dao2dto;
 
 import com.traceroot.dataobject.Pipeline;
 import com.traceroot.dto.PipeDTO;
-import com.traceroot.utils.LocationUtil;
 
 import java.util.List;
 import java.util.stream.Collectors;

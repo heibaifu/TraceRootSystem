@@ -3,7 +3,7 @@ package com.traceroot.utils;
 import java.lang.reflect.Array;
 import java.util.Arrays;
 
-public class LocationUtil {
+public class GeographyUtil {
 
     /**
      * 将经纬度坐标的字符串表示转化为DoubleLocation类型返回

@@ -2,7 +2,6 @@ package com.traceroot.converter.dao2dto;
 
 import com.traceroot.dataobject.PipelineSegment;
 import com.traceroot.dto.PipeSegmentDTO;
-import com.traceroot.utils.LocationUtil;
 import org.springframework.beans.BeanUtils;
 
 import java.util.List;

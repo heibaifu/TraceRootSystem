@@ -2,7 +2,6 @@ package com.traceroot.converter.dao2dto;
 
 import com.traceroot.dataobject.PipelineSensor;
 import com.traceroot.dto.PipelineSensorDTO;
-import com.traceroot.utils.LocationUtil;
 import org.springframework.beans.BeanUtils;
 
 import java.util.List;

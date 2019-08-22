@@ -87,4 +87,10 @@ public class BoatServiceImplTest {
     public void deleteById() {
     }
 
+
+    @Test
+    public void directionCalculate() {
+        Double directionCalculate = boatService.directionCalculate(BOATID + "1", "120.972692,38.59829");
+        Assert.assertNotNull(directionCalculate);
+    }
 }

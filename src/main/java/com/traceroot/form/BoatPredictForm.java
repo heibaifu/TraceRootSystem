@@ -2,6 +2,8 @@ package com.traceroot.form;
 
 import lombok.Data;
 
+import javax.validation.constraints.NotEmpty;
+
 @Data
 public class BoatPredictForm {
 

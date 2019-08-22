@@ -32,7 +32,7 @@ public class BoatPredictServiceImpl implements BoatPredictService {
     @Override
     public List<BoatPredictDTO> selectByBoatId(String boatId) {
 
-        List<BoatPredict> boatPredicts=boatPredictRepository.findByBoatIdAndOrderByCreateTime(boatId);
+        List<BoatPredict> boatPredicts=boatPredictRepository.findByBoatIdOrderByCreateTimeDesc(boatId);
         List<BoatPredictDTO>boatPredictDTOS=BoatPredict2BoatPredictDTOConverter.convert(boatPredicts);
         return boatPredictDTOS;
     }

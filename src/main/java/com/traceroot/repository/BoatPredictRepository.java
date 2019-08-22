@@ -7,6 +7,6 @@ import java.util.List;
 
 public interface BoatPredictRepository extends JpaRepository<BoatPredict,String> {
 
-    List<BoatPredict> findByBoatIdAndOrderByCreateTime(String boatId);
+    List<BoatPredict> findByBoatIdOrderByCreateTimeDesc(String boatId);
 
 }
