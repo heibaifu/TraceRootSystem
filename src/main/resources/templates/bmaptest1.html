@@ -352,7 +352,9 @@ function delpipe(msg) {
                 var allOverlay = map.getOverlays();                                       //移除原有的航线
                 for (var i = 0; i < allOverlay.length ; i++) {
                     if (allOverlay[i].toString()=="[object Polyline]") {
-                        if (allOverlay[i].getStrokeStyle() == "dashed")
+                        if (allOverlay[i].getStrokeStyle() == "dashed" && allOverlay[i].getStrokeColor() == "green")
+                            map.removeOverlay(allOverlay[i]);
+                        if (allOverlay[i].getStrokeStyle() == "dashed" && allOverlay[i].getStrokeColor() == "white")
                             map.removeOverlay(allOverlay[i]);
                     }
             }
@@ -572,6 +574,9 @@ function delpipe(msg) {
 
 </div>
 
+<div id="echarts1">
+</div>
+
 <div id="navigator">
 
     <div class="has_children">
@@ -602,15 +607,18 @@ function delpipe(msg) {
 
         <li onclick=change(4)>南海</li>
 -->
-<div style="margin-left: 40px;margin-top: 10px ">
-        <input type="button" class="button" onclick="jump()" value="跳转">
-        <input type="button" class="button" id="find" onclick="finder()" value="查找路径   ">
-        <input type="button" class="button" id="findp" onclick="finds()" value="可疑船只   ">
-        <input type="button" class="button" id="voya" onclick="hiosh()" value="隐藏航线   ">
-</div>
-    </div>
+<div style="margin-left: 20px;margin-top: 20px ">
 
-    <div id="echarts1" style="width:100%;height:65%;top: -4%;">
+        <input type="button" class="button" onclick="jump()" value="跳转">
+        <input type="button" class="button" id="find" onclick="finder()" value="查找路径">
+        <input type="button" class="button" id="findp" onclick="finds()" value="可疑船只">
+        <input type="button" class="button" id="voya" onclick="hidev()" value="隐藏航线">
+        <input type="button" class="button" id="chart" onclick="hidechart()" value="隐藏图表">
+        <input type="button" class="button" id="lifechart" onclick="lifechart()" value="预测管道寿命">
+        <input type="button" class="button" id="historychart" onclick="historychart()" value="历史故障统计   ">
+        <input type="button" class="button" id="dangerchart" onclick="dangerchart()" value="危险船只预测   ">
+
+</div>
 
     </div>
 
@@ -1070,7 +1078,7 @@ var map = new BMap.Map("container");
 
 // 创建地图实例
 
-var point = new BMap.Point(116.404, 39.915);
+var point = new BMap.Point(117.939,38.833);
 
 // 创建点坐标
 
@@ -1084,7 +1092,7 @@ var markersArray = [];
 
 map.setMapStyleV2({
 
-    styleId: '7b1d087644685621c5642aa7841a7956',
+    styleId: 'ec892cda5fa311c456680b32a7c2d8fd',
 
 });
 
@@ -1314,7 +1322,6 @@ function drawpipe(id,start,end,update,creat) {
 
 }
 
-
 function drawpipef(id,start,end,update,creat,flag) {
 
     var ss = start.split(",");
@@ -1336,9 +1343,6 @@ function drawpipef(id,start,end,update,creat,flag) {
         var element=document.getElementById("pipesegs");
 
         element.appendChild(para);
-
-
-
 
         var points1 = new BMap.Point(ss[0], ss[1]);
         var points2 = new BMap.Point(ee[0], ee[1]);
@@ -1404,7 +1408,7 @@ function drawvoyageline(ids,idss,segmentSerialNumber,start,end,update,creat)
     var voyageline = new BMap.Polyline([
         points1,
         points2
-    ], {strokeColor: "black",strokeStyle: "dashed", strokeWeight: 5 });   //创建折线
+    ], {strokeColor: "white",strokeStyle: "dashed", strokeWeight: 5 });   //创建折线
 
     var content = "航线ID ：" + ids + "；<br> 航线段ID ：" + idss +"；<br> 航线顺序 ："+ segmentSerialNumber +"； <br>起点位置 ：" + start+"； <br>终点位置 ：" + end +
         "； <br>更新时间： " + update + "； <br>创建时间：" + creat;
@@ -1665,14 +1669,15 @@ function drawboate(id,time,location,i) {
 
 <script>
 counter =0;
-    function hiosh() {
+counter1=0;
+    function hidev() {
         counter=counter+1;
         if(counter%2 ==1) {
             document.getElementById("voya").value = "显示航线";
             var allOverlay = map.getOverlays();                                       //移除原有的航线
             for (var i = 0; i < allOverlay.length; i++) {
                 if (allOverlay[i].toString() == "[object Polyline]") {
-                    if (allOverlay[i].getStrokeStyle() == "dashed")
+                    if (allOverlay[i].getStrokeStyle() == "dashed" && allOverlay[i].getStrokeColor() == "black")
                         allOverlay[i].hide();
                 }
             }
@@ -1682,12 +1687,25 @@ counter =0;
             allOverlay = map.getOverlays();                                       //移除原有的航线
             for ( i = 0; i < allOverlay.length; i++) {
                 if (allOverlay[i].toString() == "[object Polyline]") {
-                    if (allOverlay[i].getStrokeStyle() == "dashed")
+                    if (allOverlay[i].getStrokeStyle() == "dashed" && allOverlay[i].getStrokeColor() == "black")
                         allOverlay[i].show();
                 }
             }
         }
     }
+
+function hidechart() {
+    counter1=counter1+1;
+    if(counter1%2 ==1) {
+        document.getElementById("chart").value = "显示图表";
+        $('#echarts1').addClass('dis');
+    }else
+    {
+        document.getElementById("chart").value = "隐藏图表";
+        $('#echarts1').removeClass('dis');
+        $("#echarts1").css({"width":$("#echarts1").width(),"height":$("#echarts1").height()});
+    }
+}
 
     function change(n)
 
