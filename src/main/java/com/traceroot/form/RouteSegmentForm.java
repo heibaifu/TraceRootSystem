@@ -18,4 +18,7 @@ public class RouteSegmentForm {
 
     /*这一段的终点坐标*/
     private String end;
+
+    /*航道限速*/
+    private String limitingSpeed;
 }

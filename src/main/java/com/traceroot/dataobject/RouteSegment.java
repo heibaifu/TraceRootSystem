@@ -35,6 +35,9 @@ public class RouteSegment {
     /*这一段的终点坐标*/
     private String end;
 
+    /*航道限速*/
+    private String limitingSpeed;
+
     /*创建时间*/
     @CreatedDate
     @Column(name = "create_time", nullable = false,updatable = false)
