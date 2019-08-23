@@ -65,4 +65,17 @@ public class TimeUtil {
         String result = format.format(resultTime);
         return result;
     }
+
+    /**
+     *计算两个时间点的时间差，单位为s
+     * @param time1
+     * @param time2
+     * @return
+     */
+    public static Double getTimeDiff(Date time1, Date time2){
+        long t=(time2.getTime()-time1.getTime())/(1000);
+        Double timeDiff = (double) t;
+        return timeDiff;
+    }
+
 }

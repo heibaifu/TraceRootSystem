@@ -7,18 +7,23 @@ import javax.validation.constraints.NotEmpty;
 @Data
 public class BoatPredictForm {
 
-    private String predict_id;
+    @NotEmpty(message = "Id必填")
+    private String predictId;
 
     /*船只编号*/
-    private String boat_id;
+    @NotEmpty(message = "boatId必填")
+    private String boatId;
 
     /*预测到达地点*/
-    private String predict_location;
+    @NotEmpty(message = "predictLocation必填")
+    private String predictLocation;
 
     /*预测到达时间*/
-    private String arrive_time;
+    @NotEmpty(message = "arriveTime必填")
+    private String arriveTime;
 
     /*预测到达该地点的概率*/
+    @NotEmpty(message = "probability必填")
     private String probability;
 
   /*  *//*创建时间*//*

@@ -18,7 +18,7 @@ import java.text.ParseException;
 import java.util.List;
 
 @RunWith(SpringRunner.class)
-@SpringBootTest
+@SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
 @Slf4j
 public class SensorStatusServiceImplTest {
 
@@ -41,8 +41,8 @@ public class SensorStatusServiceImplTest {
 
     @Test
     public void selectByStatusId() {
-        SensorStatus status = statusService.selectByStatusId(STATUSID);
-        Assert.assertEquals(status.getStatus(),"100");
+        SensorStatus status = statusService.selectByStatusId("0152242");
+        Assert.assertEquals(status.getStatus(),"102");
         Assert.assertEquals(status.getStatusId(),STATUSID);
     }
 
