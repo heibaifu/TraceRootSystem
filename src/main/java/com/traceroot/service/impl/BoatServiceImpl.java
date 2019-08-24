@@ -17,7 +17,13 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
+import java.sql.Timestamp;
+import java.text.DateFormat;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.List;
+import java.util.Locale;
 
 @Slf4j
 @Service
@@ -111,6 +117,23 @@ public class BoatServiceImpl implements BoatService {
         }
     }
 
+    @Override
+    public String speedCalculate(String boatId, String presentLocation, Date updateTime) {
+        List<BoatTraceDTO> traceDTOList = traceService.selectByBoatId(boatId);
+        if (traceDTOList.size() == 0)
+            return null;
+        else {
+            String speed=GeographyUtil.getSpeed(traceDTOList.get(traceDTOList.size()-1).getRecordLocation(),
+                                                presentLocation,
+                                                traceDTOList.get(traceDTOList.size()-1).getRecordTime(),
+                                                updateTime);
+            return speed;
+        }
+
+
+
+    }
+
     /**
      * 保存船只信息
      * 同时插入一条该船只的轨迹
@@ -130,11 +153,27 @@ public class BoatServiceImpl implements BoatService {
         if (directionCalculate != null){
             boat.setDirection(directionCalculate.toString());
         }
+
+
+        //获取当前系统时间
+        DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd kk:mm:ss", Locale.ENGLISH); //设定格式
+        Date timeDate = null;   //util类型
+        try {
+            timeDate = dateFormat.parse(dateFormat.format(new Date()));
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+        Timestamp dateTime = new java.sql.Timestamp(timeDate.getTime());
+
+        //计算速度
+        String speed = speedCalculate(boat.getBoatId(),boat.getPresentLocation(),dateTime);
+        if (speed != null) {
+            boat.setSpeed(speed);
+        }
         BoatDTO result = Boat2BoatDTOConverter.convert(repository.save(boat));
 
-
         //新建一条轨迹信息
-        BoatTraceDTO boatTraceDTO = new BoatTraceDTO(RandomUtil.genUniqueId(),boatDTO.getBoatId(),boatDTO.getPresentLocation(),result.getDirection(),boatDTO.getStatus());
+        BoatTraceDTO boatTraceDTO = new BoatTraceDTO(RandomUtil.genUniqueId(),boatDTO.getBoatId(),boatDTO.getPresentLocation(),result.getDirection(), result.getSpeed(),boatDTO.getStatus());
         traceService.insert(boatTraceDTO);
         return result;
     }

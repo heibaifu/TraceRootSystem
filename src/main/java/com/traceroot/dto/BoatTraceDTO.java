@@ -43,10 +43,11 @@ public class BoatTraceDTO {
 
     //测试用
     @JsonIgnore
-    public BoatTraceDTO(String traceId, String boatId, String recordLocation, String direction, String status) {
+    public BoatTraceDTO(String traceId, String boatId, String recordLocation, String direction, String speed,String status) {
         this.traceId = traceId;
         this.boatId = boatId;
         this.direction = direction;
+        this.speed=speed;
         this.traceSerialNumber = traceSerialNumber;
         this.recordLocation = recordLocation;
         this.status = status;

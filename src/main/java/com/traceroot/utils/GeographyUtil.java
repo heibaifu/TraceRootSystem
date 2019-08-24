@@ -1,11 +1,13 @@
 package com.traceroot.utils;
 
+import lombok.extern.slf4j.Slf4j;
+
 import java.lang.reflect.Array;
 import java.sql.Timestamp;
 import java.text.DecimalFormat;
 import java.util.Arrays;
 import java.util.Date;
-
+@Slf4j
 public class GeographyUtil {
 
     /**

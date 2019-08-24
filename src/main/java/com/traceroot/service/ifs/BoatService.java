@@ -3,6 +3,7 @@ package com.traceroot.service.ifs;
 import com.traceroot.dataobject.Boat;
 import com.traceroot.dto.BoatDTO;
 
+import java.util.Date;
 import java.util.List;
 
 public interface BoatService {
@@ -18,6 +19,8 @@ public interface BoatService {
     List<BoatDTO> selectByTypeIn(List<String> typeList);
 
     Double directionCalculate(String boatId , String presentLocation);
+
+    String speedCalculate (String boatId, String presentLocation, Date updateTime);
 
     BoatDTO save(BoatDTO boatDTO);
 

@@ -49,7 +49,7 @@ public class GeographyUtilTest {
 
     @Test
     public void getDistance() {
-        Double result = GeographyUtil.getDistance("116.361797,39.970557","116.388063,39.972852");
+        Double result = GeographyUtil.getDistance("116.401969,39.924453","117.21145,39.011836");
         log.info(result.toString());
 
     }
