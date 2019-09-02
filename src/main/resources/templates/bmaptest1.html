@@ -74,6 +74,7 @@
                 var boatstate=new Array();
                 var boatupdate=new Array();
                 var boatcreat=new Array();
+                var boatjudge=new Array();
                 var routeid=new Array();
                 var routesegment=new Array();
                 var routesegmentSerialNumber=new Array();
@@ -155,8 +156,9 @@
                     boatupdate[j]= tableboat.rows[j+1].cells[5];
                     boatcreat[j]= tableboat.rows[j+1].cells[6];
                     boatdirection[j]= tableboat.rows[j+1].cells[7];
+                    boatjudge[j]=tableboat.rows[j+1].cells[8];
                     if (boatlocation[j] != null) {
-                        drawboat( boatid[j],boatlocation[j],boattype[j],boatspeed[j],boatdirection[j],boatstate[j],boatupdate[j],boatcreat[j]);
+                        drawboat( boatid[j],boatlocation[j],boattype[j],boatspeed[j],boatdirection[j],boatstate[j],boatupdate[j],boatcreat[j],boatjudge[j]);
                     }
                 }
 
@@ -1189,7 +1191,7 @@ function showInfos(content,e,t) {
     else{
         var opts = {
             width: 280,     // 信息窗口宽度
-            height: 180,     // 信息窗口高度
+            height: 230,     // 信息窗口高度
             title: "船只信息", // 信息窗口标题
             enableMessage: true,//设置允许信息窗发送短息
             enableCloseOnClick: false,
@@ -1616,20 +1618,66 @@ function drawboatf(id,location,type,state,update,creat) {
 
 }
 
-function drawboat(id,location,type,speed,direction,state,update,creat) {
+function drawboat(id,location,type,speed,direction,state,update,creat,judge) {
 
     var sen = location.innerHTML.split(",");
 
-    var angel=direction.innerHTML/(Math.PI/180);
+ //   var dd=parseFloat(direction.innerHTML);
 
-    var myIcon = new BMap.Icon("/traceroot/image/boatd.png", new BMap.Size(64,64));
+    var angle=direction.innerHTML/(Math.PI/180);
 
-    var marker = new BMap.Marker(new BMap.Point(sen[0], sen[1]),{icon:myIcon, rotation:-45+angel});			//加载单个点
+    var myIcon = new BMap.Icon("/traceroot/image/boat.png", new BMap.Size(64,64));
+
+    var marker = new BMap.Marker(new BMap.Point(sen[0], sen[1]),{icon:myIcon});			//加载单个点
 
     map.addOverlay(marker);
 
+    myIcon = new BMap.Icon("/traceroot/image/jiantou.png", new BMap.Size(64,64), {anchor: new BMap.Size(55, 55)});
+
+    marker = new BMap.Marker(new BMap.Point(sen[0], sen[1]),{icon:myIcon, rotation:angle});			//加载单个点
+
+    map.addOverlay(marker);
+
+    if(judge.innerHTML=="0")
+        var gudge="正常";
+    else if (judge.innerHTML=="1")
+        gudge="超速";
+    else
+        gudge="船只偏离航线";
+    if(angle<45)
+    {
+        var vector = "北偏东"+ angle+"度";
+    }
+    else if (angle<90)
+    {
+        vector="东偏北"+(90-angle)+"度";
+    }
+    else if (angle<135)
+    {
+        vector="东偏南"+(135-angle)+"度";
+    }
+    else if (angle<180)
+    {
+        vector="南偏东"+(180-angle)+"度";
+    }
+    else if (angle<225)
+    {
+        vector="南偏西"+(225-angle)+"度";
+    }
+    else if (angle<270)
+    {
+        vector="西偏南"+(270-angle)+"度";
+    }
+    else if (angle<315)
+    {
+        vector="西偏北"+(315-angle)+"度";
+    }
+    else
+    {
+        vector="北偏西"+(360-angle)+"度";
+    }
     var content = "船只ID ：" + id.innerHTML + "； <br>位置 ：" + location.innerHTML + "；<br> 状态 ：" + state.innerHTML + "； <br>种类 ：" + type.innerHTML +
-        "；<br> 船速： " + speed.innerHTML + "；<br> 更新时间： " + update.innerHTML + "； <br>创建时间：" + creat.innerHTML;
+        "；<br> 船速： " + speed.innerHTML + "；<br> 方向： " + vector  +"；<br> 更新时间： " + update.innerHTML + "； <br>创建时间：" + creat.innerHTML + "； <br>超速判断：" + gudge;
 
     addClickHandler(content,marker,0);
 

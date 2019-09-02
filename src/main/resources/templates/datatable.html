@@ -117,9 +117,11 @@
         <th>船只id</th>
         <th>当前位置</th>
         <th>船只种类</th>
+        <th>船速</th>
         <th>船只状态</th>
         <th>船只更新时间</th>
         <th>船只创建时间</th>
+        <th>船只超速判断</th>
     </tr>
     </thead>
     <tbody>
@@ -132,10 +134,11 @@
         <td id="boat_update" name="boat_update" th:text="${boat.updateTime}"></td>
         <td id="boat_creat" name="boat_creat" th:text="${boat.createTime}"></td>
         <td id="boat_direction" name="boat_direction" th:text="${boat.direction}"></td>
+        <td id="boat_judge" name="boat_judge" th:text="${boat.overspeedJudging}"></td>
+
     </tr>
     </tbody>
 </table>
-routeSegmentDTOS
 <table id="boatroute" name="boatroute">
     <thead>
     <tr>
