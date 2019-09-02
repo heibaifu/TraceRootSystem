@@ -86,10 +86,10 @@ public class GeographyUtil {
             //拿出经度小数点前的位数
             String[] split = lngString.split("\\.");
             //拼接精度
-            result = split[0].substring(0, split[0].length()-1) + "%";
+            result = split[0].substring(0, split[0].length()- Math.abs(accuracyDegree)) + "%";
             //重复上一部，拿纬度数据
             split = latString.split("\\.");
-            result = result + "," +split[0].substring(0, split[0].length()-1) + "%";
+            result = result + "," +split[0].substring(0, split[0].length()-Math.abs(accuracyDegree)) + "%";
         }
 
         return result;
@@ -192,7 +192,7 @@ public class GeographyUtil {
     }
 
     /**
-     * 点到直线的最短距离的判断
+     * 点到直线的最短距离的测量（单位为m）
      * 点point到由两点start、end组成的线段
      * 数学原理：线段与一点构成的三角形进行运算
      * @param start
@@ -206,12 +206,12 @@ public class GeographyUtil {
         double distanceFromStartToPoint = getDistance(start,point);  // start到点的距离
         double distanceFromEndToPoint = getDistance(end,point);    // end到点的距离
         //点非常靠近起点和终点
-        if (distanceFromEndToPoint <= 0.000001 || distanceFromStartToPoint <= 0.000001) {
+        if (distanceFromEndToPoint <= 0.01 || distanceFromStartToPoint <= 0.01) {
             result = 0;
             return result;
         }
         //很短的线段，几乎是一个点
-        if (lengthOfLine <= 0.000001) {
+        if (lengthOfLine <= 0.01) {
             result = distanceFromStartToPoint;
             return result;
         }

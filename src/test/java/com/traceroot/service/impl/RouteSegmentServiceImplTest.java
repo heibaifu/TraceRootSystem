@@ -4,6 +4,8 @@ import com.traceroot.dataobject.RouteSegment;
 import com.traceroot.dataobject.SeaRoute;
 import com.traceroot.dto.RouteSegmentDTO;
 import com.traceroot.service.ifs.RouteSegmentService;
+import com.traceroot.utils.DoubleLocation;
+import com.traceroot.utils.GeographyUtil;
 import com.traceroot.utils.RandomUtil;
 import org.junit.Assert;
 import org.junit.Test;
@@ -17,7 +19,7 @@ import java.util.List;
 import static org.junit.Assert.*;
 
 @RunWith(SpringRunner.class)
-@SpringBootTest
+@SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
 public class RouteSegmentServiceImplTest {
 
     @Autowired
@@ -63,5 +65,14 @@ public class RouteSegmentServiceImplTest {
     @Test
     public void deleteByRouteId() {
         segmentService.deleteByRouteId(ROUTEID);
+    }
+
+
+    @Test
+    public void selectByRouteIdAndStartNearLocation() {
+        DoubleLocation doubleLocation = GeographyUtil.string2doubleLocation("119.797133,37.83008");
+        String fuzzyMatchingExpr = GeographyUtil.buildFuzzyMatchingExpr(doubleLocation.getLongitude(),doubleLocation.getLatitude(),-1);
+        List<RouteSegmentDTO> routeSegmentDTOS = segmentService.selectByRouteIdAndStartNearLocation("803", fuzzyMatchingExpr);
+        Assert.assertNotEquals(0,routeSegmentDTOS.size());
     }
 }

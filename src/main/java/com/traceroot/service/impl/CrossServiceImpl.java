@@ -162,9 +162,12 @@ public class CrossServiceImpl implements CrossService {
      */
     @Override
     public RouteSegmentDTO matchBoatAndRouteSegment(String routeID,String boatLocation){
+        //正常状态下与航线的最远距离，超过此距离视为偏离航线
+        Double restriction = 100000.0;   //此处假设为100000米
+
         //构造模糊匹配表达式，拿取附近的航线段
         DoubleLocation doubleLocation = GeographyUtil.string2doubleLocation(boatLocation);
-        String fuzzyMatchingExpr = GeographyUtil.buildFuzzyMatchingExpr(doubleLocation.getLongitude(),doubleLocation.getLatitude(),-1);
+        String fuzzyMatchingExpr = GeographyUtil.buildFuzzyMatchingExpr(doubleLocation.getLongitude(),doubleLocation.getLatitude(),-2);
         List<RouteSegmentDTO> routeSegmentDTOS = routeSegmentService.selectByRouteIdAndStartNearLocation(routeID, fuzzyMatchingExpr);
 
         //找出距离船只最近的航线段
@@ -175,6 +178,11 @@ public class CrossServiceImpl implements CrossService {
             DoubleLocation end = GeographyUtil.string2doubleLocation(element.getEnd());
             dtoTreeMap.put(GeographyUtil.pointToLine(start,end,point),element);
         });
+
+        //todo 距离航线过远，抛出异常——此船不在规定航线上
+        if (dtoTreeMap.firstKey() > restriction){
+            return null;
+        }
 
         return dtoTreeMap.firstEntry().getValue();
     }
@@ -190,6 +198,9 @@ public class CrossServiceImpl implements CrossService {
     public Integer ditermineOverspeed(String routeID, String boatLocation, String boatSpeedString) {
         //查找船只所在航线
         RouteSegmentDTO routeSegmentDTO = matchBoatAndRouteSegment(routeID, boatLocation);
+        if (routeSegmentDTO == null){
+            return 3;   //返回code3 船只偏离航线
+        }
         String limitingSpeedString = routeSegmentDTO.getLimitingSpeed();
         Double limitingSpeed = new Double(limitingSpeedString);
         Double boatSpeed = new Double(boatSpeedString);

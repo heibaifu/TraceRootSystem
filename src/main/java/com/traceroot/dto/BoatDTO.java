@@ -23,7 +23,8 @@ public class BoatDTO {
     /*当前船速*/
     private String speed;
 
-    /*超速判断，正常为0，超速为1*/
+    /*超速判断，（code）正常为0，超速为1*/
+    /*code==3 船只偏离航线*/
     private Integer overspeedJudging;
 
     /*当前船的方向*/

@@ -49,7 +49,9 @@ public class GeographyUtilTest {
 
     @Test
     public void getDistance() {
-        Double result = GeographyUtil.getDistance("116.401969,39.924453","117.21145,39.011836");
+        DoubleLocation start = GeographyUtil.string2doubleLocation("116.401969,39.924453");
+        DoubleLocation end = GeographyUtil.string2doubleLocation("117.21145,39.011836");
+        Double result = GeographyUtil.getDistance(start,end);
         log.info(result.toString());
 
     }
@@ -76,5 +78,15 @@ public class GeographyUtilTest {
         BoatTraceDTO boatTraceDTO2=boatTraceService.selectByTraceId("4781816");
         String result=GeographyUtil.getSpeed(boatTraceDTO1.getRecordLocation(),boatTraceDTO2.getRecordLocation(),boatTraceDTO1.getRecordTime(),boatTraceDTO2.getRecordTime());
         Assert.assertNotEquals(0,result);
+    }
+
+    @Test
+    public void pointToLine() {
+        DoubleLocation start = GeographyUtil.string2doubleLocation("116.322132,39.999422");
+        DoubleLocation end = GeographyUtil.string2doubleLocation("116.322267,39.998027");
+        DoubleLocation point = GeographyUtil.string2doubleLocation("116.322231,39.998303");
+        Double distance = GeographyUtil.pointToLine(start, end, point);
+        Assert.assertNotNull(distance);
+        log.info(distance.toString());
     }
 }

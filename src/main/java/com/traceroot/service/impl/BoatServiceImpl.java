@@ -173,7 +173,6 @@ public class BoatServiceImpl implements BoatService {
         if (speed != null) {
             boat.setSpeed(speed);
             if (boat.getRouteId() != null){
-                //todo 开发未完成
                 Integer overspeedJudging = crossService.ditermineOverspeed(boat.getRouteId(),boat.getPresentLocation(), speed);
                 boat.setOverspeedJudging(overspeedJudging);
             }

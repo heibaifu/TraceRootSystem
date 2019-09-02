@@ -1,6 +1,7 @@
 package com.traceroot.service.impl;
 
 import com.traceroot.dataobject.BoatTrace;
+import com.traceroot.dto.RouteSegmentDTO;
 import com.traceroot.service.ifs.CrossService;
 import com.traceroot.utils.TimeUtil;
 import lombok.extern.slf4j.Slf4j;
@@ -15,7 +16,7 @@ import java.text.ParseException;
 import java.util.*;
 
 @RunWith(SpringRunner.class)
-@SpringBootTest
+@SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
 @Slf4j
 public class CrossServiceImplTest {
 
@@ -48,5 +49,17 @@ public class CrossServiceImplTest {
         }
         NavigableMap<Integer, List<String>> map = service.selectByPassingPipelineSegment("123", startTime, endTime, 1);
         Assert.assertNotEquals(0,map.size());
+    }
+
+    @Test
+    public void matchBoatAndRouteSegment() {
+        RouteSegmentDTO routeSegmentDTO = service.matchBoatAndRouteSegment("801", "120.558608,39.079088");
+        Assert.assertNotNull(routeSegmentDTO);
+    }
+
+    @Test
+    public void ditermineOverspeed() {
+        Integer integer = service.ditermineOverspeed("801", "120.558608,39.079088","91");
+        Assert.assertNotEquals(new Integer(0),integer);
     }
 }
