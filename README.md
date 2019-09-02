@@ -1,5 +1,8 @@
 # TraceRootSystem 中海油溯源系统v0.3
 
+## 地图界面展示
+![Image text](https://raw.githubusercontent.com/Cyclotron2333/img-folder/master/%E5%9C%B0%E5%9B%BE%E9%A1%B5%E9%9D%A2.png)
+
 ## 1.软件功能
 本项目旨在提供一个综合的海洋输油管道监测和预警平台，实现对石油管道及周边船只的状态监控，并用大数据分析实现对可能触发的故障的预测。
 ### 粗略来看，项目目前实现的功能有：
