@@ -2,23 +2,25 @@ package com.traceroot.service.impl;
 
 import com.traceroot.dataobject.PipelineSegment;
 import com.traceroot.dataobject.PipelineSensor;
+import com.traceroot.dataobject.SensorStatus;
 import com.traceroot.dto.PipeSegmentDTO;
 import com.traceroot.dto.PipelineSensorDTO;
 import com.traceroot.enums.SensorStatusEnum;
 import com.traceroot.exception.PipeException;
 import com.traceroot.enums.ResultEnum;
 import com.traceroot.repository.PipelineSegmentRepository;
+import com.traceroot.service.FaultHistory;
 import com.traceroot.service.ifs.PipelineSegmentService;
 import com.traceroot.converter.dao2dto.PipelineSegment2PipeSegmentDTOConverter;
 import com.traceroot.service.ifs.PipelineSensorService;
+import com.traceroot.service.ifs.SensorStatusService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
-import java.util.HashSet;
-import java.util.List;
+import java.sql.Timestamp;
+import java.util.*;
 import java.util.stream.Collectors;
 
 @Slf4j
@@ -30,6 +32,9 @@ public class PipelineSegmentServiceImpl implements PipelineSegmentService {
 
     @Autowired
     private PipelineSensorService pipelineSensorService;
+
+    @Autowired
+    private SensorStatusService statusService;
 
     //将查出来的列表转换为DTO列表
     @Override
@@ -130,14 +135,48 @@ public class PipelineSegmentServiceImpl implements PipelineSegmentService {
         }
     }
 
-    //查找在serialNumber之后的部分
+    /**
+     * 查找序号在serialNumber之后的管道段
+     * @param pipeId
+     * @param serialNumber
+     * @return
+     */
     @Override
     public List<PipelineSegment> selectByPipeIdAndSegmentSerialNumberAfter(String pipeId, Integer serialNumber) {
-
         return repository.findByPipeIdAndSegmentSerialNumberAfterOrderBySegmentSerialNumber(pipeId, serialNumber);
     }
 
-    //删除管道段，先查询有没有再删除，删除时同时修改其他段的serial_number
+    /**
+     * 构造以时间为key的错误历史，历史纪录按时间从前往后排序
+     * @param segmentId
+     * @return
+     */
+    @Override
+    public TreeMap<Date,List<FaultHistory>> builtFaultHistory(String segmentId) {
+        TreeMap<Date,List<FaultHistory>> result = new TreeMap<>();
+        List<PipelineSensorDTO> sensorDTOList = pipelineSensorService.selectBySegmentId(segmentId);
+        sensorDTOList.forEach(sensor -> {
+            List<SensorStatus> sensorStatusList = statusService.selectBySensorIdAndStatus(sensor.getSensorId(),SensorStatusEnum.ABNORMAL.getCode());
+            sensorStatusList.forEach(sensorHistory -> {
+                FaultHistory faultHistory = new FaultHistory(sensorHistory.getRecordTime(),sensor.getSensorId(),sensor.getTypeId());
+                List<FaultHistory> historyList = result.get(sensorHistory.getRecordTime());
+                if ( historyList != null){
+                    historyList.add(faultHistory);
+                } else {
+                    historyList = new ArrayList<>();
+                    historyList.add(faultHistory);
+                    result.put(sensorHistory.getRecordTime(),historyList);
+                }
+            });
+        });
+        return result;
+    }
+
+
+    /**
+     * 删除管道段，先查询有没有再删除，删除时同时修改其他段的serial_number
+     * @param segmentId
+     */
     @Override
     public void deleteBySegmentId(String segmentId){
         PipelineSegment pipelineSegment = repository.findBySegmentId(segmentId);

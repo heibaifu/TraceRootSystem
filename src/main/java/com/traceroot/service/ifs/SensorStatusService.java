@@ -17,6 +17,8 @@ public interface SensorStatusService {
 
     SensorStatus selectByStatusId (String statusId);
 
+    List<SensorStatus> selectBySensorIdAndStatus (String sensorId,String Status);
+
     List<SensorStatus> selectByRecordTimeBetween(Date startTime, Date endTime);
 
     List<SensorStatus> selectBySensorIdAndRecordTimeBetween(String sensorId, Date startTime, Date endTime);

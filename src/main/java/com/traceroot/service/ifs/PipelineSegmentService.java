@@ -1,11 +1,14 @@
 package com.traceroot.service.ifs;
 
 import com.traceroot.dataobject.PipelineSegment;
-import com.traceroot.dataobject.multikeysclass.PipelineSegmentMultiKeys;
 import com.traceroot.dto.PipeSegmentDTO;
 import com.traceroot.enums.SensorStatusEnum;
+import com.traceroot.service.FaultHistory;
 
+import java.sql.Timestamp;
+import java.util.Date;
 import java.util.List;
+import java.util.TreeMap;
 
 public interface PipelineSegmentService {
 
@@ -24,6 +27,8 @@ public interface PipelineSegmentService {
     PipelineSegment update(PipeSegmentDTO pipeSegmentDTO);
 
     List<PipelineSegment> selectByPipeIdAndSegmentSerialNumberAfter(String pipeId, Integer serialNumber);
+
+    TreeMap<Date,List<FaultHistory>> builtFaultHistory(String segmentId);
 
     void deleteBySegmentId(String segmentId);
 

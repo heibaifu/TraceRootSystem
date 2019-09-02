@@ -3,6 +3,7 @@ package com.traceroot.service.impl;
 import com.traceroot.dataobject.PipelineSegment;
 import com.traceroot.dto.PipeSegmentDTO;
 import com.traceroot.enums.SensorStatusEnum;
+import com.traceroot.service.FaultHistory;
 import com.traceroot.utils.RandomUtil;
 import lombok.extern.slf4j.Slf4j;
 import org.junit.Assert;
@@ -13,7 +14,9 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit4.SpringRunner;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
+import java.util.TreeMap;
 
 @RunWith(SpringRunner.class)
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
@@ -88,5 +91,12 @@ public class PipelineSegmentServiceImplTest {
         List<PipeSegmentDTO> warningSegments=segmentService.selectBySensorStatus(SensorStatusEnum.BROKEN);
         log.info("hhh");
 
+    }
+
+    @Test
+    public void builtFaultHistory() {
+        TreeMap<Date, List<FaultHistory>> faultHistory = segmentService.builtFaultHistory("1001");
+        Assert.assertNotEquals(0,faultHistory.size());
+        log.info("hhh");
     }
 }

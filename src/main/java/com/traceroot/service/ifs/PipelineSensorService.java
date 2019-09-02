@@ -28,6 +28,7 @@ public interface PipelineSensorService {
 
     List<PipelineSensorDTO> selectByPresentStatus(SensorStatusEnum statusEnum);
 
+
     void deleteBySensorId(String sensorId);
 
 }

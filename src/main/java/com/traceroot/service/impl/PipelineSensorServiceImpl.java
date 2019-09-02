@@ -147,6 +147,14 @@ public class PipelineSensorServiceImpl implements PipelineSensorService {
         return pipelineSensorDTO;
     }*/
 
+
+    @Override
+    public PipelineSensorDTO selectByLocation(String location) {
+        PipelineSensor pipelineSensor=repository.findByLocation(location);
+        PipelineSensorDTO pipelineSensorDTO=PipelineSensor2SensorDTOConverter.convert(pipelineSensor);
+        return pipelineSensorDTO;
+    }
+
     @Override
     public void deleteBySensorId(String SensorId) {
         PipelineSensor sensor = repository.findBySensorId(SensorId);
@@ -157,10 +165,5 @@ public class PipelineSensorServiceImpl implements PipelineSensorService {
         log.info(ResultEnum.DELETE_SUCCESS.getMessage());
     }
 
-    @Override
-    public PipelineSensorDTO selectByLocation(String location) {
-        PipelineSensor pipelineSensor=repository.findByLocation(location);
-        PipelineSensorDTO pipelineSensorDTO=PipelineSensor2SensorDTOConverter.convert(pipelineSensor);
-        return pipelineSensorDTO;
-    }
+
 }

@@ -40,6 +40,11 @@ public class SensorStatusServiceImpl implements SensorStatusService {
         return repository.findBySensorIdOrderByRecordTimeDesc(sensorId);
     }
 
+    @Override
+    public List<SensorStatus> selectBySensorIdAndStatus(String sensorId,String status) {
+        return repository.findBySensorIdAndStatus(sensorId,status);
+    }
+
     /**
      * 按照statusId返回
      * @param statusId
