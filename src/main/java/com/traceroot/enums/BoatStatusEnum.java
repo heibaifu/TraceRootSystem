@@ -5,7 +5,7 @@ import lombok.Getter;
 @Getter
 public enum BoatStatusEnum {
 
-    NOMAL(150,"状态正常"),
+    NORMAL(150,"状态正常"),
     DANGEROUS(151,"状态危险"),
             ;
 
