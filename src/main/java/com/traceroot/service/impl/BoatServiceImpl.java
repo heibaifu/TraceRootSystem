@@ -181,6 +181,7 @@ public class BoatServiceImpl implements BoatService {
 
         //新建一条轨迹信息
         BoatTraceDTO boatTraceDTO = new BoatTraceDTO(RandomUtil.genUniqueId(),boatDTO.getBoatId(),boatDTO.getPresentLocation(),result.getDirection(), result.getSpeed(),boatDTO.getStatus());
+        boatTraceDTO.setOverspeedJudging(result.getOverspeedJudging());
         traceService.insert(boatTraceDTO);
         return result;
     }

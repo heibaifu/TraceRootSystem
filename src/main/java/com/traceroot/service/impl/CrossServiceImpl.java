@@ -164,7 +164,7 @@ public class CrossServiceImpl implements CrossService {
     public RouteSegmentDTO matchBoatAndRouteSegment(String routeID,String boatLocation){
         //正常状态下与航线的最远距离，超过此距离视为偏离航线
         //todo 自我假设的限制距离
-        Double restriction = 100000.0;   //此处假设为100000米
+        Double restriction = 50000.0;   //此处假设为50000米
 
         //构造模糊匹配表达式，拿取附近的航线段
         DoubleLocation doubleLocation = GeographyUtil.string2doubleLocation(boatLocation);
