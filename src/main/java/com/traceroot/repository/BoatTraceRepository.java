@@ -21,8 +21,8 @@ public interface BoatTraceRepository extends JpaRepository<BoatTrace,String> {
 
     List<BoatTrace> findByRecordTimeBetweenAndRecordLocationIsLikeOrderByRecordTimeDesc(Date startTime, Date endTime,String location);
 
-    @Query(value="select boat_id from boat_trace where trace_id in ?1", nativeQuery = true)
-    List<String> findBoatId(List<String> traceIdList);
+/*    @Query(value="select boat_id from boat_trace where trace_id in ?1", nativeQuery = true)
+    List<String> findBoatId(List<String> traceIdList);*/
 
     List<BoatTrace> findByRecordLocationIsLikeOrderByRecordTimeDesc(String location);
 

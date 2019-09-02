@@ -13,12 +13,13 @@ public interface RouteSegmentService {
 
     List<RouteSegmentDTO> selectByRouteIdOrderBySegmentSerialNumberAsc(String routeId);
 
-    List<RouteSegmentDTO> findByRouteIdAndSegmentSerialNumberAfter(String routeId,Integer serialNumber);
+    List<RouteSegmentDTO> selectByRouteIdAndSegmentSerialNumberAfter(String routeId, Integer serialNumber);
 
     List<RouteSegmentDTO> selectAll();
 
     RouteSegmentDTO insert(RouteSegmentDTO segmentDTO);
 
+    List<RouteSegmentDTO> selectByRouteIdAndStartNearLocation(String routeId ,String location);
 /*
     RouteSegment update(RouteSegment segment);
 */

@@ -18,6 +18,7 @@ import org.aspectj.lang.annotation.*;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
+import org.springframework.validation.BindingResult;
 
 import java.util.Date;
 import java.util.List;
@@ -95,10 +96,17 @@ public class UpdateAspect {
 
         Object result = null;
 
+        //表单验证错误则不发送新消息
+        BindingResult bindingResult = (BindingResult)args[1];
+        if (bindingResult.hasErrors()){
+            return;
+        }
+
         if (BoatForm.class.isInstance(args[0])){
-            BoatForm arg = (BoatForm) args[0];
+            //从方法参数中取得信息
+            BoatForm boatForm = (BoatForm) args[0];
             String code = "1";    //区分是新船(1)还是旧船(0)
-            BoatDTO boatDTO = boatService.selectByBoatId(arg.getBoatId());
+            BoatDTO boatDTO = boatService.selectByBoatId(boatForm.getBoatId());
             //todo 这里可能是因为Jpa一级缓存机制的原因，查询结果的createTime为null
             if (boatDTO.getCreateTime() == null){
                 boatDTO.setCreateTime(createTime);
@@ -139,8 +147,6 @@ public class UpdateAspect {
                 sensorVO.setFlag(segmentService.judgeStatus(sensorVO.getSegmentId()).toString());
             } else {
                 String lastStatus = statusList.get(1).getStatus();
-                log.warn("lastStatus :" + lastStatus);
-                log.warn("presentStatus :" + sensorVO.getPresentStatus());
                 if (lastStatus.equals(sensorVO.getPresentStatus())){
                     sensorVO.setFlag("3");
                 }

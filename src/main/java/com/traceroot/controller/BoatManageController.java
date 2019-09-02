@@ -155,7 +155,7 @@ public class BoatManageController {
                                       BindingResult bindingResult){
         if (bindingResult.hasErrors()){
             log.error("【保存船只】参数不正确，boatForm={}",boatForm);
-            ResultVOUtil.error(ResultEnum.PARAM_ERROR.getCode(),bindingResult.getFieldError().getDefaultMessage());
+            return ResultVOUtil.error(ResultEnum.PARAM_ERROR.getCode(),bindingResult.getFieldError().getDefaultMessage());
         }
         BoatDTO boatDTO = BoatForm2BoatDTOConverter.convert(boatForm);
         boatService.save(boatDTO);

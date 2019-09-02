@@ -64,7 +64,7 @@ public class PipeManagerController {
                                                  BindingResult bindingResult){
         if (bindingResult.hasErrors()){
             log.error("【保存管道】参数不正确，pipeForm={}",pipeForm);
-            ResultVOUtil.error(ResultEnum.PARAM_ERROR.getCode()
+            return ResultVOUtil.error(ResultEnum.PARAM_ERROR.getCode()
                     ,bindingResult.getFieldError().getDefaultMessage());
         }
 
@@ -80,7 +80,7 @@ public class PipeManagerController {
         Pipeline result = pipelineService.save(pipeDTO);
         if (result == null){
             log.error("【保存管道】保存失败，result={}",result);
-            ResultVOUtil.error(ResultEnum.SAVE_FAIL.getCode(),ResultEnum.SAVE_FAIL.getMessage());
+            return ResultVOUtil.error(ResultEnum.SAVE_FAIL.getCode(),ResultEnum.SAVE_FAIL.getMessage());
         }
 
         Map<String,String> map = new HashMap<>();
@@ -102,7 +102,7 @@ public class PipeManagerController {
                                                     BindingResult bindingResult){
         if (bindingResult.hasErrors()){
             log.error("【保存管道段】参数不正确，pipeForm={}",segmentForm);
-            ResultVOUtil.error(ResultEnum.PARAM_ERROR.getCode()
+            return ResultVOUtil.error(ResultEnum.PARAM_ERROR.getCode()
                     ,bindingResult.getFieldError().getDefaultMessage());
         }
 
@@ -116,7 +116,7 @@ public class PipeManagerController {
         }
         if (result == null){
             log.error("【保存管道段】保存失败，result={}",result);
-            ResultVOUtil.error(ResultEnum.SAVE_FAIL.getCode(),ResultEnum.SAVE_FAIL.getMessage());
+            return ResultVOUtil.error(ResultEnum.SAVE_FAIL.getCode(),ResultEnum.SAVE_FAIL.getMessage());
         }
 
         Map<String,String> map = new HashMap<>();
@@ -225,7 +225,7 @@ public class PipeManagerController {
 
         if (result == null){
             log.error("【保存传感器】保存失败，result={}",result);
-            ResultVOUtil.error(ResultEnum.SAVE_FAIL.getCode(),ResultEnum.SAVE_FAIL.getMessage());
+            return ResultVOUtil.error(ResultEnum.SAVE_FAIL.getCode(),ResultEnum.SAVE_FAIL.getMessage());
         }
 
         Map<String,String> map = new HashMap<>();

@@ -1,12 +1,15 @@
 package com.traceroot.service.impl;
 
 import com.traceroot.dataobject.BoatTrace;
+import com.traceroot.dataobject.RouteSegment;
 import com.traceroot.dto.PipeSegmentDTO;
+import com.traceroot.dto.RouteSegmentDTO;
 import com.traceroot.enums.ResultEnum;
 import com.traceroot.exception.PipeException;
 import com.traceroot.service.ifs.BoatTraceService;
 import com.traceroot.service.ifs.CrossService;
 import com.traceroot.service.ifs.PipelineSegmentService;
+import com.traceroot.service.ifs.RouteSegmentService;
 import com.traceroot.utils.DoubleLocation;
 import com.traceroot.utils.GeographyUtil;
 import com.traceroot.utils.MathUtil;
@@ -21,14 +24,17 @@ import java.util.*;
 public class CrossServiceImpl implements CrossService {
 
     @Autowired
-    private PipelineSegmentService segmentService;
+    private PipelineSegmentService pipelineSegmentService;
 
     @Autowired
     private BoatTraceService traceService;
 
+    @Autowired
+    private RouteSegmentService routeSegmentService;
+
     /**
      * 查找指定时间内在指定管道附近游弋的船只，及对应船只的轨迹
-     * todo 根据给定范围进行查找的功能未开发
+     * todo 根据给定圆形区域范围进行查找的功能未开发
      * @param segmentId
      * @param startTime
      * @param endTime
@@ -39,7 +45,7 @@ public class CrossServiceImpl implements CrossService {
     public Map<String,List<BoatTrace>> findBoatNearSegmentDuringTime(String segmentId, Date startTime, Date endTime , Integer accuracyDegree) {
 
         //获取起始点经纬度对象
-        PipeSegmentDTO pipeSegmentDTO = segmentService.selectBySegmentId(segmentId);
+        PipeSegmentDTO pipeSegmentDTO = pipelineSegmentService.selectBySegmentId(segmentId);
         DoubleLocation startLocation = GeographyUtil.string2doubleLocation(pipeSegmentDTO.getStart());
         DoubleLocation endLocation = GeographyUtil.string2doubleLocation(pipeSegmentDTO.getEnd());
 
@@ -97,7 +103,7 @@ public class CrossServiceImpl implements CrossService {
     public NavigableMap<Integer,List<String>> selectByPassingPipelineSegment(String segmentId,Date startTime,Date endTime,Integer accuracyDegree) {
 
         //1.查找这段管道的坐标
-        PipeSegmentDTO pipeSegmentDTO = segmentService.selectBySegmentId(segmentId);
+        PipeSegmentDTO pipeSegmentDTO = pipelineSegmentService.selectBySegmentId(segmentId);
         if (pipeSegmentDTO==null){
             throw new PipeException(ResultEnum.PIPE_SEGMENT_NOT_EXIST);
         }
@@ -148,6 +154,40 @@ public class CrossServiceImpl implements CrossService {
         return map;
     }
 
+    /**
+     * 匹配距离船只最近的航线段
+     * @param routeID
+     * @param boatLocation
+     * @return
+     */
+    @Override
+    public RouteSegmentDTO matchBoatAndRouteSegment(String routeID,String boatLocation){
+        //构造模糊匹配表达式
+        DoubleLocation doubleLocation = GeographyUtil.string2doubleLocation(boatLocation);
+        String fuzzyMatchingExpr = GeographyUtil.buildFuzzyMatchingExpr(doubleLocation.getLongitude(),doubleLocation.getLatitude(),-1);
+        List<RouteSegmentDTO> routeSegmentDTOS = routeSegmentService.selectByRouteIdAndStartNearLocation(routeID, fuzzyMatchingExpr);
 
+        RouteSegmentDTO result = null;
+        return result;
+    }
 
+    /**
+     * 测定船只在该航线上行驶时是否超速
+     * @param routeID
+     * @param boatLocation
+     * @param boatSpeedString
+     * @return
+     */
+    @Override
+    public Integer ditermineOverspeed(String routeID, String boatLocation, String boatSpeedString) {
+        //查找船只所在航线
+        RouteSegmentDTO routeSegmentDTO = matchBoatAndRouteSegment(routeID, boatLocation);
+        String limitingSpeedString = routeSegmentDTO.getLimitingSpeed();
+        Double limitingSpeed = new Double(limitingSpeedString);
+        Double boatSpeed = new Double(boatSpeedString);
+        if (boatSpeed > limitingSpeed){
+            return 1;
+        }
+        return 0;
+    }
 }

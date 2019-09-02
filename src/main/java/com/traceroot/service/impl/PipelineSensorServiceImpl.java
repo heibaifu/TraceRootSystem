@@ -96,7 +96,7 @@ public class PipelineSensorServiceImpl implements PipelineSensorService {
 
         SensorTypeDTO sensorTypeDTO=sensorTypeService.selectByTypeId(pipelineSensor.getTypeId());
 
-        if (pipelineSensor.getPresentStatus().equals(SensorStatusEnum.BROKEN.getCode())){
+        if ( pipelineSensor.getPresentStatus()!=null && pipelineSensor.getPresentStatus().equals(SensorStatusEnum.BROKEN.getCode())){
             pipelineSensor.setPresentValue(null);
         } else if (pipelineSensor.getPresentValue()!=null){
             if (Double.valueOf(pipelineSensor.getPresentValue()) >= Double.valueOf(sensorTypeDTO.getLowestValue())&&Double.valueOf(pipelineSensor.getPresentValue()) <= Double.valueOf(sensorTypeDTO.getHighestValue())){

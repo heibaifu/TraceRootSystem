@@ -24,7 +24,7 @@ public interface BoatService {
 
     BoatDTO save(BoatDTO boatDTO);
 
-    /*//船只当前位置变化，同时将此变化插入到船只轨迹表中  todo 船只更新方法有待考虑，使用了DTO应该不需要此方法了
+    /*//船只当前位置变化，同时将此变化插入到船只轨迹表中
     Boat updateByLocation(String boatId, String presentLocation);*/
 
     Boolean deleteById(String boatId);

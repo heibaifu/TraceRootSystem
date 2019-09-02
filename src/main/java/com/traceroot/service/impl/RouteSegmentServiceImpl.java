@@ -68,7 +68,7 @@ public class RouteSegmentServiceImpl implements RouteSegmentService {
      * @return
      */
     @Override
-    public List<RouteSegmentDTO> findByRouteIdAndSegmentSerialNumberAfter(String routeId, Integer serialNumber) {
+    public List<RouteSegmentDTO> selectByRouteIdAndSegmentSerialNumberAfter(String routeId, Integer serialNumber) {
 
         List<RouteSegment> routeSegmentList=repository.findByRouteIdAndSegmentSerialNumberAfterOrderBySegmentSerialNumberAsc(routeId,serialNumber);
         List<RouteSegmentDTO> routeSegmentDTOS=RouteSegment2RouteSegmentDTO.convert(routeSegmentList);
@@ -79,6 +79,15 @@ public class RouteSegmentServiceImpl implements RouteSegmentService {
     @Override
     public List<RouteSegmentDTO> selectAll() {
         List<RouteSegmentDTO> routeSegmentDTOS=RouteSegment2RouteSegmentDTO.convert(repository.findAll());
+        return routeSegmentDTOS;
+    }
+
+    @Override
+    public List<RouteSegmentDTO> selectByRouteIdAndStartNearLocation(String routeId, String location) {
+
+        List<RouteSegment> routeSegmentList=repository.findByRouteIdAndStartIsLike(routeId,location);
+        List<RouteSegmentDTO> routeSegmentDTOS=RouteSegment2RouteSegmentDTO.convert(routeSegmentList);
+
         return routeSegmentDTOS;
     }
 

@@ -137,14 +137,11 @@ public class GeographyUtil {
 
     /**
      * 根据两个位置的经纬度，来计算两地的距离（单位为m）
-     * @param startDirection
-     * @param endDirection
+     * @param start
+     * @param end
      * @return 两点的距离，double类型
      */
-    public static double getDistance(String startDirection, String endDirection) {
-
-        DoubleLocation start=GeographyUtil.string2doubleLocation(startDirection);
-        DoubleLocation end=GeographyUtil.string2doubleLocation(endDirection);
+    public static double getDistance(DoubleLocation start, DoubleLocation end) {
 
         double radLat1 = rad(start.getLatitude());
         double radLat2 = rad(end.getLatitude());
@@ -185,11 +182,50 @@ public class GeographyUtil {
      */
     public static String getSpeed(String startDirection, String endDirection, Date startTime,Date endTime){
 
-        Double distance=GeographyUtil.getDistance(startDirection,endDirection);
+        DoubleLocation start = string2doubleLocation(startDirection);
+        DoubleLocation end = string2doubleLocation(endDirection);
+        Double distance=GeographyUtil.getDistance(start,end);
         Double time=TimeUtil.getTimeDiff(startTime,endTime);
         Double speed=distance/time;
         DecimalFormat df = new DecimalFormat("0.000");   //保留三位小数
         return df.format(speed);
+    }
+
+    /**
+     * 点到直线的最短距离的判断
+     * 点point到由两点start、end组成的线段
+     * @param start
+     * @param end
+     * @param point
+     * @return
+     */
+    private double pointToLine( DoubleLocation start, DoubleLocation end, DoubleLocation point) {
+        double result;
+        double lengthOfLine = getDistance(start,end);  //线段的长度
+        double distanceFromStartToPoint = getDistance(start,point);  // (x1,y1)到点的距离
+        double distanceFromEndToPoint = getDistance(end,point);    // (x2,y2)到点的距离
+        //点非常靠近起点和终点
+        if (distanceFromEndToPoint <= 0.000001 || distanceFromStartToPoint <= 0.000001) {
+            result = 0;
+            return result;
+        }
+        //很短的线段，几乎是一个点
+        if (lengthOfLine <= 0.000001) {
+            result = distanceFromStartToPoint;
+            return result;
+        }
+        if (distanceFromEndToPoint * distanceFromEndToPoint >= lengthOfLine * lengthOfLine + distanceFromStartToPoint * distanceFromStartToPoint) {
+            result = distanceFromStartToPoint;
+            return result;
+        }
+        if (distanceFromStartToPoint * distanceFromStartToPoint >= lengthOfLine * lengthOfLine + distanceFromEndToPoint * distanceFromEndToPoint) {
+            result = distanceFromEndToPoint;
+            return result;
+        }
+        double p = (lengthOfLine + distanceFromStartToPoint + distanceFromEndToPoint) / 2;// 半周长
+        double s = Math.sqrt(p * (p - lengthOfLine) * (p - distanceFromStartToPoint) * (p - distanceFromEndToPoint));// 海伦公式求面积
+        result = 2 * s / lengthOfLine;// 返回点到线的距离（利用三角形面积公式求高）
+        return result;
     }
 
 }

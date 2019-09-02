@@ -86,7 +86,7 @@ public class SeaRouteController {
                                      BindingResult bindingResult){
         if (bindingResult.hasErrors()){
             log.error("【保存航线】参数不正确, seaRouteForm={}",seaRouteForm);
-            ResultVOUtil.error(ResultEnum.PARAM_ERROR.getCode(),bindingResult.getFieldError().getDefaultMessage());
+            return ResultVOUtil.error(ResultEnum.PARAM_ERROR.getCode(),bindingResult.getFieldError().getDefaultMessage());
         }
 
         SeaRouteDTO seaRouteDTO= SeaRouteForm2SeaRouteDTO.convert(seaRouteForm);
@@ -100,7 +100,7 @@ public class SeaRouteController {
 
         if (result == null){
             log.error("【保存航线】保存失败，result={}",result);
-            ResultVOUtil.error(ResultEnum.SAVE_FAIL.getCode(),ResultEnum.SAVE_FAIL.getMessage());
+            return ResultVOUtil.error(ResultEnum.SAVE_FAIL.getCode(),ResultEnum.SAVE_FAIL.getMessage());
         }
 
         Map<String,String> map = new HashMap<>();
@@ -116,7 +116,7 @@ public class SeaRouteController {
 
         if (bindingResult.hasErrors()){
             log.error("【保存航线段】参数不正确, routeSegmentForm={}",routeSegmentForm);
-            ResultVOUtil.error(ResultEnum.PARAM_ERROR.getCode(),bindingResult.getFieldError().getDefaultMessage());
+            return ResultVOUtil.error(ResultEnum.PARAM_ERROR.getCode(),bindingResult.getFieldError().getDefaultMessage());
         }
 
         RouteSegmentDTO routeSegmentDTO= RouteSegmentForm2RouteSegmentDTO.convert(routeSegmentForm);
@@ -130,7 +130,7 @@ public class SeaRouteController {
 
         if (result == null){
             log.error("【保存航线段】保存失败，result={}",result);
-            ResultVOUtil.error(ResultEnum.SAVE_FAIL.getCode(),ResultEnum.SAVE_FAIL.getMessage());
+            return ResultVOUtil.error(ResultEnum.SAVE_FAIL.getCode(),ResultEnum.SAVE_FAIL.getMessage());
         }
 
         Map<String,String> map = new HashMap<>();

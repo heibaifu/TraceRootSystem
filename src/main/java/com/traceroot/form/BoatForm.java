@@ -7,15 +7,15 @@ import javax.validation.constraints.NotEmpty;
 @Data
 public class BoatForm {
 
-    @NotEmpty(message = "Id必填")
+    @NotEmpty(message = "船只Id必填")
     private String boatId;
 
     /*船只类型*/
-    @NotEmpty(message = "type必填")
+    @NotEmpty(message = "船只类型必填")
     private String type;
 
     /*当前位置*/
-    @NotEmpty(message = "presentLocation必填")
+    @NotEmpty(message = "船只当前位置必填")
     private String presentLocation;
 
     /*当前船速*//*
@@ -28,8 +28,9 @@ public class BoatForm {
     private String direction;*/
 
     /*船只状态*/
+    @NotEmpty(message = "船只状态必填")
     private String status;
 
     /*船只航线id号*/
-    /*private String routeId;*/
+    private String routeId;
 }

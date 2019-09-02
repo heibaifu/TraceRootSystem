@@ -9,6 +9,7 @@ import com.traceroot.exception.BoatException;
 import com.traceroot.repository.BoatRepository;
 import com.traceroot.service.ifs.BoatService;
 import com.traceroot.service.ifs.BoatTraceService;
+import com.traceroot.service.ifs.CrossService;
 import com.traceroot.utils.GeographyUtil;
 import com.traceroot.utils.RandomUtil;
 import lombok.extern.slf4j.Slf4j;
@@ -34,6 +35,9 @@ public class BoatServiceImpl implements BoatService {
 
     @Autowired
     private BoatTraceService traceService;
+
+    @Autowired
+    private CrossService crossService;
 
     /**
      * 按照船只id查询
@@ -154,7 +158,6 @@ public class BoatServiceImpl implements BoatService {
             boat.setDirection(directionCalculate.toString());
         }
 
-
         //获取当前系统时间
         DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd kk:mm:ss", Locale.ENGLISH); //设定格式
         Date timeDate = null;   //util类型
@@ -169,6 +172,11 @@ public class BoatServiceImpl implements BoatService {
         String speed = speedCalculate(boat.getBoatId(),boat.getPresentLocation(),dateTime);
         if (speed != null) {
             boat.setSpeed(speed);
+            if (boat.getRouteId() != null){
+                //todo 开发未完成
+                Integer overspeedJudging = crossService.ditermineOverspeed(boat.getRouteId(),boat.getPresentLocation(), speed);
+                boat.setOverspeedJudging(overspeedJudging);
+            }
         }
         BoatDTO result = Boat2BoatDTOConverter.convert(repository.save(boat));
 
