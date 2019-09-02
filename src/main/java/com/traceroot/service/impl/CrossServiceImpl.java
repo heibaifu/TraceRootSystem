@@ -162,13 +162,21 @@ public class CrossServiceImpl implements CrossService {
      */
     @Override
     public RouteSegmentDTO matchBoatAndRouteSegment(String routeID,String boatLocation){
-        //构造模糊匹配表达式
+        //构造模糊匹配表达式，拿取附近的航线段
         DoubleLocation doubleLocation = GeographyUtil.string2doubleLocation(boatLocation);
         String fuzzyMatchingExpr = GeographyUtil.buildFuzzyMatchingExpr(doubleLocation.getLongitude(),doubleLocation.getLatitude(),-1);
         List<RouteSegmentDTO> routeSegmentDTOS = routeSegmentService.selectByRouteIdAndStartNearLocation(routeID, fuzzyMatchingExpr);
 
-        RouteSegmentDTO result = null;
-        return result;
+        //找出距离船只最近的航线段
+        DoubleLocation point = GeographyUtil.string2doubleLocation(boatLocation);
+        TreeMap<Double,RouteSegmentDTO> dtoTreeMap = new TreeMap<>();
+        routeSegmentDTOS.forEach( element -> {
+            DoubleLocation start = GeographyUtil.string2doubleLocation(element.getStart());
+            DoubleLocation end = GeographyUtil.string2doubleLocation(element.getEnd());
+            dtoTreeMap.put(GeographyUtil.pointToLine(start,end,point),element);
+        });
+
+        return dtoTreeMap.firstEntry().getValue();
     }
 
     /**

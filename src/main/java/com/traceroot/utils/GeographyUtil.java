@@ -194,16 +194,17 @@ public class GeographyUtil {
     /**
      * 点到直线的最短距离的判断
      * 点point到由两点start、end组成的线段
+     * 数学原理：线段与一点构成的三角形进行运算
      * @param start
      * @param end
      * @param point
      * @return
      */
-    private double pointToLine( DoubleLocation start, DoubleLocation end, DoubleLocation point) {
+    public static Double pointToLine( DoubleLocation start, DoubleLocation end, DoubleLocation point) {
         double result;
         double lengthOfLine = getDistance(start,end);  //线段的长度
-        double distanceFromStartToPoint = getDistance(start,point);  // (x1,y1)到点的距离
-        double distanceFromEndToPoint = getDistance(end,point);    // (x2,y2)到点的距离
+        double distanceFromStartToPoint = getDistance(start,point);  // start到点的距离
+        double distanceFromEndToPoint = getDistance(end,point);    // end到点的距离
         //点非常靠近起点和终点
         if (distanceFromEndToPoint <= 0.000001 || distanceFromStartToPoint <= 0.000001) {
             result = 0;
@@ -214,17 +215,20 @@ public class GeographyUtil {
             result = distanceFromStartToPoint;
             return result;
         }
+        //组成直角三角形或钝角三角形，start为直角或钝角
         if (distanceFromEndToPoint * distanceFromEndToPoint >= lengthOfLine * lengthOfLine + distanceFromStartToPoint * distanceFromStartToPoint) {
             result = distanceFromStartToPoint;
             return result;
         }
+        //组成直角三角形或钝角三角形，end为直角或钝角
         if (distanceFromStartToPoint * distanceFromStartToPoint >= lengthOfLine * lengthOfLine + distanceFromEndToPoint * distanceFromEndToPoint) {
             result = distanceFromEndToPoint;
             return result;
         }
-        double p = (lengthOfLine + distanceFromStartToPoint + distanceFromEndToPoint) / 2;// 半周长
-        double s = Math.sqrt(p * (p - lengthOfLine) * (p - distanceFromStartToPoint) * (p - distanceFromEndToPoint));// 海伦公式求面积
-        result = 2 * s / lengthOfLine;// 返回点到线的距离（利用三角形面积公式求高）
+        //组成锐角三角形，则求三角形的高
+        double p = (lengthOfLine + distanceFromStartToPoint + distanceFromEndToPoint) / 2;  //半周长
+        double s = Math.sqrt(p * (p - lengthOfLine) * (p - distanceFromStartToPoint) * (p - distanceFromEndToPoint));   //海伦公式求面积
+        result = 2 * s / lengthOfLine;  //利用三角形面积公式求高，返回点到线的距离
         return result;
     }
 
